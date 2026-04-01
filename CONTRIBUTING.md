@@ -1,93 +1,93 @@
-# 贡献指南
+# Contributing Guide
 
-感谢你考虑为 Cursor 使用指南做出贡献！
-
----
-
-## 目录
-
-- [行为准则](#行为准则)
-- [如何贡献](#如何贡献)
-- [开发设置](#开发设置)
-- [目录结构](#目录结构)
-- [写作指南](#写作指南)
-- [提交规范](#提交规范)
-- [Pull Request 流程](#pull-request-流程)
+Thank you for considering contributing to the Cursor Usage Guide!
 
 ---
 
-## 行为准则
+## Table of Contents
 
-### 我们的承诺
-
-为了营造一个开放和友好的环境，我们承诺：
-
-- 使用包容性语言
-- 尊重不同的观点和经验
-- 优雅地接受建设性批评
-- 关注对社区最有利的事情
-- 对其他社区成员表示同理心
-
-### 不可接受的行为
-
-- 使用性化的语言或图像
-- 挑衅、侮辱/贬损评论和人身攻击
-- 公开或私下骚扰
-- 未经许可发布他人的私人信息
-- 其他在专业环境中可能被合理认为不适当的行为
+- [Code of Conduct](#code-of-conduct)
+- [How to Contribute](#how-to-contribute)
+- [Development Setup](#development-setup)
+- [Directory Structure](#directory-structure)
+- [Writing Guidelines](#writing-guidelines)
+- [Commit Conventions](#commit-conventions)
+- [Pull Request Process](#pull-request-process)
 
 ---
 
-## 如何贡献
+## Code of Conduct
 
-### 贡献类型
+### Our Pledge
 
-我们欢迎以下类型的贡献：
+To foster an open and friendly environment, we pledge to:
 
-| 类型 | 描述 | 示例 |
-|------|------|------|
-| **示例** | 新的使用示例 | 新的工作流示例 |
-| **文档** | 文档改进 | 修正错别字、改进说明 |
-| **功能** | 新功能建议 | 新的 Skill 模板 |
-| **Bug** | 错误修复 | 修复文档中的错误 |
-| **反馈** | 使用反馈 | 提出改进建议 |
+- Use inclusive language
+- Respect different viewpoints and experiences
+- Gracefully accept constructive criticism
+- Focus on what's best for the community
+- Show empathy towards other community members
 
-### 贡献流程
+### Unacceptable Behavior
+
+- Using sexualized language or imagery
+- Trolling, insulting/derogatory comments, and personal attacks
+- Public or private harassment
+- Publishing others' private information without permission
+- Other conduct that could reasonably be considered inappropriate in a professional setting
+
+---
+
+## How to Contribute
+
+### Types of Contributions
+
+We welcome the following types of contributions:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **Examples** | New usage examples | New workflow examples |
+| **Documentation** | Documentation improvements | Fix typos, improve explanations |
+| **Features** | New feature suggestions | New Skill templates |
+| **Bugs** | Bug fixes | Fix errors in documentation |
+| **Feedback** | Usage feedback | Suggest improvements |
+
+### Contribution Process
 
 ```mermaid
 flowchart TB
-    A[Fork 仓库] --> B[创建分支]
-    B --> C[进行更改]
-    C --> D[测试验证]
-    D --> E[提交 PR]
-    E --> F{审核}
-    F -->|通过| G[合并]
-    F -->|修改| H[更新代码]
+    A[Fork Repository] --> B[Create Branch]
+    B --> C[Make Changes]
+    C --> D[Test & Verify]
+    D --> E[Submit PR]
+    E --> F{Review}
+    F -->|Pass| G[Merge]
+    F -->|Changes| H[Update Code]
     H --> E
 ```
 
 ---
 
-## 开发设置
+## Development Setup
 
-### 环境要求
+### Requirements
 
 - Git
-- 文本编辑器（推荐 Cursor）
-- Markdown 基础知识
+- Text editor (Cursor recommended)
+- Basic Markdown knowledge
 
-### 克隆仓库
+### Clone Repository
 
 ```bash
-# Fork 后克隆
+# Clone after forking
 git clone https://github.com/YOUR_USERNAME/cursor-howto.git
 cd cursor-howto
 
-# 添加上游仓库
+# Add upstream repository
 git remote add upstream https://github.com/original/cursor-howto.git
 ```
 
-### 保持同步
+### Keep Synced
 
 ```bash
 git fetch upstream
@@ -97,148 +97,148 @@ git merge upstream/main
 
 ---
 
-## 目录结构
+## Directory Structure
 
 ```
 cursor-howto/
-├── 01-shortcuts/           # 快捷键模块
-│   ├── README.md           # 模块文档
-│   └── *.md                # 相关文件
-├── 02-rules/               # Rules 模块
-├── 03-codebase-indexing/   # 代码库索引模块
-├── 04-chat/                # 聊天模块
-├── 05-composer/            # Composer 模块
-├── 06-mcp/                 # MCP 模块
-├── 07-advanced-features/   # 高级功能模块
-├── 08-best-practices/      # 最佳实践模块
-├── 09-skills/              # Skills 模块
-├── 10-subagents/           # Subagents 模块
-├── 11-hooks/               # Hooks 模块
-├── 12-plugins/             # Plugins 模块
-├── CATALOG.md              # 功能目录
-├── CONTRIBUTING.md         # 本文件
-└── README.md               # 主文档
+├── 01-shortcuts/           # Shortcuts module
+│   ├── README.md           # Module documentation
+│   └── *.md                # Related files
+├── 02-rules/               # Rules module
+├── 03-codebase-indexing/   # Codebase indexing module
+├── 04-chat/                # Chat module
+├── 05-composer/            # Composer module
+├── 06-mcp/                 # MCP module
+├── 07-advanced-features/   # Advanced features module
+├── 08-best-practices/      # Best practices module
+├── 09-skills/              # Skills module
+├── 10-subagents/           # Subagents module
+├── 11-hooks/               # Hooks module
+├── 12-plugins/             # Plugins module
+├── CATALOG.md              # Feature catalog
+├── CONTRIBUTING.md         # This file
+└── README.md               # Main documentation
 ```
 
-### 添加新内容
+### Adding New Content
 
-1. **新模块示例** - 添加到对应模块目录
-2. **新模板** - 添加到对应模块目录
-3. **文档改进** - 直接编辑相关文件
+1. **New Module Examples** - Add to corresponding module directory
+2. **New Templates** - Add to corresponding module directory
+3. **Documentation Improvements** - Directly edit related files
 
 ---
 
-## 写作指南
+## Writing Guidelines
 
-### Markdown 规范
+### Markdown Standards
 
 ```markdown
-# 一级标题（每个文件一个）
+# Level 1 Heading (one per file)
 
-## 二级标题（主要章节）
+## Level 2 Heading (main sections)
 
-### 三级标题（子章节）
+### Level 3 Heading (subsections)
 
-#### 四级标题（细节）
+#### Level 4 Heading (details)
 
-**粗体** 用于强调重要内容
-*斜体* 用于术语
-`代码` 用于命令和代码片段
+**Bold** for emphasizing important content
+*Italic* for terminology
+`Code` for commands and code snippets
 
-> 引用用于重要提示
+> Blockquotes for important notes
 
-- 无序列表
-- 用于列举
+- Unordered lists
+- For listing items
 
-1. 有序列表
-2. 用于步骤
+1. Ordered lists
+2. For steps
 ```
 
-### 文档结构模板
+### Document Structure Template
 
 ```markdown
-# 模块标题
+# Module Title
 
-> **级别：** 初学者/中级/高级 | **时间：** XX 分钟 | **前置条件：** XXX
-
----
-
-## 目录
-
-- [概述](#概述)
-- [核心内容](#核心内容)
-- [实战示例](#实战示例)
-- [最佳实践](#最佳实践)
-- [故障排查](#故障排查)
+> **Level:** Beginner/Intermediate/Advanced | **Time:** XX minutes | **Prerequisites:** XXX
 
 ---
 
-## 概述
+## Table of Contents
 
-[简要描述模块内容和目标]
-
----
-
-## 核心内容
-
-[详细内容]
+- [Overview](#overview)
+- [Core Content](#core-content)
+- [Practical Examples](#practical-examples)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
-## 实战示例
+## Overview
 
-[具体示例]
-
----
-
-## 最佳实践
-
-### ✅ 应该做的
-
-### ❌ 不应该做的
+[Brief description of module content and goals]
 
 ---
 
-## 故障排查
+## Core Content
 
-[常见问题和解决方案]
+[Detailed content]
 
 ---
 
-## 下一步
+## Practical Examples
 
-- [下一模块](../next-module/)
+[Specific examples]
+
+---
+
+## Best Practices
+
+### ✅ Do's
+
+### ❌ Don'ts
+
+---
+
+## Troubleshooting
+
+[Common issues and solutions]
+
+---
+
+## Next Steps
+
+- [Next Module](../next-module/)
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a>
+  <a href="../README.md">Back to Home</a>
 </p>
 ```
 
-### 写作原则
+### Writing Principles
 
-1. **清晰简洁** - 避免冗长的句子
-2. **结构化** - 使用标题和列表组织内容
-3. **示例驱动** - 提供可运行的代码示例
-4. **视觉化** - 使用 Mermaid 图表
-5. **实用** - 提供可复制粘贴的模板
+1. **Clear and Concise** - Avoid wordy sentences
+2. **Structured** - Use headings and lists to organize content
+3. **Example-Driven** - Provide runnable code examples
+4. **Visual** - Use Mermaid diagrams
+5. **Practical** - Provide copy-paste templates
 
-### Mermaid 图表
+### Mermaid Diagrams
 
 ```markdown
 ```mermaid
 flowchart TB
-    A[开始] --> B[过程]
-    B --> C[结束]
+    A[Start] --> B[Process]
+    B --> C[End]
 ```
 ```
 
 ---
 
-## 提交规范
+## Commit Conventions
 
-### Commit 消息格式
+### Commit Message Format
 
 ```
 <type>(<scope>): <subject>
@@ -248,99 +248,99 @@ flowchart TB
 <footer>
 ```
 
-### Type 类型
+### Type Categories
 
-| Type | 描述 | 示例 |
-|------|------|------|
-| `feat` | 新功能 | 添加新的 Skill 模板 |
-| `fix` | Bug 修复 | 修复文档中的错误 |
-| `docs` | 文档更新 | 更新 README |
-| `style` | 格式调整 | 修正 Markdown 格式 |
-| `refactor` | 重构 | 重组目录结构 |
-| `test` | 测试 | 添加测试 |
-| `chore` | 杂项 | 更新依赖 |
+| Type | Description | Example |
+|------|-------------|---------|
+| `feat` | New feature | Add new Skill template |
+| `fix` | Bug fix | Fix error in documentation |
+| `docs` | Documentation update | Update README |
+| `style` | Format adjustment | Fix Markdown formatting |
+| `refactor` | Refactoring | Reorganize directory structure |
+| `test` | Testing | Add tests |
+| `chore` | Miscellaneous | Update dependencies |
 
-### 示例
+### Example
 
 ```
-feat(skills): 添加代码审查 Skill 模板
+feat(skills): Add code review Skill template
 
-- 添加 code-review Skill
-- 包含审查规则和输出模板
-- 提供使用示例
+- Add code-review Skill
+- Include review rules and output template
+- Provide usage examples
 
 Closes #123
 ```
 
 ---
 
-## Pull Request 流程
+## Pull Request Process
 
-### 创建 PR 前检查
+### Pre-PR Checklist
 
 ```
-□ 代码风格符合规范
-□ 文档格式正确
-□ 所有链接有效
-□ 没有敏感信息
-□ Commit 消息规范
+□ Code style follows conventions
+□ Documentation format is correct
+□ All links are valid
+□ No sensitive information
+□ Commit messages follow conventions
 ```
 
-### PR 模板
+### PR Template
 
 ```markdown
-## 描述
+## Description
 
-[描述这个 PR 的目的和内容]
+[Describe the purpose and content of this PR]
 
-## 变更类型
+## Change Type
 
-- [ ] 文档更新
-- [ ] 新示例
-- [ ] Bug 修复
-- [ ] 新功能
+- [ ] Documentation update
+- [ ] New example
+- [ ] Bug fix
+- [ ] New feature
 
-## 检查清单
+## Checklist
 
-- [ ] 我已阅读贡献指南
-- [ ] 我的代码遵循项目风格
-- [ ] 我已更新相关文档
-- [ ] 所有链接都已验证
+- [ ] I have read the contributing guide
+- [ ] My code follows project style
+- [ ] I have updated related documentation
+- [ ] All links have been verified
 
-## 相关 Issue
+## Related Issue
 
 Closes #XXX
 ```
 
-### 审核流程
+### Review Process
 
 ```mermaid
 flowchart LR
-    A[提交 PR] --> B[自动检查]
-    B --> C[人工审核]
-    C --> D{通过？}
-    D -->|是| E[合并]
-    D -->|否| F[请求修改]
-    F --> G[更新代码]
+    A[Submit PR] --> B[Auto Checks]
+    B --> C[Manual Review]
+    C --> D{Pass?}
+    D -->|Yes| E[Merge]
+    D -->|No| F[Request Changes]
+    F --> G[Update Code]
     G --> C
 ```
 
 ---
 
-## 获取帮助
+## Getting Help
 
-- 开 Issue 提问
-- 在 Discussions 中讨论
-- 查看现有 PR 学习
+- Open an Issue to ask questions
+- Discuss in Discussions
+- Learn from existing PRs
 
 ---
 
-## 许可证
+## License
 
-通过贡献代码，你同意你的贡献将根据 MIT 许可证授权。
+By contributing code, you agree that your contributions will be licensed under the MIT License.
 
 ---
 
 <p align="center">
-  感谢你的贡献！
+  Thank you for your contribution!
 </p>

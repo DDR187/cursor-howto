@@ -1,132 +1,132 @@
-# 项目规则模板
+# Project Rules Template
 
-> 复制此文件到你的项目根目录，重命名为 `.cursorrules`
-
----
-
-## 项目信息
-
-- **项目名称：** [你的项目名称]
-- **技术栈：** [列出主要技术]
-- **创建日期：** [日期]
+> Copy this file to your project root directory and rename it to `.cursorrules`
 
 ---
 
-## 技术栈
+## Project Information
 
-### 前端
+- **Project Name:** [Your project name]
+- **Tech Stack:** [List main technologies]
+- **Created Date:** [Date]
+
+---
+
+## Tech Stack
+
+### Frontend
 - [ ] React / Vue / Angular
 - [ ] TypeScript / JavaScript
 - [ ] Tailwind CSS / CSS Modules / Styled Components
-- [ ] 状态管理：Redux / Zustand / Pinia
+- [ ] State Management: Redux / Zustand / Pinia
 
-### 后端
+### Backend
 - [ ] Node.js / Python / Go / Java
-- [ ] 框架：Express / Fastify / Django / Gin
-- [ ] 数据库：PostgreSQL / MySQL / MongoDB
-- [ ] ORM：Prisma / TypeORM / SQLAlchemy
+- [ ] Framework: Express / Fastify / Django / Gin
+- [ ] Database: PostgreSQL / MySQL / MongoDB
+- [ ] ORM: Prisma / TypeORM / SQLAlchemy
 
-### 工具
-- [ ] 构建工具：Vite / Webpack
-- [ ] 测试框架：Vitest / Jest / Pytest
-- [ ] 代码规范：ESLint / Prettier / Ruff
+### Tools
+- [ ] Build Tool: Vite / Webpack
+- [ ] Test Framework: Vitest / Jest / Pytest
+- [ ] Code Standards: ESLint / Prettier / Ruff
 
 ---
 
-## 代码风格
+## Code Style
 
-### 命名规范
+### Naming Conventions
 
 ```
-组件：PascalCase (UserProfile.tsx)
-函数：camelCase (getUserData)
-变量：camelCase (userName)
-常量：UPPER_SNAKE_CASE (MAX_RETRY_COUNT)
-文件：kebab-case (user-profile.tsx)
-目录：kebab-case (user-profile/)
+Components: PascalCase (UserProfile.tsx)
+Functions: camelCase (getUserData)
+Variables: camelCase (userName)
+Constants: UPPER_SNAKE_CASE (MAX_RETRY_COUNT)
+Files: kebab-case (user-profile.tsx)
+Directories: kebab-case (user-profile/)
 ```
 
-### 代码组织
+### Code Organization
 
 ```
 src/
-├── components/     # 可复用组件
-├── pages/          # 页面组件
-├── hooks/          # 自定义 Hooks
-├── utils/          # 工具函数
-├── services/       # API 服务
-├── types/          # 类型定义
-└── constants/      # 常量定义
+├── components/     # Reusable components
+├── pages/          # Page components
+├── hooks/          # Custom Hooks
+├── utils/          # Utility functions
+├── services/       # API services
+├── types/          # Type definitions
+└── constants/      # Constant definitions
 ```
 
 ---
 
-## 编码规范
+## Coding Standards
 
 ### TypeScript
 
-- 使用严格模式
-- 避免使用 any，使用 unknown 替代
-- 优先使用 interface 定义对象类型
-- 使用类型推断，减少显式类型注解
+- Use strict mode
+- Avoid using any, use unknown instead
+- Prefer interface for object type definitions
+- Use type inference, reduce explicit type annotations
 
 ### React
 
-- 使用函数式组件
-- 使用 Hooks 管理状态
-- 组件拆分原则：单一职责
-- Props 使用 TypeScript 接口定义
+- Use functional components
+- Use Hooks for state management
+- Component splitting principle: single responsibility
+- Props use TypeScript interface definitions
 
-### 错误处理
+### Error Handling
 
-- 使用 try-catch 包裹异步操作
-- 提供有意义的错误消息
-- 记录错误日志
-- 用户友好的错误提示
-
----
-
-## 禁止事项
-
-- ❌ 不要使用 any 类型
-- ❌ 不要在循环中使用 await
-- ❌ 不要直接修改 props
-- ❌ 不要在渲染函数中定义函数
-- ❌ 不要使用内联样式（除非必要）
-- ❌ 不要提交 console.log
-- ❌ 不要硬编码敏感信息
+- Wrap async operations with try-catch
+- Provide meaningful error messages
+- Log errors
+- User-friendly error prompts
 
 ---
 
-## 注释规范
+## Prohibited Items
 
-### 语言
-- 代码注释使用 [中文/英文]
-- 文档使用 [中文/英文]
+- ❌ Do not use any type
+- ❌ Do not use await in loops
+- ❌ Do not directly modify props
+- ❌ Do not define functions in render functions
+- ❌ Do not use inline styles (unless necessary)
+- ❌ Do not commit console.log
+- ❌ Do not hardcode sensitive information
 
-### 格式
+---
+
+## Comment Standards
+
+### Language
+- Code comments use [Chinese/English]
+- Documentation uses [Chinese/English]
+
+### Format
 
 ```typescript
 /**
- * 函数描述
- * @param paramName - 参数描述
- * @returns 返回值描述
+ * Function description
+ * @param paramName - Parameter description
+ * @returns Return value description
  */
 function functionName(paramName: Type): ReturnType {
-  // 单行注释
+  // Single line comment
   
   /*
-   * 多行注释
-   * 第二行
+   * Multi-line comment
+   * Second line
    */
 }
 ```
 
 ---
 
-## Git 规范
+## Git Standards
 
-### Commit 消息格式
+### Commit Message Format
 
 ```
 <type>(<scope>): <subject>
@@ -136,70 +136,70 @@ function functionName(paramName: Type): ReturnType {
 <footer>
 ```
 
-### Type 类型
+### Type Categories
 
-- feat: 新功能
-- fix: 修复 Bug
-- docs: 文档更新
-- style: 代码格式
-- refactor: 重构
-- test: 测试
-- chore: 构建/工具
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation update
+- style: Code format
+- refactor: Refactoring
+- test: Testing
+- chore: Build/tools
 
 ---
 
-## 测试规范
+## Test Standards
 
-### 测试文件命名
+### Test File Naming
 
 ```
-组件测试：ComponentName.test.tsx
-工具测试：utilName.test.ts
-集成测试：feature.integration.test.ts
-E2E 测试：feature.e2e.test.ts
+Component tests: ComponentName.test.tsx
+Utility tests: utilName.test.ts
+Integration tests: feature.integration.test.ts
+E2E tests: feature.e2e.test.ts
 ```
 
-### 测试覆盖
+### Test Coverage
 
-- 语句覆盖率目标：> 80%
-- 分支覆盖率目标：> 75%
-- 核心业务逻辑必须测试
-
----
-
-## 性能规范
-
-### 前端
-
-- 图片懒加载
-- 组件懒加载
-- 防抖/节流
-- 虚拟列表（大数据量）
-
-### 后端
-
-- 数据库查询优化
-- 缓存策略
-- 分页查询
-- 连接池管理
+- Statement coverage target: > 80%
+- Branch coverage target: > 75%
+- Core business logic must be tested
 
 ---
 
-## 安全规范
+## Performance Standards
 
-- 输入验证
-- XSS 防护
-- CSRF 防护
-- SQL 注入防护
-- 敏感数据加密
-- HTTPS 强制
+### Frontend
+
+- Image lazy loading
+- Component lazy loading
+- Debounce/Throttle
+- Virtual lists (large data sets)
+
+### Backend
+
+- Database query optimization
+- Caching strategy
+- Paginated queries
+- Connection pool management
 
 ---
 
-## 自定义规则
+## Security Standards
 
-在此添加项目特定的规则：
+- Input validation
+- XSS protection
+- CSRF protection
+- SQL injection protection
+- Sensitive data encryption
+- HTTPS enforcement
+
+---
+
+## Custom Rules
+
+Add project-specific rules here:
 
 ```
-[你的自定义规则]
+[Your custom rules]
 ```

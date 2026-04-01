@@ -1,11 +1,11 @@
 ---
-description: 前端开发规则
+description: Frontend development rules
 globs: ["src/**/*.tsx", "src/**/*.ts", "src/**/*.css", "src/**/*.scss"]
 ---
 
-# 前端开发规则
+# Frontend Development Rules
 
-## 技术栈
+## Tech Stack
 
 - React 18+
 - TypeScript 5+
@@ -15,22 +15,22 @@ globs: ["src/**/*.tsx", "src/**/*.ts", "src/**/*.css", "src/**/*.scss"]
 
 ---
 
-## 组件规范
+## Component Standards
 
-### 组件结构
+### Component Structure
 
 ```
 ComponentName/
-├── index.tsx          # 组件入口
-├── ComponentName.tsx  # 组件实现
-├── styles.css         # 样式文件
-├── types.ts           # 类型定义
-├── hooks.ts           # 组件 Hooks
-└── __tests__/         # 测试文件
+├── index.tsx          # Component entry
+├── ComponentName.tsx  # Component implementation
+├── styles.css         # Style file
+├── types.ts           # Type definitions
+├── hooks.ts           # Component Hooks
+└── __tests__/         # Test files
     └── ComponentName.test.tsx
 ```
 
-### 组件模板
+### Component Template
 
 ```tsx
 import { FC } from 'react';
@@ -52,54 +52,54 @@ export const ComponentName: FC<ComponentNameProps> = ({
 };
 ```
 
-### 组件原则
+### Component Principles
 
-- 单一职责原则
-- 组件粒度适中
-- Props 类型明确
-- 默认值合理
+- Single responsibility principle
+- Appropriate component granularity
+- Clear Props types
+- Reasonable default values
 
 ---
 
-## 状态管理
+## State Management
 
-### 本地状态
+### Local State
 
 ```tsx
-// 简单状态
+// Simple state
 const [count, setCount] = useState(0);
 
-// 复杂状态
+// Complex state
 const [state, dispatch] = useReducer(reducer, initialState);
 ```
 
-### 全局状态
+### Global State
 
-- 使用 Zustand 管理全局状态
-- 使用 React Query 管理服务端状态
-- 避免过度使用全局状态
+- Use Zustand for global state
+- Use React Query for server state
+- Avoid overusing global state
 
-### 状态选择器
+### State Selectors
 
 ```tsx
-// 使用选择器优化性能
+// Use selectors for performance optimization
 const user = useUserStore(state => state.user);
 const isLoading = useUserStore(state => state.isLoading);
 ```
 
 ---
 
-## 样式规范
+## Style Standards
 
 ### Tailwind CSS
 
 ```tsx
-// 推荐方式
+// Recommended approach
 <div className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
   {/* content */}
 </div>
 
-// 复杂样式提取为组件
+// Extract complex styles as components
 const Card = ({ children }) => (
   <div className="p-4 bg-white rounded-lg shadow-md">
     {children}
@@ -107,7 +107,7 @@ const Card = ({ children }) => (
 );
 ```
 
-### CSS 变量
+### CSS Variables
 
 ```css
 :root {
@@ -117,10 +117,10 @@ const Card = ({ children }) => (
 }
 ```
 
-### 响应式设计
+### Responsive Design
 
 ```tsx
-// Mobile-first 原则
+// Mobile-first principle
 <div className="w-full md:w-1/2 lg:w-1/3">
   {/* content */}
 </div>
@@ -128,9 +128,9 @@ const Card = ({ children }) => (
 
 ---
 
-## Hooks 规范
+## Hooks Standards
 
-### 自定义 Hook 结构
+### Custom Hook Structure
 
 ```tsx
 import { useState, useEffect } from 'react';
@@ -167,15 +167,15 @@ export function useData(options: UseDataOptions = {}) {
 }
 ```
 
-### Hook 命名
+### Hook Naming
 
-- 以 `use` 开头
-- 描述性名称
-- 返回值类型明确
+- Start with `use`
+- Descriptive name
+- Clear return type
 
 ---
 
-## 性能优化
+## Performance Optimization
 
 ### React.memo
 
@@ -186,24 +186,24 @@ const MemoizedComponent = React.memo(Component);
 ### useMemo / useCallback
 
 ```tsx
-// 缓存计算结果
+// Cache computed results
 const sortedItems = useMemo(() => {
   return items.sort((a, b) => a.name.localeCompare(b.name));
 }, [items]);
 
-// 缓存回调函数
+// Cache callback functions
 const handleClick = useCallback(() => {
   doSomething(id);
 }, [id]);
 ```
 
-### 懒加载
+### Lazy Loading
 
 ```tsx
-// 组件懒加载
+// Component lazy loading
 const HeavyComponent = React.lazy(() => import('./HeavyComponent'));
 
-// 使用
+// Usage
 <Suspense fallback={<Loading />}>
   <HeavyComponent />
 </Suspense>
@@ -211,7 +211,7 @@ const HeavyComponent = React.lazy(() => import('./HeavyComponent'));
 
 ---
 
-## 错误处理
+## Error Handling
 
 ### Error Boundary
 
@@ -232,7 +232,7 @@ class ErrorBoundary extends React.Component {
 }
 ```
 
-### 异步错误处理
+### Async Error Handling
 
 ```tsx
 const { data, error, isLoading } = useQuery({
@@ -240,16 +240,16 @@ const { data, error, isLoading } = useQuery({
   queryFn: fetchData,
   onError: (error) => {
     console.error('Failed to fetch:', error);
-    toast.error('加载数据失败');
+    toast.error('Failed to load data');
   }
 });
 ```
 
 ---
 
-## 测试规范
+## Test Standards
 
-### 测试模板
+### Test Template
 
 ```tsx
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -270,21 +270,21 @@ describe('ComponentName', () => {
 });
 ```
 
-### 测试原则
+### Test Principles
 
-- 测试用户行为，而非实现细节
-- 使用 accessible queries
-- Mock 外部依赖
+- Test user behavior, not implementation details
+- Use accessible queries
+- Mock external dependencies
 
 ---
 
-## 可访问性
+## Accessibility
 
-### ARIA 属性
+### ARIA Attributes
 
 ```tsx
 <button
-  aria-label="关闭对话框"
+  aria-label="Close dialog"
   aria-expanded={isOpen}
   onClick={handleClose}
 >
@@ -292,7 +292,7 @@ describe('ComponentName', () => {
 </button>
 ```
 
-### 键盘导航
+### Keyboard Navigation
 
 ```tsx
 <div
@@ -310,11 +310,11 @@ describe('ComponentName', () => {
 
 ---
 
-## 禁止事项
+## Prohibited Items
 
-- ❌ 不要使用 `any` 类型
-- ❌ 不要在渲染中定义组件
-- ❌ 不要直接修改 props
-- ❌ 不要在 useEffect 中直接使用 async
-- ❌ 不要忽略 ESLint 警告
-- ❌ 不要使用内联样式（除非必要）
+- ❌ Do not use `any` type
+- ❌ Do not define components in render
+- ❌ Do not directly modify props
+- ❌ Do not use async directly in useEffect
+- ❌ Do not ignore ESLint warnings
+- ❌ Do not use inline styles (unless necessary)
