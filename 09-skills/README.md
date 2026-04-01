@@ -1,84 +1,84 @@
 # 09. Skills
 
-> **级别：** 高级 | **时间：** 1 小时 | **前置条件：** 熟悉 Cursor 基础功能
+> **Level:** Advanced | **Time:** 1 hour | **Prerequisites:** Familiarity with Cursor basic features
 
 ---
 
-## 目录
+## Table of Contents
 
-- [概述](#概述)
-- [什么是 Skills](#什么是-skills)
-- [Skill 结构](#skill-结构)
-- [创建自定义 Skill](#创建自定义-skill)
-- [内置 Skills 示例](#内置-skills-示例)
-- [最佳实践](#最佳实践)
+- [Overview](#overview)
+- [What are Skills](#what-are-skills)
+- [Skill Structure](#skill-structure)
+- [Creating Custom Skills](#creating-custom-skills)
+- [Built-in Skills Examples](#built-in-skills-examples)
+- [Best Practices](#best-practices)
 
 ---
 
-## 概述
+## Overview
 
-Skills 是 Cursor 的**可复用能力模块**。它们是：
+Skills are Cursor's **reusable capability modules**. They are:
 
-- 自动触发的
-- 可跨项目共享
-- 包含指令和脚本
+- Automatically triggered
+- Shareable across projects
+- Contain instructions and scripts
 
 ```mermaid
 flowchart TB
-    A[用户操作] --> B{触发条件}
-    B --> C[Skill 自动激活]
-    C --> D[执行指令]
-    D --> E[运行脚本]
-    E --> F[返回结果]
+    A[User Action] --> B{Trigger Condition}
+    B --> C[Skill Auto Activates]
+    C --> D[Execute Instructions]
+    D --> E[Run Scripts]
+    E --> F[Return Results]
 ```
 
 ---
 
-## 什么是 Skills
+## What are Skills
 
-### 与 Rules 的区别
+### Difference from Rules
 
-| 特性 | Rules | Skills |
-|------|-------|--------|
-| **触发方式** | 自动注入上下文 | 条件触发执行 |
-| **内容** | 文本规则 | 指令 + 脚本 |
-| **能力** | 提供上下文 | 执行操作 |
-| **复用性** | 项目级 | 可跨项目 |
+| Feature | Rules | Skills |
+|---------|-------|--------|
+| **Trigger Method** | Auto-inject context | Conditional trigger execution |
+| **Content** | Text rules | Instructions + Scripts |
+| **Capability** | Provide context | Execute operations |
+| **Reusability** | Project-level | Cross-project |
 
-### Skills 能做什么
+### What Skills Can Do
 
 ```
-✅ 代码审查
-✅ 测试生成
-✅ 文档生成
-✅ 代码格式化
-✅ 安全扫描
-✅ 性能分析
+✅ Code review
+✅ Test generation
+✅ Documentation generation
+✅ Code formatting
+✅ Security scanning
+✅ Performance analysis
 ```
 
 ---
 
-## Skill 结构
+## Skill Structure
 
-### 目录结构
+### Directory Structure
 
 ```
 .cursor/skills/
 └── skill-name/
-    ├── SKILL.md          # Skill 定义（必需）
-    ├── scripts/          # 辅助脚本
+    ├── SKILL.md          # Skill definition (required)
+    ├── scripts/          # Helper scripts
     │   ├── analyze.sh
     │   └── format.py
-    └── templates/        # 模板文件
+    └── templates/        # Template files
         └── report.md
 ```
 
-### SKILL.md 格式
+### SKILL.md Format
 
 ```markdown
 ---
 name: Code Review
-description: 自动代码审查
+description: Automatic code review
 triggers:
   - type: file_save
     glob: "*.ts"
@@ -88,29 +88,29 @@ triggers:
 
 # Code Review Skill
 
-## 功能
-自动审查代码并提供改进建议。
+## Function
+Automatically review code and provide improvement suggestions.
 
-## 执行步骤
-1. 分析代码结构
-2. 检查代码风格
-3. 检查潜在问题
-4. 生成审查报告
+## Execution Steps
+1. Analyze code structure
+2. Check code style
+3. Check for potential issues
+4. Generate review report
 
-## 输出格式
-[审查报告模板]
+## Output Format
+[Review Report Template]
 ```
 
 ---
 
-## 创建自定义 Skill
+## Creating Custom Skills
 
-### 示例：代码审查 Skill
+### Example: Code Review Skill
 
 ```markdown
 ---
 name: Code Review
-description: 自动代码审查
+description: Automatic code review
 triggers:
   - type: command
     command: "/review"
@@ -118,54 +118,54 @@ triggers:
 
 # Code Review Skill
 
-## 审查项目
+## Review Items
 
-### 代码质量
-- 命名规范
-- 代码结构
-- 注释完整性
+### Code Quality
+- Naming conventions
+- Code structure
+- Comment completeness
 
-### 安全检查
-- SQL 注入
-- XSS 漏洞
-- 敏感信息暴露
+### Security Check
+- SQL injection
+- XSS vulnerabilities
+- Sensitive information exposure
 
-### 性能检查
-- 循环优化
-- 内存泄漏
-- 异步处理
+### Performance Check
+- Loop optimization
+- Memory leaks
+- Async handling
 
-## 输出模板
+## Output Template
 
 ```markdown
-# 代码审查报告
+# Code Review Report
 
-## 概述
-- 文件: {filename}
-- 审查时间: {timestamp}
+## Overview
+- File: {filename}
+- Review Time: {timestamp}
 
-## 问题列表
-| 级别 | 位置 | 描述 | 建议 |
-|------|------|------|------|
+## Issue List
+| Level | Location | Description | Suggestion |
+|-------|----------|-------------|------------|
 | {level} | {location} | {description} | {suggestion} |
 
-## 统计
-- 总问题: {total}
-- 高危: {high}
-- 中危: {medium}
-- 低危: {low}
+## Statistics
+- Total Issues: {total}
+- High: {high}
+- Medium: {medium}
+- Low: {low}
 
-## 建议
+## Recommendations
 {recommendations}
 ```
 ```
 
-### 示例：测试生成 Skill
+### Example: Test Generator Skill
 
 ```markdown
 ---
 name: Test Generator
-description: 自动生成测试文件
+description: Automatically generate test files
 triggers:
   - type: file_create
     glob: "src/**/*.ts"
@@ -173,14 +173,14 @@ triggers:
 
 # Test Generator Skill
 
-## 生成规则
+## Generation Rules
 
-### 单元测试
-- 测试文件位置: `__tests__/{filename}.test.ts`
-- 测试框架: Vitest
-- 覆盖率目标: 80%
+### Unit Tests
+- Test file location: `__tests__/{filename}.test.ts`
+- Test framework: Vitest
+- Coverage target: 80%
 
-### 测试模板
+### Test Template
 
 ```typescript
 import { describe, it, expect } from 'vitest';
@@ -200,69 +200,69 @@ describe('{functionName}', () => {
 });
 ```
 
-## 执行步骤
-1. 分析源文件
-2. 提取函数签名
-3. 生成测试用例
-4. 创建测试文件
+## Execution Steps
+1. Analyze source file
+2. Extract function signatures
+3. Generate test cases
+4. Create test file
 ```
 
 ---
 
-## 内置 Skills 示例
+## Built-in Skills Examples
 
 ### code-review
 
 ```
-触发: /review
-功能: 全面代码审查
-输出: 审查报告
+Trigger: /review
+Function: Comprehensive code review
+Output: Review report
 ```
 
 ### test-gen
 
 ```
-触发: 文件创建
-功能: 自动生成测试
-输出: 测试文件
+Trigger: File creation
+Function: Auto-generate tests
+Output: Test files
 ```
 
 ### doc-gen
 
 ```
-触发: /docs
-功能: 生成 API 文档
-输出: Markdown 文档
+Trigger: /docs
+Function: Generate API documentation
+Output: Markdown documentation
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **明确触发条件** - 避免意外触发
-2. **提供清晰输出** - 使用模板格式化
-3. **处理错误** - 提供友好的错误信息
-4. **版本控制** - 将 Skills 纳入 Git
+1. **Clear Trigger Conditions** - Avoid accidental triggers
+2. **Provide Clear Output** - Use templates for formatting
+3. **Handle Errors** - Provide friendly error messages
+4. **Version Control** - Include Skills in Git
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **过度触发** - 避免频繁执行
-2. **复杂逻辑** - 保持简单
-3. **忽略性能** - 考虑执行时间
-4. **硬编码路径** - 使用相对路径
+1. **Over-triggering** - Avoid frequent execution
+2. **Complex Logic** - Keep it simple
+3. **Ignore Performance** - Consider execution time
+4. **Hardcoded Paths** - Use relative paths
 
 ---
 
-## 下一步
+## Next Steps
 
-- [10. Subagents](../10-subagents/) - 配置专用 Agent
-- [11. Hooks](../11-hooks/) - 设置自动化钩子
-- [12. Plugins](../12-plugins/) - 打包完整功能
+- [10. Subagents](../10-subagents/) - Configure specialized agents
+- [11. Hooks](../11-hooks/) - Setup automation hooks
+- [12. Plugins](../12-plugins/) - Package complete features
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a>
+  <a href="../README.md">Back to Home</a>
 </p>

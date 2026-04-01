@@ -1,143 +1,143 @@
-# 07. 高级功能
+# 07. Advanced Features
 
-> **级别：** 高级 | **时间：** 1.5 小时 | **前置条件：** 熟悉 Cursor 基础功能
+> **Level:** Advanced | **Time:** 1.5 hours | **Prerequisites:** Familiar with Cursor basics
 
 ---
 
-## 目录
+## Table of Contents
 
-- [概述](#概述)
+- [Overview](#overview)
 - [Plan Mode](#plan-mode)
-- [并行 Agents](#parallel-agents)
-- [后台任务](#后台任务)
-- [权限模式](#权限模式)
-- [无头模式](#无头模式)
-- [会话管理](#会话管理)
-- [最佳实践](#最佳实践)
+- [Parallel Agents](#parallel-agents)
+- [Background Tasks](#background-tasks)
+- [Permission Modes](#permission-modes)
+- [Headless Mode](#headless-mode)
+- [Session Management](#session-management)
+- [Best Practices](#best-practices)
 
 ---
 
-## 概述
+## Overview
 
-Cursor 的高级功能让你能够：
+Cursor's advanced features enable you to:
 
-- 规划复杂实现
-- 并行执行多个任务
-- 自动化 CI/CD 流程
-- 管理多个会话
+- Plan complex implementations
+- Execute multiple tasks in parallel
+- Automate CI/CD processes
+- Manage multiple sessions
 
 ```mermaid
 flowchart TB
-    A[高级功能] --> B[Plan Mode]
-    A --> C[并行 Agents]
-    A --> D[后台任务]
-    A --> E[权限模式]
-    A --> F[无头模式]
-    A --> G[会话管理]
+    A[Advanced Features] --> B[Plan Mode]
+    A --> C[Parallel Agents]
+    A --> D[Background Tasks]
+    A --> E[Permission Modes]
+    A --> F[Headless Mode]
+    A --> G[Session Management]
     
-    B --> B1[复杂实现规划]
-    C --> C1[多任务并行]
-    D --> D1[长时间运行]
-    E --> E1[自动化控制]
-    F --> F1[CI/CD 集成]
-    G --> G1[多会话管理]
+    B --> B1[Complex implementation planning]
+    C --> C1[Multi-task parallelism]
+    D --> D1[Long-running operations]
+    E --> E1[Automation control]
+    F --> F1[CI/CD integration]
+    G --> G1[Multi-session management]
 ```
 
 ---
 
 ## Plan Mode
 
-### 什么是 Plan Mode
+### What is Plan Mode
 
-Plan Mode 让 AI 在编写代码前先制定详细计划：
+Plan Mode lets AI create a detailed plan before writing code:
 
 ```mermaid
 flowchart LR
-    A[用户需求] --> B[Plan Mode]
-    B --> C[分析需求]
-    C --> D[制定计划]
-    D --> E[用户确认]
-    E --> F[执行实现]
+    A[User Requirement] --> B[Plan Mode]
+    B --> C[Analyze Requirement]
+    C --> D[Create Plan]
+    D --> E[User Confirms]
+    E --> F[Execute Implementation]
 ```
 
-### 启用 Plan Mode
+### Enabling Plan Mode
 
-1. 在聊天面板中点击 "Plan" 按钮
-2. 或使用命令面板 → "Cursor: Toggle Plan Mode"
+1. Click "Plan" button in chat panel
+2. Or use Command Palette → "Cursor: Toggle Plan Mode"
 
-### 使用场景
-
-```
-✅ 复杂功能开发
-✅ 大规模重构
-✅ 架构变更
-✅ 多模块修改
-```
-
-### Plan Mode 示例
+### Use Cases
 
 ```
-用户: 为项目添加用户认证系统
+✅ Complex feature development
+✅ Large-scale refactoring
+✅ Architecture changes
+✅ Multi-module modifications
+```
+
+### Plan Mode Example
+
+```
+User: Add user authentication system to project
 
 AI (Plan Mode):
-## 实现计划
+## Implementation Plan
 
-### 1. 数据库设计
-- 创建 users 表
-- 创建 sessions 表
-- 添加索引
+### 1. Database Design
+- Create users table
+- Create sessions table
+- Add indexes
 
-### 2. 后端 API
+### 2. Backend API
 - POST /auth/register
 - POST /auth/login
 - POST /auth/logout
 - GET /auth/me
 
-### 3. 前端集成
-- 创建登录页面
-- 创建注册页面
-- 添加认证状态管理
+### 3. Frontend Integration
+- Create login page
+- Create registration page
+- Add authentication state management
 
-### 4. 安全措施
-- 密码加密
+### 4. Security Measures
+- Password encryption
 - JWT Token
-- CSRF 防护
+- CSRF protection
 
-是否按此计划执行？
+Should I proceed with this plan?
 ```
 
 ---
 
-## 并行 Agents
+## Parallel Agents
 
-### 什么是并行 Agents
+### What are Parallel Agents
 
-并行 Agents 让多个 AI Agent 同时工作：
+Parallel Agents let multiple AI Agents work simultaneously:
 
 ```mermaid
 flowchart TB
-    A[主任务] --> B[Agent 1: 前端]
-    A --> C[Agent 2: 后端]
-    A --> D[Agent 3: 测试]
+    A[Main Task] --> B[Agent 1: Frontend]
+    A --> C[Agent 2: Backend]
+    A --> D[Agent 3: Testing]
     
-    B --> E[结果合并]
+    B --> E[Merge Results]
     C --> E
     D --> E
     
-    E --> F[完成]
+    E --> F[Complete]
 ```
 
-### 使用场景
+### Use Cases
 
 ```
-✅ 前后端同时开发
-✅ 多模块并行修改
-✅ 代码生成 + 测试编写
+✅ Frontend and backend development simultaneously
+✅ Multi-module parallel modifications
+✅ Code generation + Test writing
 ```
 
-### 配置并行 Agents
+### Configuring Parallel Agents
 
-在设置中启用：
+Enable in settings:
 
 ```json
 {
@@ -145,99 +145,99 @@ flowchart TB
 }
 ```
 
-### 使用示例
+### Usage Example
 
 ```
-用户: 同时实现用户管理的前端和后端
+User: Implement user management frontend and backend simultaneously
 
-AI (并行执行):
-启动 2 个 Agent...
+AI (Parallel execution):
+Starting 2 Agents...
 
-Agent 1 (前端):
-- 创建 UserList.tsx
-- 创建 UserForm.tsx
-- 添加路由配置
+Agent 1 (Frontend):
+- Create UserList.tsx
+- Create UserForm.tsx
+- Add route configuration
 
-Agent 2 (后端):
-- 创建 user.controller.ts
-- 创建 user.service.ts
-- 添加 API 路由
+Agent 2 (Backend):
+- Create user.controller.ts
+- Create user.service.ts
+- Add API routes
 
-合并结果...
-完成！
+Merging results...
+Complete!
 ```
 
 ---
 
-## 后台任务
+## Background Tasks
 
-### 什么是后台任务
+### What are Background Tasks
 
-后台任务让 AI 在后台执行长时间操作：
+Background Tasks let AI execute long-running operations in the background:
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
+    participant U as User
     participant C as Cursor
-    participant BG as 后台任务
+    participant BG as Background Task
     
-    U->>C: 启动后台任务
-    C->>BG: 开始执行
-    C->>U: 立即返回
+    U->>C: Start background task
+    C->>BG: Begin execution
+    C->>U: Immediate return
     
-    Note over BG: 长时间运行...
+    Note over BG: Long-running...
     
-    BG->>C: 任务完成
-    C->>U: 通知用户
+    BG->>C: Task complete
+    C->>U: Notify user
 ```
 
-### 使用场景
+### Use Cases
 
 ```
-✅ 大规模代码生成
-✅ 批量文件处理
-✅ 长时间测试运行
+✅ Large-scale code generation
+✅ Batch file processing
+✅ Long test runs
 ```
 
-### 启动后台任务
+### Starting Background Tasks
 
 ```
-用户: 在后台生成所有 API 的类型定义
+User: Generate type definitions for all APIs in background
 
-AI: 已启动后台任务
-任务 ID: task-123
+AI: Background task started
+Task ID: task-123
 
-你可以在任务运行时继续其他工作。
-完成后我会通知你。
+You can continue other work while the task runs.
+I'll notify you when complete.
 ```
 
-### 查看任务状态
+### Viewing Task Status
 
 ```
-用户: 查看后台任务状态
+User: Show background task status
 
-AI: 后台任务状态：
+AI: Background task status:
 
-task-123: 进行中 (45%)
-- 已处理: 23/51 文件
-- 预计剩余: 2 分钟
+task-123: In progress (45%)
+- Processed: 23/51 files
+- Estimated remaining: 2 minutes
 ```
 
 ---
 
-## 权限模式
+## Permission Modes
 
-### 权限模式类型
+### Permission Mode Types
 
-| 模式 | 描述 | 适用场景 |
-|------|------|----------|
-| **default** | 每次操作都询问 | 谨慎开发 |
-| **acceptEdits** | 自动接受编辑 | 快速迭代 |
-| **plan** | 先规划后执行 | 复杂任务 |
-| **dontAsk** | 不询问直接执行 | 自动化流程 |
-| **bypassPermissions** | 绕过所有权限检查 | CI/CD |
+| Mode | Description | Use Case |
+|------|-------------|----------|
+| **default** | Ask for each operation | Cautious development |
+| **acceptEdits** | Auto-accept edits | Rapid iteration |
+| **plan** | Plan before execute | Complex tasks |
+| **dontAsk** | Execute without asking | Automated processes |
+| **bypassPermissions** | Bypass all permission checks | CI/CD |
 
-### 配置权限模式
+### Configuring Permission Mode
 
 ```json
 // .cursor/settings.json
@@ -246,35 +246,35 @@ task-123: 进行中 (45%)
 }
 ```
 
-### 切换权限模式
+### Switching Permission Mode
 
 ```
-命令面板 → "Cursor: Set Permission Mode"
+Command Palette → "Cursor: Set Permission Mode"
 ```
 
 ---
 
-## 无头模式
+## Headless Mode
 
-### 什么是无头模式
+### What is Headless Mode
 
-无头模式让 Cursor 在命令行中运行，适合 CI/CD：
+Headless Mode lets Cursor run in the command line, suitable for CI/CD:
 
 ```bash
-# 基本用法
-cursor -p "解释这个项目"
+# Basic usage
+cursor -p "Explain this project"
 
-# 处理文件内容
-cat error.log | cursor -p "解释这个错误"
+# Process file content
+cat error.log | cursor -p "Explain this error"
 
-# JSON 输出
-cursor -p --output-format json "列出所有函数"
+# JSON output
+cursor -p --output-format json "List all functions"
 
-# 恢复会话
-cursor -r "feature-auth" "继续实现"
+# Resume session
+cursor -r "feature-auth" "Continue implementation"
 ```
 
-### CI/CD 集成示例
+### CI/CD Integration Example
 
 ```yaml
 # .github/workflows/ai-review.yml
@@ -292,7 +292,7 @@ jobs:
       
       - name: AI Review
         run: |
-          cursor -p "审查这个 PR 的代码变更" \
+          cursor -p "Review this PR's code changes" \
             --output-format json > review.json
           
       - name: Post Review
@@ -310,91 +310,91 @@ jobs:
 
 ---
 
-## 会话管理
+## Session Management
 
-### 会话操作
+### Session Operations
 
-| 操作 | 命令 | 描述 |
-|------|------|------|
-| **新建会话** | `cursor -c` | 创建新会话 |
-| **恢复会话** | `cursor -r <name>` | 恢复之前的会话 |
-| **列出会话** | `cursor --list-sessions` | 列出所有会话 |
-| **删除会话** | `cursor --delete-session <name>` | 删除会话 |
+| Operation | Command | Description |
+|-----------|---------|-------------|
+| **New Session** | `cursor -c` | Create new session |
+| **Resume Session** | `cursor -r <name>` | Resume previous session |
+| **List Sessions** | `cursor --list-sessions` | List all sessions |
+| **Delete Session** | `cursor --delete-session <name>` | Delete session |
 
-### 会话命名
-
-```
-用户: /rename feature-auth
-
-AI: 会话已重命名为 "feature-auth"
-你可以使用 cursor -r feature-auth 恢复此会话
-```
-
-### 会话分支
+### Session Naming
 
 ```
-用户: /fork
+User: /rename feature-auth
 
-AI: 已创建会话分支
-新会话 ID: session-456
-原会话: session-123
+AI: Session renamed to "feature-auth"
+You can resume this session with cursor -r feature-auth
+```
 
-你可以在新会话中尝试不同的方案。
+### Session Branching
+
+```
+User: /fork
+
+AI: Session branch created
+New session ID: session-456
+Original session: session-123
+
+You can try different approaches in the new session.
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **复杂任务用 Plan Mode** - 先规划后执行
-2. **独立任务并行执行** - 提高效率
-3. **长时间任务放后台** - 不阻塞工作
-4. **CI/CD 用无头模式** - 自动化流程
-5. **命名会话** - 方便恢复和管理
+1. **Use Plan Mode for complex tasks** - Plan before execute
+2. **Execute independent tasks in parallel** - Improve efficiency
+3. **Run long tasks in background** - Don't block work
+4. **Use headless mode for CI/CD** - Automation
+5. **Name sessions** - Easy to resume and manage
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **简单任务用 Plan Mode** - 浪费时间
-2. **依赖任务并行执行** - 可能出错
-3. **忽略后台任务状态** - 可能错过错误
-4. **生产环境用 bypassPermissions** - 安全风险
+1. **Use Plan Mode for simple tasks** - Wastes time
+2. **Execute dependent tasks in parallel** - May cause errors
+3. **Ignore background task status** - May miss errors
+4. **Use bypassPermissions in production** - Security risk
 
-### 工作流建议
+### Workflow Suggestions
 
 ```mermaid
 flowchart TB
-    A[开始任务] --> B{任务复杂度}
+    A[Start Task] --> B{Task Complexity}
     
-    B -->|简单| C[直接执行]
-    B -->|中等| D[使用 Composer]
-    B -->|复杂| E[Plan Mode]
+    B -->|Simple| C[Execute directly]
+    B -->|Medium| D[Use Composer]
+    B -->|Complex| E[Plan Mode]
     
-    C --> F[完成]
+    C --> F[Complete]
     D --> F
     
-    E --> G[制定计划]
-    G --> H{需要并行？}
+    E --> G[Create plan]
+    G --> H{Need parallel?}
     
-    H -->|是| I[并行 Agents]
-    H -->|否| J[顺序执行]
+    H -->|Yes| I[Parallel Agents]
+    H -->|No| J[Sequential execution]
     
-    I --> K[合并结果]
+    I --> K[Merge results]
     J --> K
     K --> F
 ```
 
 ---
 
-## 下一步
+## Next Steps
 
-- [08. 最佳实践](../08-best-practices/) - 学习完整工作流
-- [09. Skills](../09-skills/) - 创建自定义技能
-- [10. Subagents](../10-subagents/) - 配置专用 Agent
+- [08. Best Practices](../08-best-practices/) - Learn complete workflows
+- [09. Skills](../09-skills/) - Create custom skills
+- [10. Subagents](../10-subagents/) - Configure specialized Agents
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a> | <a href="plan-mode-examples.md">Plan Mode 示例</a> | <a href="config-examples.json">配置示例</a>
+  <a href="../README.md">Back to Home</a> | <a href="plan-mode-examples.md">Plan Mode Examples</a> | <a href="config-examples.json">Config Examples</a>
 </p>

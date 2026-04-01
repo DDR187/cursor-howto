@@ -1,131 +1,131 @@
-# 03. 代码库索引
+# 03. Codebase Indexing
 
-> **级别：** 初学者+ | **时间：** 30 分钟 | **前置条件：** 已安装 Cursor
-
----
-
-## 目录
-
-- [概述](#概述)
-- [为什么需要代码库索引](#为什么需要代码库索引)
-- [工作机制](#工作机制)
-- [索引类型](#索引类型)
-- [配置索引](#配置索引)
-- [最佳实践](#最佳实践)
-- [故障排查](#故障排查)
+> **Level:** Beginner+ | **Time:** 30 minutes | **Prerequisites:** Cursor installed
 
 ---
 
-## 概述
+## Table of Contents
 
-代码库索引是 Cursor 理解你项目的关键。它将整个代码库转换为可搜索的向量表示，让 AI 能够：
+- [Overview](#overview)
+- [Why Codebase Indexing Is Needed](#why-codebase-indexing-is-needed)
+- [How It Works](#how-it-works)
+- [Index Types](#index-types)
+- [Configuring Indexing](#configuring-indexing)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
 
-- 理解项目结构
-- 找到相关代码
-- 提供上下文感知的建议
+---
+
+## Overview
+
+Codebase indexing is key to Cursor understanding your project. It converts the entire codebase into a searchable vector representation, enabling AI to:
+
+- Understand project structure
+- Find relevant code
+- Provide context-aware suggestions
 
 ```mermaid
 flowchart LR
-    A[代码库] --> B[索引引擎]
-    B --> C[向量数据库]
-    C --> D[AI 查询]
-    D --> E[相关代码片段]
-    E --> F[智能建议]
+    A[Codebase] --> B[Indexing Engine]
+    B --> C[Vector Database]
+    C --> D[AI Query]
+    D --> E[Relevant Code Snippets]
+    E --> F[Smart Suggestions]
 ```
 
 ---
 
-## 为什么需要代码库索引
+## Why Codebase Indexing Is Needed
 
-### 没有索引的问题
+### Problem Without Indexing
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
-    participant AI as AI 助手
+    participant U as User
+    participant AI as AI Assistant
     
-    U->>AI: 这个函数在哪里被使用？
-    AI->>AI: 无法搜索代码库
-    AI->>U: 我不知道，请提供更多上下文
+    U->>AI: Where is this function used?
+    AI->>AI: Cannot search codebase
+    AI->>U: I don't know, please provide more context
 ```
 
-### 使用索引的效果
+### Effect With Indexing
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
-    participant AI as AI 助手
-    participant I as 索引
+    participant U as User
+    participant AI as AI Assistant
+    participant I as Index
     
-    U->>AI: 这个函数在哪里被使用？
-    AI->>I: 搜索函数引用
-    I->>AI: 返回相关文件和位置
-    AI->>U: 这个函数在以下位置被使用：
+    U->>AI: Where is this function used?
+    AI->>I: Search function references
+    I->>AI: Return relevant files and locations
+    AI->>U: This function is used at:
     AI->>U: - src/utils/auth.ts:45
     AI->>U: - src/api/user.ts:120
 ```
 
 ---
 
-## 工作机制
+## How It Works
 
-### 索引流程
+### Indexing Flow
 
 ```mermaid
 flowchart TB
-    subgraph Indexing["索引过程"]
-        A[扫描文件] --> B[解析代码]
-        B --> C[生成嵌入向量]
-        C --> D[存储到向量数据库]
+    subgraph Indexing["Indexing Process"]
+        A[Scan files] --> B[Parse code]
+        B --> C[Generate embeddings]
+        C --> D[Store in vector database]
     end
     
-    subgraph Query["查询过程"]
-        E[用户查询] --> F[查询向量化]
-        F --> G[相似度搜索]
-        G --> H[返回相关片段]
+    subgraph Query["Query Process"]
+        E[User query] --> F[Query vectorization]
+        F --> G[Similarity search]
+        G --> H[Return relevant snippets]
     end
     
     Indexing --> Query
 ```
 
-### 上下文优先级
+### Context Priority
 
 ```mermaid
 flowchart TB
-    A[可用上下文] --> B[当前文件]
-    A --> C[引用的文件]
-    A --> D[索引中的相关代码]
-    A --> E[Rules 规则]
+    A[Available Context] --> B[Current file]
+    A --> C[Referenced files]
+    A --> D[Relevant code in index]
+    A --> E[Rules]
     
-    B --> F[最高优先级]
-    C --> G[高优先级]
-    D --> H[中等优先级]
-    E --> I[基础上下文]
+    B --> F[Highest priority]
+    C --> G[High priority]
+    D --> H[Medium priority]
+    E --> I[Base context]
 ```
 
 ---
 
-## 索引类型
+## Index Types
 
-### 1. 自动索引
+### 1. Automatic Indexing
 
-Cursor 自动为你的项目创建索引：
+Cursor automatically creates indexes for your project:
 
-- 打开项目时自动索引
-- 文件保存时更新索引
-- 后台持续优化
+- Auto-index when opening project
+- Update index when saving files
+- Continuous background optimization
 
-### 2. 手动索引
+### 2. Manual Indexing
 
-在需要时手动触发：
+Trigger manually when needed:
 
 ```
 Cmd+Shift+P → "Cursor: Reindex Codebase"
 ```
 
-### 3. 选择性索引
+### 3. Selective Indexing
 
-配置哪些文件需要索引：
+Configure which files to index:
 
 ```json
 // .cursor/settings.json
@@ -146,86 +146,86 @@ Cmd+Shift+P → "Cursor: Reindex Codebase"
 
 ---
 
-## 配置索引
+## Configuring Indexing
 
-### 索引设置
+### Index Settings
 
-打开设置 (`Cmd+,` / `Ctrl+,`)，搜索 "Indexing"：
+Open settings (`Cmd+,` / `Ctrl+,`) and search for "Indexing":
 
-| 设置 | 描述 | 默认值 |
-|------|------|--------|
-| `Enable Codebase Indexing` | 启用代码库索引 | `true` |
-| `Index On Open` | 打开项目时索引 | `true` |
-| `Index On Save` | 保存文件时更新索引 | `true` |
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `Enable Codebase Indexing` | Enable codebase indexing | `true` |
+| `Index On Open` | Index when opening project | `true` |
+| `Index On Save` | Update index when saving files | `true` |
 
-### 排除文件
+### Excluding Files
 
-在 `.cursorignore` 文件中配置：
+Configure in `.cursorignore` file:
 
 ```gitignore
-# 依赖目录
+# Dependency directories
 node_modules/
 vendor/
 
-# 构建输出
+# Build output
 dist/
 build/
 .next/
 
-# 测试覆盖率
+# Test coverage
 coverage/
 
-# 日志文件
+# Log files
 *.log
 
-# 锁文件
+# Lock files
 package-lock.json
 yarn.lock
 
-# 大文件
+# Large files
 *.min.js
 *.min.css
 ```
 
-### 索引状态
+### Index Status
 
-查看索引状态：
+View indexing status:
 
-1. 打开命令面板 (`Cmd+Shift+P`)
-2. 输入 "Cursor: Show Indexing Status"
+1. Open command palette (`Cmd+Shift+P`)
+2. Type "Cursor: Show Indexing Status"
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **保持项目结构清晰** - 有助于索引理解
-2. **使用有意义的命名** - 变量、函数、文件名
-3. **添加必要的注释** - 帮助 AI 理解代码意图
-4. **定期重新索引** - 大规模重构后
-5. **排除不需要的文件** - 提高索引质量
+1. **Keep project structure clear** - Helps indexing understand
+2. **Use meaningful names** - Variables, functions, filenames
+3. **Add necessary comments** - Help AI understand code intent
+4. **Regularly re-index** - After major refactoring
+5. **Exclude unnecessary files** - Improve index quality
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **索引大型依赖** - 排除 node_modules
-2. **索引构建产物** - 排除 dist/build
-3. **忽略索引状态** - 确保索引完成
-4. **过度依赖索引** - 复杂查询仍需提供上下文
+1. **Index large dependencies** - Exclude node_modules
+2. **Index build artifacts** - Exclude dist/build
+3. **Ignore index status** - Ensure indexing completes
+4. **Over-rely on indexing** - Complex queries still need context
 
-### 优化索引性能
+### Optimizing Index Performance
 
 ```mermaid
 flowchart LR
-    A[大型项目] --> B{文件数量}
-    B -->|> 10000| C[配置排除规则]
-    B -->|< 10000| D[使用默认配置]
+    A[Large Project] --> B{File Count}
+    B -->|> 10000| C[Configure exclude rules]
+    B -->|< 10000| D[Use default config]
     
-    C --> E[排除 node_modules]
-    C --> F[排除构建产物]
-    C --> G[排除测试文件（可选）]
+    C --> E[Exclude node_modules]
+    C --> F[Exclude build output]
+    C --> G[Exclude test files (optional)]
     
-    D --> H[自动索引]
+    D --> H[Auto-index]
     E --> H
     F --> H
     G --> H
@@ -233,45 +233,45 @@ flowchart LR
 
 ---
 
-## 故障排查
+## Troubleshooting
 
-### 索引未完成
+### Index Not Complete
 
-**症状：** AI 无法找到相关代码
+**Symptoms:** AI cannot find relevant code
 
-**解决方案：**
-1. 检查索引状态
-2. 手动触发重新索引
-3. 检查网络连接（需要连接嵌入服务）
+**Solutions:**
+1. Check index status
+2. Manually trigger re-index
+3. Check network connection (needs embedding service)
 
-### 索引结果不准确
+### Inaccurate Index Results
 
-**症状：** AI 返回不相关的代码
+**Symptoms:** AI returns irrelevant code
 
-**解决方案：**
-1. 提供更具体的查询
-2. 引用相关文件
-3. 使用 `@` 符号指定文件
+**Solutions:**
+1. Provide more specific queries
+2. Reference relevant files
+3. Use `@` symbol to specify files
 
-### 索引占用过多资源
+### Index Using Too Many Resources
 
-**症状：** Cursor 运行缓慢
+**Symptoms:** Cursor runs slowly
 
-**解决方案：**
-1. 配置 `.cursorignore` 排除文件
-2. 减少索引范围
-3. 关闭不需要的项目
+**Solutions:**
+1. Configure `.cursorignore` to exclude files
+2. Reduce index scope
+3. Close unnecessary projects
 
 ---
 
-## 下一步
+## Next Steps
 
-- [04. 聊天功能](../04-chat/) - 深入学习聊天功能
-- [05. Composer](../05-composer/) - 学习多文件编辑
-- [06. MCP 集成](../06-mcp/) - 连接外部工具
+- [04. Chat](../04-chat/) - Deep dive into chat functionality
+- [05. Composer](../05-composer/) - Learn multi-file editing
+- [06. MCP Integration](../06-mcp/) - Connect external tools
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a> | <a href="indexing-config.md">索引配置参考</a>
+  <a href="../README.md">Back to Home</a> | <a href="indexing-config.md">Indexing Config Reference</a>
 </p>

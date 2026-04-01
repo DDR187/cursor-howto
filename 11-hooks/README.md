@@ -1,125 +1,125 @@
 # 11. Hooks
 
-> **级别：** 高级 | **时间：** 45 分钟 | **前置条件：** 熟悉 Cursor 基础功能
+> **Level:** Advanced | **Time:** 45 minutes | **Prerequisites:** Familiarity with Cursor basic features
 
 ---
 
-## 目录
+## Table of Contents
 
-- [概述](#概述)
-- [什么是 Hooks](#什么是-hooks)
-- [Hook 类型](#hook-类型)
-- [配置 Hooks](#配置-hooks)
-- [常用 Hook 示例](#常用-hook-示例)
-- [最佳实践](#最佳实践)
+- [Overview](#overview)
+- [What are Hooks](#what-are-hooks)
+- [Hook Types](#hook-types)
+- [Configuring Hooks](#configuring-hooks)
+- [Common Hook Examples](#common-hook-examples)
+- [Best Practices](#best-practices)
 
 ---
 
-## 概述
+## Overview
 
-Hooks 是 Cursor 的**事件驱动自动化系统**。它们：
+Hooks are Cursor's **event-driven automation system**. They:
 
-- 在特定事件时触发
-- 执行自定义脚本
-- 可以验证、修改或通知
+- Trigger on specific events
+- Execute custom scripts
+- Can validate, modify, or notify
 
 ```mermaid
 flowchart TB
-    A[事件发生] --> B{匹配 Hook}
-    B --> C[执行脚本]
-    C --> D{结果}
-    D -->|成功| E[继续操作]
-    D -->|失败| F[阻止操作]
+    A[Event Occurs] --> B{Match Hook}
+    B --> C[Execute Script]
+    C --> D{Result}
+    D -->|Success| E[Continue Operation]
+    D -->|Failure| F[Block Operation]
 ```
 
 ---
 
-## 什么是 Hooks
+## What are Hooks
 
-### 工作原理
+### How They Work
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
+    participant U as User
     participant C as Cursor
-    participant H as Hook 系统
-    participant S as 脚本
+    participant H as Hook System
+    participant S as Script
     
-    U->>C: 执行操作
-    C->>H: 触发 PreToolUse Hook
-    H->>S: 运行脚本
+    U->>C: Execute operation
+    C->>H: Trigger PreToolUse Hook
+    H->>S: Run script
     
-    alt 脚本成功
-        S->>H: 返回成功
-        H->>C: 允许操作
-        C->>U: 完成操作
-    else 脚本失败
-        S->>H: 返回失败
-        H->>C: 阻止操作
-        C->>U: 显示错误
+    alt Script Success
+        S->>H: Return success
+        H->>C: Allow operation
+        C->>U: Complete operation
+    else Script Failure
+        S->>H: Return failure
+        H->>C: Block operation
+        C->>U: Show error
     end
 ```
 
-### Hooks 能做什么
+### What Hooks Can Do
 
 ```
-✅ 代码格式化
-✅ 测试运行
-✅ 安全扫描
-✅ 日志记录
-✅ 通知发送
-✅ 权限验证
+✅ Code formatting
+✅ Test running
+✅ Security scanning
+✅ Logging
+✅ Notification sending
+✅ Permission validation
 ```
 
 ---
 
-## Hook 类型
+## Hook Types
 
 ### Tool Hooks
 
-| Hook | 触发时机 | 用途 |
-|------|----------|------|
-| `PreToolUse` | 工具使用前 | 验证、修改输入 |
-| `PostToolUse` | 工具使用后 | 处理输出、通知 |
-| `PostToolUseFailure` | 工具失败后 | 错误处理 |
-| `PermissionRequest` | 权限请求时 | 自定义权限 |
+| Hook | When Triggered | Purpose |
+|------|----------------|---------|
+| `PreToolUse` | Before tool use | Validate, modify input |
+| `PostToolUse` | After tool use | Process output, notify |
+| `PostToolUseFailure` | After tool failure | Error handling |
+| `PermissionRequest` | On permission request | Custom permissions |
 
 ### Session Hooks
 
-| Hook | 触发时机 | 用途 |
-|------|----------|------|
-| `SessionStart` | 会话开始 | 初始化 |
-| `SessionEnd` | 会话结束 | 清理、报告 |
-| `Stop` | 停止时 | 保存状态 |
-| `SubagentStart` | Subagent 启动 | 日志 |
-| `SubagentStop` | Subagent 停止 | 结果处理 |
+| Hook | When Triggered | Purpose |
+|------|----------------|---------|
+| `SessionStart` | Session start | Initialization |
+| `SessionEnd` | Session end | Cleanup, reporting |
+| `Stop` | On stop | Save state |
+| `SubagentStart` | Subagent start | Logging |
+| `SubagentStop` | Subagent stop | Result processing |
 
 ### Task Hooks
 
-| Hook | 触发时机 | 用途 |
-|------|----------|------|
-| `UserPromptSubmit` | 用户提交提示 | 验证、修改 |
-| `TaskCompleted` | 任务完成 | 通知、报告 |
-| `TaskCreated` | 任务创建 | 日志 |
+| Hook | When Triggered | Purpose |
+|------|----------------|---------|
+| `UserPromptSubmit` | User submits prompt | Validate, modify |
+| `TaskCompleted` | Task complete | Notify, report |
+| `TaskCreated` | Task created | Logging |
 
 ### Lifecycle Hooks
 
-| Hook | 触发时机 | 用途 |
-|------|----------|------|
-| `ConfigChange` | 配置变更 | 验证 |
-| `CwdChanged` | 目录变更 | 更新状态 |
-| `FileChanged` | 文件变更 | 自动处理 |
-| `PreCompact` | 压缩前 | 备份 |
-| `PostCompact` | 压缩后 | 验证 |
+| Hook | When Triggered | Purpose |
+|------|----------------|---------|
+| `ConfigChange` | Configuration change | Validate |
+| `CwdChanged` | Directory change | Update state |
+| `FileChanged` | File change | Auto process |
+| `PreCompact` | Before compression | Backup |
+| `PostCompact` | After compression | Validate |
 
 ---
 
-## 配置 Hooks
+## Configuring Hooks
 
-### 配置文件位置
+### Configuration File Location
 
 ```
-用户目录/
+User Directory/
 └── .cursor/
     ├── hooks/
     │   ├── format-code.sh
@@ -127,7 +127,7 @@ sequenceDiagram
     └── settings.json
 ```
 
-### settings.json 配置
+### settings.json Configuration
 
 ```json
 {
@@ -148,36 +148,36 @@ sequenceDiagram
 }
 ```
 
-### Matcher 规则
+### Matcher Rules
 
 ```json
 {
-  "matcher": "Write",           // 匹配 Write 工具
-  "matcher": "Write|Edit",      // 匹配 Write 或 Edit
-  "matcher": ".*",              // 匹配所有
+  "matcher": "Write",           // Match Write tool
+  "matcher": "Write|Edit",      // Match Write or Edit
+  "matcher": ".*",              // Match all
   "matcher": {
     "tool": "Write",
-    "path": "src/**/*.ts"       // 匹配特定路径
+    "path": "src/**/*.ts"       // Match specific path
   }
 }
 ```
 
 ---
 
-## 常用 Hook 示例
+## Common Hook Examples
 
-### 代码格式化 Hook
+### Code Formatting Hook
 
 ```bash
 #!/bin/bash
 # ~/.cursor/hooks/format-code.sh
 
-# 读取文件路径
+# Read file path
 FILE_PATH="$1"
 
-# 检查文件类型
+# Check file type
 if [[ "$FILE_PATH" == *.ts || "$FILE_PATH" == *.tsx ]]; then
-    # 运行 Prettier
+    # Run Prettier
     npx prettier --write "$FILE_PATH"
     echo "Formatted: $FILE_PATH"
 fi
@@ -185,13 +185,13 @@ fi
 exit 0
 ```
 
-### Pre-commit 检查 Hook
+### Pre-commit Check Hook
 
 ```bash
 #!/bin/bash
 # ~/.cursor/hooks/pre-commit.sh
 
-# 运行测试
+# Run tests
 npm test
 
 if [ $? -ne 0 ]; then
@@ -199,7 +199,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 运行 lint
+# Run lint
 npm run lint
 
 if [ $? -ne 0 ]; then
@@ -211,7 +211,7 @@ echo "All checks passed."
 exit 0
 ```
 
-### 安全扫描 Hook
+### Security Scan Hook
 
 ```bash
 #!/bin/bash
@@ -219,13 +219,13 @@ exit 0
 
 FILE_PATH="$1"
 
-# 检查敏感信息
+# Check for sensitive information
 if grep -E "(password|secret|api_key|token)\s*=\s*['\"]" "$FILE_PATH"; then
     echo "Warning: Potential sensitive data found in $FILE_PATH"
-    # 不阻止，只是警告
+    # Don't block, just warn
 fi
 
-# 运行安全扫描工具
+# Run security scanning tool
 if command -v bandit &> /dev/null && [[ "$FILE_PATH" == *.py ]]; then
     bandit "$FILE_PATH"
 fi
@@ -233,7 +233,7 @@ fi
 exit 0
 ```
 
-### 日志记录 Hook
+### Logging Hook
 
 ```bash
 #!/bin/bash
@@ -245,13 +245,13 @@ TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 echo "[$TIMESTAMP] $1" >> "$LOG_FILE"
 ```
 
-### 通知 Hook
+### Notification Hook
 
 ```bash
 #!/bin/bash
 # ~/.cursor/hooks/notify-team.sh
 
-# 发送 Slack 通知
+# Send Slack notification
 curl -X POST "$SLACK_WEBHOOK_URL" \
     -H 'Content-Type: application/json' \
     -d '{
@@ -264,69 +264,69 @@ curl -X POST "$SLACK_WEBHOOK_URL" \
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **快速执行** - Hook 应该快速完成
-2. **提供反馈** - 输出有用的信息
-3. **处理错误** - 优雅地处理失败
-4. **记录日志** - 便于调试
-5. **版本控制** - 将脚本纳入 Git
+1. **Fast Execution** - Hooks should complete quickly
+2. **Provide Feedback** - Output useful information
+3. **Handle Errors** - Gracefully handle failures
+4. **Log** - Facilitate debugging
+5. **Version Control** - Include scripts in Git
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **长时间运行** - 避免阻塞操作
-2. **忽略错误** - 正确处理失败
-3. **过度使用** - 只在必要时使用
-4. **硬编码路径** - 使用环境变量
+1. **Long-running** - Avoid blocking operations
+2. **Ignore Errors** - Handle failures properly
+3. **Overuse** - Only use when necessary
+4. **Hardcoded Paths** - Use environment variables
 
-### Hook 脚本模板
+### Hook Script Template
 
 ```bash
 #!/bin/bash
 set -e
 
-# 配置
+# Configuration
 SCRIPT_NAME="my-hook"
 LOG_FILE="$HOME/.cursor/logs/${SCRIPT_NAME}.log"
 
-# 日志函数
+# Logging function
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"
 }
 
-# 主逻辑
+# Main logic
 main() {
     local input="$1"
     
     log "Starting $SCRIPT_NAME"
     log "Input: $input"
     
-    # 执行操作
+    # Execute operations
     # ...
     
     log "Completed successfully"
     exit 0
 }
 
-# 错误处理
+# Error handling
 trap 'log "Error occurred"; exit 1' ERR
 
-# 运行
+# Run
 main "$@"
 ```
 
 ---
 
-## 下一步
+## Next Steps
 
-- [12. Plugins](../12-plugins/) - 打包完整功能
-- [CATALOG.md](../CATALOG.md) - 浏览功能目录
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - 贡献指南
+- [12. Plugins](../12-plugins/) - Package complete features
+- [CATALOG.md](../CATALOG.md) - Browse feature catalog
+- [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guide
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a>
+  <a href="../README.md">Back to Home</a>
 </p>

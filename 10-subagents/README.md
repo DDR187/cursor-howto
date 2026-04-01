@@ -1,42 +1,42 @@
 # 10. Subagents
 
-> **级别：** 高级 | **时间：** 1 小时 | **前置条件：** 熟悉 Cursor 基础功能
+> **Level:** Advanced | **Time:** 1 hour | **Prerequisites:** Familiarity with Cursor basic features
 
 ---
 
-## 目录
+## Table of Contents
 
-- [概述](#概述)
-- [什么是 Subagents](#什么是-subagents)
-- [Subagent 配置](#subagent-配置)
-- [内置 Subagents](#内置-subagents)
-- [创建自定义 Subagent](#创建自定义-subagent)
-- [最佳实践](#最佳实践)
+- [Overview](#overview)
+- [What are Subagents](#what-are-subagents)
+- [Subagent Configuration](#subagent-configuration)
+- [Built-in Subagents](#built-in-subagents)
+- [Creating Custom Subagents](#creating-custom-subagents)
+- [Best Practices](#best-practices)
 
 ---
 
-## 概述
+## Overview
 
-Subagents 是 Cursor 的**专用 AI 助手**。它们：
+Subagents are Cursor's **specialized AI assistants**. They:
 
-- 拥有隔离的上下文
-- 专注于特定任务
-- 可以被主 Agent 委托
+- Have isolated context
+- Focus on specific tasks
+- Can be delegated by the main Agent
 
 ```mermaid
 flowchart TB
-    A[主 Agent] --> B{任务类型}
+    A[Main Agent] --> B{Task Type}
     B --> C[Code Reviewer]
     B --> D[Test Engineer]
     B --> E[Doc Writer]
     B --> F[Security Auditor]
     
-    C --> G[代码质量报告]
-    D --> H[测试覆盖率报告]
-    E --> I[文档输出]
-    F --> J[安全报告]
+    C --> G[Code Quality Report]
+    D --> H[Test Coverage Report]
+    E --> I[Documentation Output]
+    F --> J[Security Report]
     
-    G --> K[主 Agent 汇总]
+    G --> K[Main Agent Summary]
     H --> K
     I --> K
     J --> K
@@ -44,42 +44,42 @@ flowchart TB
 
 ---
 
-## 什么是 Subagents
+## What are Subagents
 
-### 与主 Agent 的关系
+### Relationship with Main Agent
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
-    participant M as 主 Agent
+    participant U as User
+    participant M as Main Agent
     participant S as Subagent
     
-    U->>M: 复杂任务请求
-    M->>M: 分析任务
-    M->>S: 委托子任务
-    S->>S: 执行专用任务
-    S->>M: 返回结果
-    M->>M: 汇总结果
-    M->>U: 完整响应
+    U->>M: Complex task request
+    M->>M: Analyze task
+    M->>S: Delegate subtask
+    S->>S: Execute specialized task
+    S->>M: Return results
+    M->>M: Summarize results
+    M->>U: Complete response
 ```
 
-### Subagent 特点
+### Subagent Characteristics
 
-| 特点 | 描述 |
-|------|------|
-| **隔离上下文** | 独立的对话历史 |
-| **专用能力** | 针对特定任务优化 |
-| **自动委托** | 主 Agent 自动判断 |
-| **结果汇总** | 主 Agent 整合结果 |
+| Characteristic | Description |
+|----------------|-------------|
+| **Isolated Context** | Independent conversation history |
+| **Specialized Capability** | Optimized for specific tasks |
+| **Auto Delegation** | Main Agent automatically decides |
+| **Result Aggregation** | Main Agent consolidates results |
 
 ---
 
-## Subagent 配置
+## Subagent Configuration
 
-### 配置文件位置
+### Configuration File Location
 
 ```
-项目根目录/
+Project Root/
 └── .cursor/
     └── agents/
         ├── code-reviewer.md
@@ -87,12 +87,12 @@ sequenceDiagram
         └── doc-writer.md
 ```
 
-### 配置格式
+### Configuration Format
 
 ```markdown
 ---
 name: Code Reviewer
-description: 专注于代码质量和最佳实践审查
+description: Focus on code quality and best practices review
 tools:
   - read_file
   - search
@@ -102,72 +102,72 @@ model: claude-sonnet-4.6
 
 # Code Reviewer Agent
 
-## 专长
-- 代码质量分析
-- 设计模式识别
-- 最佳实践建议
+## Expertise
+- Code quality analysis
+- Design pattern recognition
+- Best practice recommendations
 
-## 审查项目
-1. 代码结构
-2. 命名规范
-3. 错误处理
-4. 性能问题
-5. 安全隐患
+## Review Items
+1. Code structure
+2. Naming conventions
+3. Error handling
+4. Performance issues
+5. Security vulnerabilities
 
-## 输出格式
-[审查报告模板]
+## Output Format
+[Review Report Template]
 ```
 
 ---
 
-## 内置 Subagents
+## Built-in Subagents
 
 ### Code Reviewer
 
 ```yaml
-名称: Code Reviewer
-专长: 代码质量审查
-触发: 代码审查请求
-输出: 审查报告
+Name: Code Reviewer
+Expertise: Code quality review
+Trigger: Code review request
+Output: Review report
 ```
 
 ### Test Engineer
 
 ```yaml
-名称: Test Engineer
-专长: 测试策略和覆盖
-触发: 测试相关请求
-输出: 测试计划和用例
+Name: Test Engineer
+Expertise: Test strategy and coverage
+Trigger: Test-related request
+Output: Test plan and cases
 ```
 
 ### Documentation Writer
 
 ```yaml
-名称: Documentation Writer
-专长: 技术文档编写
-触发: 文档请求
-输出: 格式化文档
+Name: Documentation Writer
+Expertise: Technical documentation writing
+Trigger: Documentation request
+Output: Formatted documentation
 ```
 
 ### Security Auditor
 
 ```yaml
-名称: Security Auditor
-专长: 安全漏洞检测
-触发: 安全审查请求
-输出: 安全报告
+Name: Security Auditor
+Expertise: Security vulnerability detection
+Trigger: Security review request
+Output: Security report
 ```
 
 ---
 
-## 创建自定义 Subagent
+## Creating Custom Subagents
 
-### 示例：性能优化 Agent
+### Example: Performance Optimizer Agent
 
 ```markdown
 ---
 name: Performance Optimizer
-description: 专注于代码性能分析和优化
+description: Focus on code performance analysis and optimization
 tools:
   - read_file
   - search
@@ -177,48 +177,48 @@ model: claude-sonnet-4.6
 
 # Performance Optimizer Agent
 
-## 专长
-- 性能瓶颈识别
-- 优化方案设计
-- 性能测试建议
+## Expertise
+- Performance bottleneck identification
+- Optimization solution design
+- Performance testing recommendations
 
-## 分析项目
-1. 算法复杂度
-2. 内存使用
-3. I/O 操作
-4. 异步处理
-5. 缓存策略
+## Analysis Items
+1. Algorithm complexity
+2. Memory usage
+3. I/O operations
+4. Async handling
+5. Caching strategies
 
-## 输出格式
+## Output Format
 
 ```markdown
-# 性能分析报告
+# Performance Analysis Report
 
-## 概述
-- 分析文件: {files}
-- 发现问题: {count}
+## Overview
+- Analyzed files: {files}
+- Issues found: {count}
 
-## 问题列表
-| 级别 | 位置 | 问题 | 影响 | 建议 |
-|------|------|------|------|------|
+## Issue List
+| Level | Location | Issue | Impact | Suggestion |
+|-------|----------|-------|--------|------------|
 | {level} | {location} | {issue} | {impact} | {suggestion} |
 
-## 优化建议
+## Optimization Recommendations
 1. {optimization_1}
 2. {optimization_2}
 
-## 预期收益
-- 性能提升: {improvement}
-- 资源节省: {saving}
+## Expected Benefits
+- Performance improvement: {improvement}
+- Resource savings: {saving}
 ```
 ```
 
-### 示例：API 设计 Agent
+### Example: API Designer Agent
 
 ```markdown
 ---
 name: API Designer
-description: 专注于 RESTful API 设计
+description: Focus on RESTful API design
 tools:
   - read_file
   - write_file
@@ -228,52 +228,52 @@ model: claude-sonnet-4.6
 
 # API Designer Agent
 
-## 专长
-- RESTful API 设计
-- 接口规范制定
-- 文档生成
+## Expertise
+- RESTful API design
+- Interface specification development
+- Documentation generation
 
-## 设计原则
-1. RESTful 规范
-2. 版本控制
-3. 错误处理
-4. 认证授权
-5. 限流策略
+## Design Principles
+1. RESTful standards
+2. Versioning
+3. Error handling
+4. Authentication & Authorization
+5. Rate limiting strategies
 
-## 输出格式
-- OpenAPI 规范
-- 接口文档
-- 示例代码
+## Output Format
+- OpenAPI specification
+- Interface documentation
+- Example code
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **明确定义专长** - 让主 Agent 正确委托
-2. **限制工具权限** - 只授予必要的工具
-3. **提供输出模板** - 标准化输出格式
-4. **测试独立运行** - 确保单独工作正常
+1. **Clearly Define Expertise** - Let Main Agent delegate correctly
+2. **Limit Tool Permissions** - Only grant necessary tools
+3. **Provide Output Templates** - Standardize output format
+4. **Test Independently** - Ensure standalone operation works
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **过度细分** - 避免创建太多 Subagent
-2. **功能重叠** - 每个 Subagent 有明确职责
-3. **忽略协作** - 考虑 Subagent 之间的配合
-4. **硬编码配置** - 使用可配置的参数
+1. **Over-segmentation** - Avoid creating too many Subagents
+2. **Overlapping Functions** - Each Subagent has clear responsibilities
+3. **Ignore Collaboration** - Consider cooperation between Subagents
+4. **Hardcoded Configuration** - Use configurable parameters
 
 ---
 
-## 下一步
+## Next Steps
 
-- [11. Hooks](../11-hooks/) - 设置自动化钩子
-- [12. Plugins](../12-plugins/) - 打包完整功能
-- [CATALOG.md](../CATALOG.md) - 浏览功能目录
+- [11. Hooks](../11-hooks/) - Setup automation hooks
+- [12. Plugins](../12-plugins/) - Package complete features
+- [CATALOG.md](../CATALOG.md) - Browse feature catalog
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a>
+  <a href="../README.md">Back to Home</a>
 </p>

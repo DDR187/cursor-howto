@@ -1,225 +1,225 @@
-# Cursor 使用指南
+# Cursor How-To Guide
 
-> 用一个周末掌握 Cursor AI 编辑器 —— 从基础操作到高级 Agent 工作流，附带可视化教程、可复制模板和渐进式学习路径。
+> Master Cursor AI Editor in a Weekend — From basic operations to advanced Agent workflows, with visual tutorials, copy-paste templates, and a progressive learning path.
 
-[15分钟快速开始](#15分钟快速开始) | [选择你的级别](#选择你的级别) | [浏览功能目录](CATALOG.md)
-
----
-
-## 目录
-
-- [核心痛点](#核心痛点)
-- [本指南如何解决](#本指南如何解决)
-- [工作原理](#工作原理)
-- [选择你的级别](#选择你的级别)
-- [15分钟快速开始](#15分钟快速开始)
-- [你能构建什么](#你能构建什么)
-- [功能对比](#功能对比)
-- [快速参考](#快速参考)
-- [目录结构](#目录结构)
-- [最佳实践](#最佳实践)
-- [故障排查](#故障排查)
-- [贡献指南](#贡献指南)
+[Get Started in 15 Minutes](#get-started-in-15-minutes) | [Find Your Level](#find-your-level) | [Browse Feature Catalog](CATALOG.md)
 
 ---
 
-## 核心痛点
+## Table of Contents
 
-你安装了 Cursor，用了几次 AI 补全，然后呢？
-
-- **官方文档只描述功能，不教组合使用** —— 你知道 `Cmd+K` 可以生成代码，但不知道如何与 Rules、Composer、MCP 串联成自动化工作流
-- **没有清晰的学习路径** —— 应该先学 Rules 还是 Composer？先配置 MCP 还是 Skills？结果什么都看了一点，什么都没掌握
-- **示例太基础** —— 一个简单的代码补全示例，无法帮你构建生产级的代码审查流水线
-
-**你正在浪费 Cursor 90% 的能力 —— 而你不知道自己不知道什么。**
-
----
-
-## 本指南如何解决
-
-这不是另一个功能参考文档。这是一个**结构化、可视化、示例驱动**的指南，教你使用 Cursor 的每一个功能，并提供可以立即复制到项目中的实战模板。
-
-| 维度 | 官方文档 | 本指南 |
-|------|----------|--------|
-| **格式** | 参考文档 | 可视化教程 + Mermaid 图表 |
-| **深度** | 功能描述 | 底层原理 + 工作机制 |
-| **示例** | 基础片段 | 生产就绪模板，立即可用 |
-| **结构** | 功能组织 | 渐进式学习路径（初级到高级）|
-| **自测** | 无 | 内置测验定位知识盲区 |
-
-**你将获得：**
-
-- **12 个教程模块** —— 覆盖 Cursor 每一个功能，从快捷键到自定义 Agent
-- **可复制粘贴的配置** —— Rules 模板、Skills 定义、MCP 配置、Hooks 脚本、完整插件包
-- **Mermaid 图表** —— 展示每个功能的内部工作原理，让你理解"为什么"而不只是"怎么做"
-- **渐进式学习路径** —— 从初学者到高级用户，预计 10-12 小时
-- **内置自我评估** —— 直接在 Cursor 中运行测验，识别知识盲区
+- [The Problem](#the-problem)
+- [How This Guide Fixes It](#how-this-guide-fixes-it)
+- [How It Works](#how-it-works)
+- [Find Your Level](#find-your-level)
+- [Get Started in 15 Minutes](#get-started-in-15-minutes)
+- [What Can You Build](#what-can-you-build)
+- [Feature Comparison](#feature-comparison)
+- [Quick Reference](#quick-reference)
+- [Directory Structure](#directory-structure)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
 
 ---
 
-## 工作原理
+## The Problem
+
+You installed Cursor, used AI completion a few times, and then what?
+
+- **Official docs describe features but don't teach how to combine them** — You know `Cmd+K` can generate code, but not how to chain it with Rules, Composer, and MCP into an automated workflow
+- **No clear learning path** — Should you learn Rules or Composer first? MCP or Skills? You end up skimming everything and mastering nothing
+- **Examples are too basic** — A simple code completion example doesn't help you build a production-grade code review pipeline
+
+**You're leaving 90% of Cursor's power on the table — and you don't know what you don't know.**
+
+---
+
+## How This Guide Fixes It
+
+This isn't another feature reference. It's a **structured, visual, example-driven guide** that teaches you to use every Cursor feature with real-world templates you can copy into your project today.
+
+| Dimension | Official Docs | This Guide |
+|-----------|---------------|------------|
+| **Format** | Reference documentation | Visual tutorials + Mermaid diagrams |
+| **Depth** | Feature descriptions | Under-the-hood mechanics |
+| **Examples** | Basic snippets | Production-ready templates, ready to use |
+| **Structure** | Feature-organized | Progressive learning path (beginner to advanced) |
+| **Self-assessment** | None | Built-in quizzes to identify knowledge gaps |
+
+**You'll get:**
+
+- **12 tutorial modules** — Covering every Cursor feature, from shortcuts to custom Agents
+- **Copy-paste configurations** — Rules templates, Skills definitions, MCP configs, Hooks scripts, complete plugin bundles
+- **Mermaid diagrams** — Showing how each feature works internally, so you understand "why" not just "how"
+- **Progressive learning path** — From beginner to power user, estimated 10-12 hours
+- **Built-in self-assessment** — Run quizzes directly in Cursor to identify gaps
+
+---
+
+## How It Works
 
 ```mermaid
 flowchart TD
-    A[1. 找到你的级别] --> B[2. 跟随学习路径]
-    B --> C[3. 组合功能为工作流]
-    C --> D[4. 测试你的理解]
+    A[1. Find Your Level] --> B[2. Follow Learning Path]
+    B --> C[3. Combine Features into Workflows]
+    C --> D[4. Test Your Understanding]
     
-    A --> A1[自我评估测验]
-    A --> A2[个性化路线图]
+    A --> A1[Self-assessment quiz]
+    A --> A2[Personalized roadmap]
     
-    B --> B1[按顺序学习12个模块]
-    B --> B2[复制模板到项目]
+    B --> B1[Learn 12 modules in order]
+    B --> B2[Copy templates to project]
     
-    C --> C1[快捷键 + Rules + Composer]
+    C --> C1[Shortcuts + Rules + Composer]
     C --> C2[MCP + Skills + Hooks]
     
-    D --> D1[运行测验验证]
-    D --> D2[填补知识盲区]
+    D --> D1[Run quizzes to verify]
+    D --> D2[Fill knowledge gaps]
 ```
 
-### 1. 找到你的级别
+### 1. Find Your Level
 
-进行自我评估测验，根据你已有的知识获得个性化学习路线图。
+Take the self-assessment quiz to get a personalized learning roadmap based on what you already know.
 
-### 2. 跟随学习路径
+### 2. Follow Learning Path
 
-按顺序学习 12 个模块 —— 每个模块都建立在前一个的基础上。学习时直接复制模板到你的项目。
+Work through 12 modules in order — each builds on the last. Copy templates directly to your project as you learn.
 
-### 3. 组合功能为工作流
+### 3. Combine Features into Workflows
 
-真正的力量在于功能组合。学习如何将快捷键 + Rules + Composer + MCP + Hooks 连接成自动化流水线，处理代码审查、部署和文档生成。
+The real power is in combining features. Learn to wire shortcuts + Rules + Composer + MCP + Hooks into automated pipelines for code reviews, deployments, and documentation generation.
 
-### 4. 测试你的理解
+### 4. Test Your Understanding
 
-每个模块后运行测验。测验会精确定位你遗漏的内容，快速填补盲区。
-
----
-
-## 选择你的级别
-
-进行自我评估或选择你的级别：
-
-| 级别 | 你能... | 从这里开始 | 时间 |
-|------|---------|-----------|------|
-| **初学者** | 打开 Cursor 并使用基本补全 | 快捷键 | ~2 小时 |
-| **中级** | 使用 Rules 和 Chat | Composer | ~3.5 小时 |
-| **高级** | 配置 MCP 和 Skills | 高级功能 | ~5 小时 |
-
-### 完整学习路径
-
-| 顺序 | 模块 | 级别 | 时间 |
-|------|------|------|------|
-| 1 | [快捷键](01-shortcuts/) | 初学者 | 30 分钟 |
-| 2 | [规则系统](02-rules/) | 初学者+ | 45 分钟 |
-| 3 | [代码库索引](03-codebase-indexing/) | 初学者+ | 30 分钟 |
-| 4 | [聊天功能](04-chat/) | 中级 | 45 分钟 |
-| 5 | [Composer](05-composer/) | 中级 | 1 小时 |
-| 6 | [MCP 集成](06-mcp/) | 中级+ | 1 小时 |
-| 7 | [高级功能](07-advanced-features/) | 高级 | 1.5 小时 |
-| 8 | [最佳实践](08-best-practices/) | 高级 | 1 小时 |
-| 9 | [Skills](09-skills/) | 高级 | 1 小时 |
-| 10 | [Subagents](10-subagents/) | 高级 | 1 小时 |
-| 11 | [Hooks](11-hooks/) | 高级 | 45 分钟 |
-| 12 | [Plugins](12-plugins/) | 高级 | 45 分钟 |
+Run quizzes after each module. Quizzes pinpoint what you missed so you can fill gaps fast.
 
 ---
 
-## 15分钟快速开始
+## Find Your Level
+
+Take the self-assessment or pick your level:
+
+| Level | You Can... | Start Here | Time |
+|-------|------------|------------|------|
+| **Beginner** | Open Cursor and use basic completion | Shortcuts | ~2 hours |
+| **Intermediate** | Use Rules and Chat | Composer | ~3.5 hours |
+| **Advanced** | Configure MCP and Skills | Advanced Features | ~5 hours |
+
+### Complete Learning Path
+
+| Order | Module | Level | Time |
+|-------|--------|-------|------|
+| 1 | [Shortcuts](01-shortcuts/) | Beginner | 30 min |
+| 2 | [Rules System](02-rules/) | Beginner+ | 45 min |
+| 3 | [Codebase Indexing](03-codebase-indexing/) | Beginner+ | 30 min |
+| 4 | [Chat](04-chat/) | Intermediate | 45 min |
+| 5 | [Composer](05-composer/) | Intermediate | 1 hour |
+| 6 | [MCP Integration](06-mcp/) | Intermediate+ | 1 hour |
+| 7 | [Advanced Features](07-advanced-features/) | Advanced | 1.5 hours |
+| 8 | [Best Practices](08-best-practices/) | Advanced | 1 hour |
+| 9 | [Skills](09-skills/) | Advanced | 1 hour |
+| 10 | [Subagents](10-subagents/) | Advanced | 1 hour |
+| 11 | [Hooks](11-hooks/) | Advanced | 45 min |
+| 12 | [Plugins](12-plugins/) | Advanced | 45 min |
+
+---
+
+## Get Started in 15 Minutes
 
 ```bash
-# 1. 克隆指南
-git clone https://github.com/your-username/cursor-howto.git
+# 1. Clone the guide
+git clone https://github.com/DDR187/cursor-howto.git
 cd cursor-howto
 
-# 2. 复制你的第一个 Rules 文件
+# 2. Copy your first Rules file
 cp 02-rules/project-.cursorrules /path/to/your-project/.cursorrules
 
-# 3. 在 Cursor 中打开你的项目，尝试：
-# - 按 Cmd+K (Mac) 或 Ctrl+K (Windows) 打开内联编辑
-# - 按 Cmd+L (Mac) 或 Ctrl+L (Windows) 打开聊天面板
-# - 按 Cmd+I (Mac) 或 Ctrl+I (Windows) 打开 Composer
+# 3. In Cursor, open your project and try:
+# - Press Cmd+K (Mac) or Ctrl+K (Windows) for inline edit
+# - Press Cmd+L (Mac) or Ctrl+L (Windows) for chat panel
+# - Press Cmd+I (Mac) or Ctrl+I (Windows) for Composer
 
-# 4. 准备更多？设置项目 Rules：
+# 4. Ready for more? Set up project Rules:
 cp 02-rules/project-.cursorrules /path/to/your-project/.cursorrules
 
-# 5. 安装一个 Skill：
+# 5. Install a Skill:
 cp -r 09-skills/code-review /path/to/your-project/.cursor/skills/
 ```
 
-### 1小时核心设置
+### 1-Hour Essential Setup
 
 ```bash
-# Rules 配置 (15 分钟)
+# Rules configuration (15 min)
 cp 02-rules/*.md /path/to/your-project/.cursor/rules/
 
-# 项目级 Rules (15 分钟)
+# Project-level Rules (15 min)
 cp 02-rules/project-.cursorrules /path/to/your-project/.cursorrules
 
-# 安装 Skill (15 分钟)
+# Install a Skill (15 min)
 cp -r 09-skills/code-review /path/to/your-project/.cursor/skills/
 
-# 周末目标：添加 MCP、Hooks 和 Plugins
-# 按照学习路径进行引导式设置
+# Weekend goal: add MCP, Hooks, and Plugins
+# Follow the learning path for guided setup
 ```
 
 ---
 
-## 你能构建什么
+## What Can You Build
 
-| 用例 | 组合的功能 |
-|------|-----------|
-| **自动化代码审查** | Rules + Composer + MCP + Skills |
-| **团队入门指南** | Rules + Plugins + 文档模板 |
-| **CI/CD 自动化** | CLI + Hooks + 后台任务 |
-| **文档生成** | Skills + Subagents + Plugins |
-| **安全审计** | Subagents + Skills + Hooks（只读模式）|
-| **DevOps 流水线** | Plugins + MCP + Hooks + 后台任务 |
-| **复杂重构** | Composer + Plan Mode + Rules |
-
----
-
-## 功能对比
-
-| 功能 | 调用方式 | 持久性 | 最佳用途 |
-|------|----------|--------|----------|
-| **快捷键** | 手动 (Cmd+K/L/I) | 仅会话 | 快速编辑和查询 |
-| **Rules** | 自动加载 | 跨会话 | 长期项目规范 |
-| **Skills** | 自动触发 | 文件系统 | 自动化工作流 |
-| **Subagents** | 自动委托 | 隔离上下文 | 任务分发 |
-| **MCP** | 自动查询 | 实时 | 实时数据访问 |
-| **Hooks** | 事件触发 | 配置 | 自动化和验证 |
-| **Plugins** | 一键安装 | 所有功能 | 完整解决方案 |
-| **Composer** | 手动/自动 | 会话快照 | 多文件编辑 |
+| Use Case | Combined Features |
+|----------|-------------------|
+| **Automated Code Review** | Rules + Composer + MCP + Skills |
+| **Team Onboarding** | Rules + Plugins + Doc Templates |
+| **CI/CD Automation** | CLI + Hooks + Background Tasks |
+| **Documentation Generation** | Skills + Subagents + Plugins |
+| **Security Audit** | Subagents + Skills + Hooks (read-only mode) |
+| **DevOps Pipeline** | Plugins + MCP + Hooks + Background Tasks |
+| **Complex Refactoring** | Composer + Plan Mode + Rules |
 
 ---
 
-## 快速参考
+## Feature Comparison
 
-### 快捷键
+| Feature | Invocation | Persistence | Best For |
+|---------|------------|-------------|----------|
+| **Shortcuts** | Manual (Cmd+K/L/I) | Session only | Quick edits and queries |
+| **Rules** | Auto-loaded | Cross-session | Long-term project standards |
+| **Skills** | Auto-triggered | Filesystem | Automated workflows |
+| **Subagents** | Auto-delegated | Isolated context | Task distribution |
+| **MCP** | Auto-queried | Real-time | Live data access |
+| **Hooks** | Event-triggered | Configured | Automation and validation |
+| **Plugins** | One-click install | All features | Complete solutions |
+| **Composer** | Manual/Auto | Session snapshots | Multi-file editing |
 
-| 快捷键 | Mac | Windows | 功能 |
-|--------|-----|---------|------|
-| 内联编辑 | `Cmd+K` | `Ctrl+K` | 行内代码生成/修改 |
-| 聊天面板 | `Cmd+L` | `Ctrl+L` | AI 对话问答 |
-| Composer | `Cmd+I` | `Ctrl+I` | 多文件编辑模式 |
-| 命令面板 | `Cmd+Shift+P` | `Ctrl+Shift+P` | 快速命令访问 |
-| 设置 | `Cmd+,` | `Ctrl+,` | 打开设置 |
+---
 
-### Rules 层级
+## Quick Reference
+
+### Shortcuts
+
+| Shortcut | Mac | Windows | Function |
+|----------|-----|---------|----------|
+| Inline Edit | `Cmd+K` | `Ctrl+K` | Inline code generation/modification |
+| Chat Panel | `Cmd+L` | `Ctrl+L` | AI Q&A dialogue |
+| Composer | `Cmd+I` | `Ctrl+I` | Multi-file editing mode |
+| Command Palette | `Cmd+Shift+P` | `Ctrl+Shift+P` | Quick command access |
+| Settings | `Cmd+,` | `Ctrl+,` | Open settings |
+
+### Rules Hierarchy
 
 ```
-项目根目录/
-├── .cursorrules          # 项目级规则（即将弃用）
+project-root/
+├── .cursorrules          # Project-level rules (deprecated)
 ├── .cursor/
-│   └── rules/            # 新版规则目录
-│       ├── general.mdc   # 通用规则
-│       ├── frontend.mdc  # 前端规则
-│       └── backend.mdc   # 后端规则
+│   └── rules/            # New rules directory
+│       ├── general.mdc   # General rules
+│       ├── frontend.mdc  # Frontend rules
+│       └── backend.mdc   # Backend rules
 └── ...
 ```
 
-### MCP 配置示例
+### MCP Configuration Example
 
 ```json
 {
@@ -235,161 +235,161 @@ cp -r 09-skills/code-review /path/to/your-project/.cursor/skills/
 }
 ```
 
-### Skills 结构
+### Skills Structure
 
 ```
 .cursor/skills/
 └── code-review/
-    ├── SKILL.md          # Skill 定义
-    ├── scripts/          # 辅助脚本
-    └── templates/        # 模板文件
+    ├── SKILL.md          # Skill definition
+    ├── scripts/          # Helper scripts
+    └── templates/        # Template files
 ```
 
 ---
 
-## 目录结构
+## Directory Structure
 
 ```
 cursor-howto/
-├── 01-shortcuts/           # 快捷键教程
+├── 01-shortcuts/           # Shortcuts tutorial
 │   ├── README.md
 │   └── shortcuts-cheatsheet.md
-├── 02-rules/               # Rules 规则系统
+├── 02-rules/               # Rules system
 │   ├── README.md
 │   ├── project-.cursorrules
 │   ├── frontend-rules.mdc
 │   └── backend-rules.mdc
-├── 03-codebase-indexing/   # 代码库索引
+├── 03-codebase-indexing/   # Codebase indexing
 │   ├── README.md
 │   └── indexing-config.md
-├── 04-chat/                # 聊天功能
+├── 04-chat/                # Chat functionality
 │   ├── README.md
 │   └── chat-templates.md
-├── 05-composer/            # Composer 多文件编辑
+├── 05-composer/            # Composer multi-file editing
 │   ├── README.md
 │   └── composer-workflows.md
-├── 06-mcp/                 # MCP 集成
+├── 06-mcp/                 # MCP integration
 │   ├── README.md
 │   ├── github-mcp.json
 │   └── database-mcp.json
-├── 07-advanced-features/   # 高级功能
+├── 07-advanced-features/   # Advanced features
 │   ├── README.md
 │   ├── plan-mode.md
 │   └── parallel-agents.md
-├── 08-best-practices/      # 最佳实践
+├── 08-best-practices/      # Best practices
 │   ├── README.md
 │   └── workflow-examples.md
-├── 09-skills/              # Skills 技能
+├── 09-skills/              # Skills
 │   ├── README.md
 │   └── code-review/
-├── 10-subagents/           # Subagents 子代理
+├── 10-subagents/           # Subagents
 │   ├── README.md
 │   └── templates/
-├── 11-hooks/               # Hooks 钩子
+├── 11-hooks/               # Hooks
 │   ├── README.md
 │   └── scripts/
-├── 12-plugins/             # Plugins 插件
+├── 12-plugins/             # Plugins
 │   ├── README.md
 │   └── examples/
-├── CATALOG.md              # 功能目录
-├── CONTRIBUTING.md         # 贡献指南
-└── README.md               # 本文件
+├── CATALOG.md              # Feature catalog
+├── CONTRIBUTING.md         # Contributing guide
+└── README.md               # This file
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-- 从快捷键开始，逐步添加功能
-- 使用 Rules 记录团队编码规范
-- 在本地先测试配置
-- 文档化自定义实现
-- 版本控制项目配置
-- 与团队分享 Plugins
+- Start with shortcuts, add features incrementally
+- Use Rules to document team coding standards
+- Test configurations locally first
+- Document custom implementations
+- Version control project configurations
+- Share Plugins with team
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-- 创建冗余功能
-- 硬编码凭证
-- 跳过文档
-- 过度复杂化简单任务
-- 忽略安全最佳实践
-- 提交敏感数据
-
----
-
-## 故障排查
-
-### 功能未加载
-
-1. 检查文件位置和命名
-2. 验证 YAML frontmatter 语法
-3. 检查文件权限
-4. 检查 Cursor 版本兼容性
-
-### MCP 连接失败
-
-1. 验证环境变量
-2. 检查 MCP 服务器安装
-3. 测试凭证
-4. 检查网络连接
-
-### Composer 未按预期工作
-
-1. 检查任务描述是否清晰
-2. 验证文件路径是否正确
-3. 检查项目 Rules 是否冲突
-4. 尝试拆分为更小的任务
-
-### Subagent 未委托
-
-1. 检查工具权限
-2. 验证 agent 描述清晰度
-3. 检查任务复杂度
-4. 独立测试 agent
+- Create redundant features
+- Hardcode credentials
+- Skip documentation
+- Over-complicate simple tasks
+- Ignore security best practices
+- Commit sensitive data
 
 ---
 
-## 贡献指南
+## Troubleshooting
 
-发现问题或想贡献示例？我们欢迎你的帮助！
+### Feature Not Loading
 
-请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解详细指南：
+1. Check file location and naming
+2. Verify YAML frontmatter syntax
+3. Check file permissions
+4. Check Cursor version compatibility
 
-- 贡献类型（示例、文档、功能、Bug、反馈）
-- 如何设置开发环境
-- 目录结构和如何添加内容
-- 写作指南和最佳实践
-- Commit 和 PR 流程
+### MCP Connection Failed
 
-快速开始：
+1. Verify environment variables
+2. Check MCP server installation
+3. Test credentials
+4. Check network connection
 
-1. Fork 并克隆仓库
-2. 创建描述性分支（add/feature-name, fix/bug, docs/improvement）
-3. 按照指南进行更改
-4. 提交带有清晰描述的 Pull Request
+### Composer Not Working as Expected
 
-需要帮助？开一个 issue 或讨论，我们会指导你完成流程。
+1. Check if task description is clear
+2. Verify file paths are correct
+3. Check if project Rules conflict
+4. Try splitting into smaller tasks
+
+### Subagent Not Delegating
+
+1. Check tool permissions
+2. Verify agent description clarity
+3. Check task complexity
+4. Test agent independently
 
 ---
 
-## 许可证
+## Contributing
 
-MIT License - 详见 [LICENSE](LICENSE)。免费使用、修改和分发。唯一要求是包含许可证声明。
+Found an issue or want to contribute an example? We'd love your help!
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines:
+
+- Contribution types (examples, docs, features, bugs, feedback)
+- How to set up development environment
+- Directory structure and how to add content
+- Writing guidelines and best practices
+- Commit and PR process
+
+Quick start:
+
+1. Fork and clone the repository
+2. Create a descriptive branch (add/feature-name, fix/bug, docs/improvement)
+3. Make changes following the guidelines
+4. Submit a Pull Request with a clear description
+
+Need help? Open an issue or discussion, and we'll guide you through the process.
 
 ---
 
-**最后更新：** 2026年4月  
-**Cursor 版本：** 0.48+  
-**兼容模型：** Claude 4.6 Sonnet/Opus, GPT-5.4, Gemini 3.1 Pro, Grok 4.2
+## License
+
+MIT License - See [LICENSE](LICENSE). Free to use, modify, and distribute. The only requirement is including the license notice.
+
+---
+
+**Last Updated:** April 2026  
+**Cursor Version:** 0.48+  
+**Compatible Models:** Claude 4.6 Sonnet/Opus, GPT-5.4, Gemini 3.1 Pro, Grok 4.2
 
 ---
 
 <p align="center">
-  <strong>今天开始掌握 Cursor</strong><br>
-  你已经安装了 Cursor。你和 10 倍效率之间的唯一障碍是知道如何使用它。<br>
-  本指南为你提供结构化路径、可视化解释和可复制模板。<br><br>
-  <a href="01-shortcuts/">开始学习路径</a> | <a href="CATALOG.md">浏览功能目录</a>
+  <strong>Start Mastering Cursor Today</strong><br>
+  You already have Cursor installed. The only thing between you and 10x productivity is knowing how to use it.<br>
+  This guide gives you the structured path, visual explanations, and copy-paste templates to get there.<br><br>
+  <a href="01-shortcuts/">Start Learning Path</a> | <a href="CATALOG.md">Browse Feature Catalog</a>
 </p>

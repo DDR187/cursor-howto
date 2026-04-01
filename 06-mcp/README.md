@@ -1,65 +1,65 @@
-# 06. MCP 集成
+# 06. MCP Integration
 
-> **级别：** 中级+ | **时间：** 1 小时 | **前置条件：** 已安装 Cursor
-
----
-
-## 目录
-
-- [概述](#概述)
-- [什么是 MCP](#什么是-mcp)
-- [工作机制](#工作机制)
-- [配置 MCP](#配置-mcp)
-- [常用 MCP 服务器](#常用-mcp-服务器)
-- [实战示例](#实战示例)
-- [最佳实践](#最佳实践)
-- [故障排查](#故障排查)
+> **Level:** Intermediate+ | **Time:** 1 hour | **Prerequisites:** Cursor installed
 
 ---
 
-## 概述
+## Table of Contents
 
-MCP (Model Context Protocol) 是一个开放标准协议，让 Cursor 能够：
+- [Overview](#overview)
+- [What is MCP](#what-is-mcp)
+- [How It Works](#how-it-works)
+- [Configuring MCP](#configuring-mcp)
+- [Common MCP Servers](#common-mcp-servers)
+- [Practical Examples](#practical-examples)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
 
-- 连接外部数据源
-- 调用外部工具
-- 访问实时信息
-- 扩展 AI 能力
+---
+
+## Overview
+
+MCP (Model Context Protocol) is an open standard protocol that enables Cursor to:
+
+- Connect to external data sources
+- Call external tools
+- Access real-time information
+- Extend AI capabilities
 
 ```mermaid
 flowchart TB
-    A[Cursor] --> B[MCP 协议]
+    A[Cursor] --> B[MCP Protocol]
     B --> C[GitHub]
-    B --> D[数据库]
-    B --> E[文件系统]
-    B --> F[API 服务]
-    B --> G[自定义工具]
+    B --> D[Database]
+    B --> E[File System]
+    B --> F[API Services]
+    B --> G[Custom Tools]
     
-    C --> H[PR/Issue 管理]
-    D --> I[数据查询]
-    E --> J[文件操作]
-    F --> K[API 调用]
-    G --> L[扩展功能]
+    C --> H[PR/Issue Management]
+    D --> I[Data Queries]
+    E --> J[File Operations]
+    F --> K[API Calls]
+    G --> L[Extended Features]
 ```
 
 ---
 
-## 什么是 MCP
+## What is MCP
 
-### 定义
+### Definition
 
-MCP (Model Context Protocol) 是由 Anthropic 推出的开放标准协议，用于连接 AI 模型与外部工具和数据源。
+MCP (Model Context Protocol) is an open standard protocol introduced by Anthropic for connecting AI models with external tools and data sources.
 
-### 核心概念
+### Core Concepts
 
 ```mermaid
 flowchart LR
     subgraph Host["MCP Host (Cursor)"]
-        H[AI 助手]
+        H[AI Assistant]
     end
     
-    subgraph Protocol["MCP 协议"]
-        P[标准化通信]
+    subgraph Protocol["MCP Protocol"]
+        P[Standardized Communication]
     end
     
     subgraph Servers["MCP Servers"]
@@ -74,67 +74,67 @@ flowchart LR
     P <--> S3
 ```
 
-### MCP 能做什么
+### What MCP Can Do
 
-| 能力 | 描述 | 示例 |
-|------|------|------|
-| **资源访问** | 读取外部数据 | 读取数据库、文件 |
-| **工具调用** | 执行操作 | 创建 PR、发送消息 |
-| **提示词** | 提供模板 | 代码审查模板 |
+| Capability | Description | Example |
+|------------|-------------|---------|
+| **Resource Access** | Read external data | Read database, files |
+| **Tool Calling** | Execute operations | Create PR, send messages |
+| **Prompts** | Provide templates | Code review templates |
 
 ---
 
-## 工作机制
+## How It Works
 
-### MCP 架构
+### MCP Architecture
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
+    participant U as User
     participant C as Cursor
-    participant MCP as MCP 协议
+    participant MCP as MCP Protocol
     participant S as MCP Server
-    participant E as 外部服务
+    participant E as External Service
     
-    U->>C: 请求需要外部数据
-    C->>MCP: 查询可用工具
-    MCP->>S: 列出工具
-    S->>MCP: 返回工具列表
-    MCP->>C: 可用工具
+    U->>C: Request needs external data
+    C->>MCP: Query available tools
+    MCP->>S: List tools
+    S->>MCP: Return tool list
+    MCP->>C: Available tools
     
-    C->>MCP: 调用工具
-    MCP->>S: 执行请求
-    S->>E: API 调用
-    E->>S: 返回数据
-    S->>MCP: 返回结果
-    MCP->>C: 提供数据
-    C->>U: 完成
+    C->>MCP: Call tool
+    MCP->>S: Execute request
+    S->>E: API call
+    E->>S: Return data
+    S->>MCP: Return result
+    MCP->>C: Provide data
+    C->>U: Complete
 ```
 
-### 工具发现
+### Tool Discovery
 
-1. Cursor 启动时扫描配置的 MCP 服务器
-2. 每个服务器报告其提供的工具
-3. AI 可以在需要时调用这些工具
+1. Cursor scans configured MCP servers at startup
+2. Each server reports its provided tools
+3. AI can call these tools when needed
 
 ---
 
-## 配置 MCP
+## Configuring MCP
 
-### 配置文件位置
+### Configuration File Location
 
 ```
-项目根目录/
+project-root/
 ├── .cursor/
-│   └── mcp.json        # 项目级 MCP 配置
+│   └── mcp.json        # Project-level MCP config
 └── ...
 
-用户目录/
+user-directory/
 └── .cursor/
-    └── mcp.json        # 全局 MCP 配置
+    └── mcp.json        # Global MCP config
 ```
 
-### 配置格式
+### Configuration Format
 
 ```json
 {
@@ -157,9 +157,9 @@ sequenceDiagram
 }
 ```
 
-### 添加 MCP 服务器
+### Adding MCP Servers
 
-#### 方法一：命令行
+#### Method 1: Command Line
 
 ```bash
 # GitHub MCP
@@ -169,13 +169,13 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres
 ```
 
-#### 方法二：手动配置
+#### Method 2: Manual Configuration
 
-编辑 `.cursor/mcp.json` 文件。
+Edit `.cursor/mcp.json` file.
 
 ---
 
-## 常用 MCP 服务器
+## Common MCP Servers
 
 ### GitHub MCP
 
@@ -193,11 +193,11 @@ claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres
 }
 ```
 
-**功能：**
-- 搜索仓库
-- 创建/更新 Issue
-- 创建/更新 PR
-- 读取文件内容
+**Features:**
+- Search repositories
+- Create/Update Issues
+- Create/Update PRs
+- Read file contents
 
 ### PostgreSQL MCP
 
@@ -215,10 +215,10 @@ claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres
 }
 ```
 
-**功能：**
-- 执行 SQL 查询
-- 查看表结构
-- 数据分析
+**Features:**
+- Execute SQL queries
+- View table structure
+- Data analysis
 
 ### Filesystem MCP
 
@@ -237,10 +237,10 @@ claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres
 }
 ```
 
-**功能：**
-- 读写文件
-- 创建目录
-- 搜索文件
+**Features:**
+- Read/write files
+- Create directories
+- Search files
 
 ### Slack MCP
 
@@ -258,100 +258,100 @@ claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres
 }
 ```
 
-**功能：**
-- 发送消息
-- 读取频道消息
-- 搜索消息
+**Features:**
+- Send messages
+- Read channel messages
+- Search messages
 
 ---
 
-## 实战示例
+## Practical Examples
 
-### 示例 1：GitHub PR 管理
-
-```
-用户: 查看我的仓库中所有未合并的 PR
-
-AI (使用 GitHub MCP):
-正在查询 GitHub...
-
-找到 3 个未合并的 PR：
-
-1. #123 - 添加用户认证功能
-   作者: @user1
-   创建时间: 2024-01-15
-   状态: 等待审查
-
-2. #124 - 修复登录 Bug
-   作者: @user2
-   创建时间: 2024-01-14
-   状态: 有冲突
-
-3. #125 - 更新文档
-   作者: @user3
-   创建时间: 2024-01-13
-   状态: 需要修改
-```
-
-### 示例 2：数据库查询
+### Example 1: GitHub PR Management
 
 ```
-用户: 查询过去一周注册的用户数量
+User: Show all unmerged PRs in my repository
 
-AI (使用 PostgreSQL MCP):
-正在查询数据库...
+AI (using GitHub MCP):
+Querying GitHub...
 
-查询结果：
-- 过去 7 天注册用户: 1,234
-- 日均注册: 176
-- 峰值日: 2024-01-18 (245 用户)
+Found 3 unmerged PRs:
 
-详细数据：
-| 日期       | 注册数 |
-|------------|--------|
-| 2024-01-19 | 189    |
-| 2024-01-18 | 245    |
-| 2024-01-17 | 167    |
-| ...        | ...    |
+1. #123 - Add user authentication feature
+   Author: @user1
+   Created: 2024-01-15
+   Status: Waiting for review
+
+2. #124 - Fix login bug
+   Author: @user2
+   Created: 2024-01-14
+   Status: Has conflicts
+
+3. #125 - Update documentation
+   Author: @user3
+   Created: 2024-01-13
+   Status: Needs changes
 ```
 
-### 示例 3：自动化工作流
+### Example 2: Database Query
 
 ```
-用户: 为这个 Issue 创建一个 PR
+User: Query the number of users registered in the past week
 
-AI (使用 GitHub MCP):
-1. 读取 Issue #126 内容
-2. 分析需要的修改
-3. 创建新分支
-4. 生成代码修改
-5. 创建 PR
+AI (using PostgreSQL MCP):
+Querying database...
 
-PR #127 已创建：
-标题: 修复用户头像上传问题
-链接: https://github.com/xxx/pull/127
+Query results:
+- Users registered in past 7 days: 1,234
+- Daily average: 176
+- Peak day: 2024-01-18 (245 users)
+
+Detailed data:
+| Date       | Registrations |
+|------------|---------------|
+| 2024-01-19 | 189           |
+| 2024-01-18 | 245           |
+| 2024-01-17 | 167           |
+| ...        | ...           |
+```
+
+### Example 3: Automated Workflow
+
+```
+User: Create a PR for this issue
+
+AI (using GitHub MCP):
+1. Read Issue #126 content
+2. Analyze required modifications
+3. Create new branch
+4. Generate code modifications
+5. Create PR
+
+PR #127 created:
+Title: Fix user avatar upload issue
+Link: https://github.com/xxx/pull/127
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **使用环境变量** - 不要硬编码敏感信息
-2. **限制权限** - 只授予必要的权限
-3. **测试连接** - 配置后测试 MCP 是否工作
-4. **文档化** - 记录项目使用的 MCP 服务器
-5. **版本控制** - 将配置纳入 Git（排除敏感信息）
+1. **Use environment variables** - Don't hardcode sensitive information
+2. **Limit permissions** - Grant only necessary permissions
+3. **Test connections** - Verify MCP works after configuration
+4. **Document** - Record MCP servers used in project
+5. **Version control** - Include config in Git (exclude sensitive info)
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **硬编码 Token** - 使用环境变量
-2. **过度权限** - 只授予必要的权限
-3. **忽略错误** - 检查 MCP 连接状态
-4. **提交敏感信息** - 使用 .gitignore 排除
+1. **Hardcode tokens** - Use environment variables
+2. **Over-permission** - Grant only necessary permissions
+3. **Ignore errors** - Check MCP connection status
+4. **Commit sensitive info** - Use .gitignore to exclude
 
-### 安全配置
+### Secure Configuration
 
 ```json
 {
@@ -368,55 +368,55 @@ PR #127 已创建：
 ```
 
 ```bash
-# 设置环境变量
+# Set environment variables
 export GITHUB_TOKEN="your_token_here"
 
-# 或在 .env 文件中
+# Or in .env file
 GITHUB_TOKEN=your_token_here
 ```
 
 ---
 
-## 故障排查
+## Troubleshooting
 
-### MCP 连接失败
+### MCP Connection Failed
 
-**症状：** AI 无法使用 MCP 工具
+**Symptoms:** AI cannot use MCP tools
 
-**解决方案：**
-1. 检查 MCP 服务器是否正确安装
-2. 验证环境变量是否设置
-3. 检查网络连接
-4. 查看 Cursor 日志
+**Solutions:**
+1. Check if MCP server is correctly installed
+2. Verify environment variables are set
+3. Check network connection
+4. View Cursor logs
 
-### 权限错误
+### Permission Errors
 
-**症状：** MCP 工具返回权限错误
+**Symptoms:** MCP tools return permission errors
 
-**解决方案：**
-1. 检查 Token 是否有效
-2. 验证 Token 权限范围
-3. 重新生成 Token
+**Solutions:**
+1. Check if token is valid
+2. Verify token permission scope
+3. Regenerate token
 
-### 性能问题
+### Performance Issues
 
-**症状：** MCP 调用很慢
+**Symptoms:** MCP calls are slow
 
-**解决方案：**
-1. 减少不必要的 MCP 服务器
-2. 优化查询语句
-3. 检查网络延迟
+**Solutions:**
+1. Reduce unnecessary MCP servers
+2. Optimize query statements
+3. Check network latency
 
 ---
 
-## 下一步
+## Next Steps
 
-- [07. 高级功能](../07-advanced-features/) - 探索高级功能
-- [08. 最佳实践](../08-best-practices/) - 学习工作流
-- [09. Skills](../09-skills/) - 创建自定义技能
+- [07. Advanced Features](../07-advanced-features/) - Explore advanced features
+- [08. Best Practices](../08-best-practices/) - Learn workflows
+- [09. Skills](../09-skills/) - Create custom skills
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a> | <a href="github-mcp.json">GitHub MCP 配置</a> | <a href="database-mcp.json">数据库 MCP 配置</a>
+  <a href="../README.md">Back to Home</a> | <a href="github-mcp.json">GitHub MCP Config</a> | <a href="database-mcp.json">Database MCP Config</a>
 </p>

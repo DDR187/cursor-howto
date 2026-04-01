@@ -1,41 +1,41 @@
-# 02. 规则系统 (Rules)
+# 02. Rules System
 
-> **级别：** 初学者+ | **时间：** 45 分钟 | **前置条件：** 已安装 Cursor
+> **Level:** Beginner+ | **Time:** 45 minutes | **Prerequisites:** Cursor installed
 
 ---
 
-## 目录
+## Table of Contents
 
-- [概述](#概述)
-- [为什么需要 Rules](#为什么需要-rules)
-- [Rules 层级结构](#rules-层级结构)
-- [工作机制](#工作机制)
+- [Overview](#overview)
+- [Why Rules Are Needed](#why-rules-are-needed)
+- [Rules Hierarchy](#rules-hierarchy)
+- [How It Works](#how-it-works)
 - [User Rules](#user-rules)
 - [Project Rules](#project-rules)
-- [.cursorrules 文件](#cursorrules-文件)
-- [实战模板](#实战模板)
-- [最佳实践](#最佳实践)
-- [故障排查](#故障排查)
+- [.cursorrules File](#cursorrules-file)
+- [Practical Templates](#practical-templates)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
-## 概述
+## Overview
 
-Rules 是 Cursor 的**持久化上下文系统**。大语言模型在不同补全之间不会保留记忆，Rules 在提示级别提供持久、可重用的上下文。
+Rules are Cursor's **persistent context system**. Large language models don't retain memory between completions, so Rules provide persistent, reusable context at the prompt level.
 
 ```mermaid
 flowchart TB
-    subgraph Problem["问题：LLM 无记忆"]
-        P1[请求 1: 生成代码] --> P2[LLM 处理]
-        P2 --> P3[返回结果]
-        P3 --> P4[请求 2: 修改代码]
-        P4 --> P5[LLM 无之前上下文]
+    subgraph Problem["Problem: LLM Has No Memory"]
+        P1[Request 1: Generate code] --> P2[LLM processes]
+        P2 --> P3[Returns result]
+        P3 --> P4[Request 2: Modify code]
+        P4 --> P5[LLM has no prior context]
     end
     
-    subgraph Solution["解决方案：Rules"]
-        S1[Rules 文件] --> S2[自动注入每个请求]
-        S2 --> S3[LLM 始终有上下文]
-        S3 --> S4[一致的代码风格]
+    subgraph Solution["Solution: Rules"]
+        S1[Rules file] --> S2[Auto-inject into every request]
+        S2 --> S3[LLM always has context]
+        S3 --> S4[Consistent code style]
     end
     
     Problem --> Solution
@@ -43,469 +43,469 @@ flowchart TB
 
 ---
 
-## 为什么需要 Rules
+## Why Rules Are Needed
 
-### 没有 Rules 的问题
+### Problem Without Rules
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
-    participant AI as AI 助手
+    participant U as User
+    participant AI as AI Assistant
     
-    U->>AI: 生成一个 React 组件
-    AI->>U: 使用 JavaScript 创建组件
+    U->>AI: Generate a React component
+    AI->>U: Creates component using JavaScript
     
-    Note over U,AI: 下一次请求
+    Note over U,AI: Next request
     
-    U->>AI: 添加另一个组件
-    AI->>U: 使用 TypeScript 创建组件
+    U->>AI: Add another component
+    AI->>U: Creates component using TypeScript
     
-    Note over U,AI: 风格不一致！
+    Note over U,AI: Inconsistent style!
 ```
 
-### 使用 Rules 的效果
+### Effect With Rules
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
+    participant U as User
     participant R as Rules
-    participant AI as AI 助手
+    participant AI as AI Assistant
     
-    R->>AI: 注入：项目使用 TypeScript + 函数式组件
+    R->>AI: Inject: Project uses TypeScript + Functional components
     
-    U->>AI: 生成一个 React 组件
-    AI->>U: 使用 TypeScript + 函数式组件
+    U->>AI: Generate a React component
+    AI->>U: Creates using TypeScript + Functional component
     
-    Note over U,AI: 下一次请求
+    Note over U,AI: Next request
     
-    R->>AI: 注入：项目使用 TypeScript + 函数式组件
+    R->>AI: Inject: Project uses TypeScript + Functional components
     
-    U->>AI: 添加另一个组件
-    AI->>U: 使用 TypeScript + 函数式组件
+    U->>AI: Add another component
+    AI->>U: Creates using TypeScript + Functional component
     
-    Note over U,AI: 风格一致！
+    Note over U,AI: Consistent style!
 ```
 
 ---
 
-## Rules 层级结构
+## Rules Hierarchy
 
-Cursor 有三种层级的 Rules：
+Cursor has three levels of Rules:
 
 ```mermaid
 flowchart TB
-    subgraph Global["全局级别"]
+    subgraph Global["Global Level"]
         G[User Rules<br/>~/.cursor/rules/]
     end
     
-    subgraph Project["项目级别"]
-        P1[.cursorrules<br/>项目根目录]
-        P2[.cursor/rules/<br/>新版规则目录]
+    subgraph Project["Project Level"]
+        P1[.cursorrules<br/>Project root]
+        P2[.cursor/rules/<br/>New rules directory]
     end
     
-    subgraph Directory["目录级别"]
-        D[目录特定规则<br/>自动应用]
+    subgraph Directory["Directory Level"]
+        D[Directory-specific rules<br/>Auto-applied]
     end
     
-    Global --> |"优先级最低"| Merge
-    Project --> |"优先级中等"| Merge
-    Directory --> |"优先级最高"| Merge
+    Global --> |"Lowest priority"| Merge
+    Project --> |"Medium priority"| Merge
+    Directory --> |"Highest priority"| Merge
     
-    Merge[合并后的上下文] --> AI[AI 处理]
+    Merge[Merged context] --> AI[AI Processing]
 ```
 
-### 优先级顺序
+### Priority Order
 
-| 优先级 | Rule 类型 | 位置 | 作用范围 |
-|--------|-----------|------|----------|
-| 1（最高）| 目录规则 | `.cursor/rules/*.mdc` | 匹配的文件/目录 |
-| 2 | 项目规则 | `.cursorrules` | 整个项目 |
-| 3（最低）| 用户规则 | `~/.cursor/rules/` | 所有项目 |
+| Priority | Rule Type | Location | Scope |
+|----------|-----------|----------|-------|
+| 1 (Highest) | Directory rules | `.cursor/rules/*.mdc` | Matched files/directories |
+| 2 | Project rules | `.cursorrules` | Entire project |
+| 3 (Lowest) | User rules | `~/.cursor/rules/` | All projects |
 
 ---
 
-## 工作机制
+## How It Works
 
-### Rules 注入流程
+### Rules Injection Flow
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
+    participant U as User
     participant C as Cursor
-    participant R as Rules 系统
-    participant AI as AI 引擎
+    participant R as Rules System
+    participant AI as AI Engine
     
-    U->>C: 发起 AI 请求
-    C->>R: 收集适用 Rules
+    U->>C: Make AI request
+    C->>R: Collect applicable Rules
     
-    R->>R: 检查 User Rules
-    R->>R: 检查 .cursorrules
-    R->>R: 检查 .cursor/rules/
+    R->>R: Check User Rules
+    R->>R: Check .cursorrules
+    R->>R: Check .cursor/rules/
     
-    R->>C: 返回合并后的 Rules
-    C->>AI: 发送请求 + Rules
-    AI->>AI: 处理请求（带上下文）
-    AI->>C: 返回结果
-    C->>U: 显示结果
+    R->>C: Return merged Rules
+    C->>AI: Send request + Rules
+    AI->>AI: Process request (with context)
+    AI->>C: Return result
+    C->>U: Display result
 ```
 
-### Rules 文件格式
+### Rules File Format
 
 ```markdown
 ---
-description: 规则描述
+description: Rule description
 globs: ["*.ts", "*.tsx"]
 ---
 
-# 规则内容
+# Rule Content
 
-这里是具体的规则内容，会被注入到 AI 的上下文中。
+Here is the specific rule content that will be injected into the AI's context.
 
-## 代码风格
-- 使用 TypeScript
-- 使用函数式组件
-- 使用 Tailwind CSS
+## Code Style
+- Use TypeScript
+- Use functional components
+- Use Tailwind CSS
 ```
 
 ---
 
 ## User Rules
 
-### 位置
+### Location
 
 - **Mac/Linux**: `~/.cursor/rules/`
 - **Windows**: `%USERPROFILE%\.cursor\rules\`
 
-### 用途
+### Purpose
 
-User Rules 适用于**所有项目**，用于定义个人偏好：
+User Rules apply to **all projects** and define personal preferences:
 
-- 代码风格偏好
-- 常用库使用习惯
-- 注释语言偏好
+- Code style preferences
+- Common library usage habits
+- Comment language preferences
 
-### 示例
+### Example
 
 ```markdown
 ---
-description: 个人编码偏好
+description: Personal coding preferences
 ---
 
-# 编码偏好
+# Coding Preferences
 
-## 语言
-- 所有注释和文档使用中文
-- 变量名使用英文
+## Language
+- All comments and docs in English
+- Variable names in English
 
-## 风格
-- 优先使用函数式编程
-- 使用 const 而非 let
-- 使用箭头函数
+## Style
+- Prefer functional programming
+- Use const over let
+- Use arrow functions
 
-## 错误处理
-- 始终添加错误处理
-- 使用 try-catch 包裹异步操作
+## Error Handling
+- Always add error handling
+- Wrap async operations in try-catch
 ```
 
-### 配置方法
+### Configuration
 
-1. 打开 Cursor 设置 (`Cmd+,` / `Ctrl+,`)
-2. 搜索 "Rules"
-3. 点击 "Edit User Rules"
-4. 添加你的规则
+1. Open Cursor settings (`Cmd+,` / `Ctrl+,`)
+2. Search for "Rules"
+3. Click "Edit User Rules"
+4. Add your rules
 
 ---
 
 ## Project Rules
 
-### 新版规则目录结构
+### New Rules Directory Structure
 
 ```
-项目根目录/
+project-root/
 ├── .cursor/
 │   └── rules/
-│       ├── general.mdc        # 通用规则
-│       ├── frontend.mdc       # 前端规则
-│       ├── backend.mdc        # 后端规则
-│       ├── testing.mdc        # 测试规则
-│       └── database.mdc       # 数据库规则
+│       ├── general.mdc        # General rules
+│       ├── frontend.mdc       # Frontend rules
+│       ├── backend.mdc        # Backend rules
+│       ├── testing.mdc        # Testing rules
+│       └── database.mdc       # Database rules
 └── ...
 ```
 
-### 规则文件格式
+### Rules File Format
 
-每个规则文件使用 `.mdc` 扩展名，包含 YAML frontmatter：
+Each rule file uses `.mdc` extension with YAML frontmatter:
 
 ```markdown
 ---
-description: 前端开发规则
+description: Frontend development rules
 globs: ["src/**/*.tsx", "src/**/*.css"]
 ---
 
-# 前端开发规则
+# Frontend Development Rules
 
-## 技术栈
+## Tech Stack
 - React 18+
 - TypeScript
 - Tailwind CSS
 - React Query
 
-## 组件规范
-- 使用函数式组件
-- 使用自定义 Hooks 管理状态
-- 组件文件名使用 PascalCase
+## Component Standards
+- Use functional components
+- Use custom Hooks for state management
+- Component filenames use PascalCase
 
-## 样式规范
-- 使用 Tailwind CSS 类名
-- 避免内联样式
-- 响应式设计优先
+## Style Standards
+- Use Tailwind CSS classes
+- Avoid inline styles
+- Mobile-first responsive design
 ```
 
-### glob 模式匹配
+### Glob Pattern Matching
 
-| glob 模式 | 匹配的文件 |
-|-----------|-----------|
-| `*.ts` | 所有 TypeScript 文件 |
-| `src/**/*.tsx` | src 目录下所有 TSX 文件 |
-| `**/*.test.ts` | 所有测试文件 |
-| `!**/*.d.ts` | 排除类型定义文件 |
+| Glob Pattern | Matched Files |
+|--------------|---------------|
+| `*.ts` | All TypeScript files |
+| `src/**/*.tsx` | All TSX files under src |
+| `**/*.test.ts` | All test files |
+| `!**/*.d.ts` | Exclude type definition files |
 
-### 规则类型
+### Rule Types
 
 ```mermaid
 flowchart TB
-    A[Rules 类型] --> B[Always Apply]
+    A[Rules Types] --> B[Always Apply]
     A --> C[Auto Attached]
     A --> D[Agent Requested]
     A --> E[Manual]
     
-    B --> B1["始终应用<br/>适用于通用规则"]
-    C --> C1["自动附加<br/>匹配文件时应用"]
-    D --> D1["Agent 请求<br/>AI 决定是否需要"]
-    E --> E1["手动<br/>用户显式引用"]
+    B --> B1["Always applied<br/>For general rules"]
+    C --> C1["Auto-attached<br/>Applied when files match"]
+    D --> D1["Agent requested<br/>AI decides if needed"]
+    E --> E1["Manual<br/>User explicitly references"]
 ```
 
 ---
 
-## .cursorrules 文件
+## .cursorrules File
 
-### 位置
+### Location
 
-项目根目录下的 `.cursorrules` 文件。
+`.cursorrules` file in the project root directory.
 
-### ⚠️ 重要提示
+### ⚠️ Important Note
 
-> **官方说明：** `.cursorrules` 文件后续大概率会被移除，建议使用新的 `.cursor/rules/` 目录。
+> **Official Statement:** The `.cursorrules` file will likely be deprecated. Use the new `.cursor/rules/` directory instead.
 
-### 示例
+### Example
 
 ```
-# 项目规则
+# Project Rules
 
-## 技术栈
+## Tech Stack
 - Next.js 14 (App Router)
 - TypeScript
 - Prisma ORM
 - PostgreSQL
 
-## 代码风格
-- 使用 Server Components 优先
-- API 路由放在 app/api/ 目录
-- 使用 Zod 进行数据验证
+## Code Style
+- Use Server Components preferentially
+- API routes in app/api/ directory
+- Use Zod for data validation
 
-## 命名规范
-- 组件：PascalCase
-- 函数：camelCase
-- 文件：kebab-case
-- 常量：UPPER_SNAKE_CASE
+## Naming Conventions
+- Components: PascalCase
+- Functions: camelCase
+- Files: kebab-case
+- Constants: UPPER_SNAKE_CASE
 
-## 禁止事项
-- 不要使用 any 类型
-- 不要在客户端组件中使用服务端代码
-- 不要直接使用 console.log（使用 logger）
+## Prohibited Items
+- Do not use any type
+- Do not use server code in client components
+- Do not use console.log directly (use logger)
 ```
 
 ---
 
-## 实战模板
+## Practical Templates
 
-### 前端项目模板
+### Frontend Project Template
 
 ```markdown
 ---
-description: 前端项目规则
+description: Frontend project rules
 globs: ["src/**/*"]
 ---
 
-# 前端项目规则
+# Frontend Project Rules
 
-## 技术栈
+## Tech Stack
 - React 18+
 - TypeScript 5+
 - Tailwind CSS
 - React Router v6
 
-## 组件规范
-- 使用函数式组件 + Hooks
-- 组件放在 src/components/ 目录
-- 页面组件放在 src/pages/ 目录
-- 每个组件一个文件夹，包含 index.tsx 和 styles.css
+## Component Standards
+- Use functional components + Hooks
+- Components in src/components/ directory
+- Page components in src/pages/ directory
+- One component per folder with index.tsx and styles.css
 
-## 状态管理
-- 简单状态：useState
-- 复杂状态：Zustand
-- 服务端状态：React Query
+## State Management
+- Simple state: useState
+- Complex state: Zustand
+- Server state: React Query
 
-## 样式规范
-- 使用 Tailwind CSS
-- 遵循 mobile-first 原则
-- 颜色使用 CSS 变量
+## Style Standards
+- Use Tailwind CSS
+- Follow mobile-first principle
+- Use CSS variables for colors
 
-## 测试规范
-- 使用 Vitest + React Testing Library
-- 测试文件放在 __tests__ 目录
-- 测试覆盖核心业务逻辑
+## Testing Standards
+- Use Vitest + React Testing Library
+- Test files in __tests__ directory
+- Cover core business logic
 ```
 
-### 后端项目模板
+### Backend Project Template
 
 ```markdown
 ---
-description: 后端项目规则
+description: Backend project rules
 globs: ["server/**/*", "api/**/*"]
 ---
 
-# 后端项目规则
+# Backend Project Rules
 
-## 技术栈
+## Tech Stack
 - Node.js 20+
 - TypeScript
 - Express / Fastify
 - Prisma ORM
 - PostgreSQL
 
-## API 规范
-- RESTful API 设计
-- 使用 Zod 验证请求
-- 统一错误处理
-- JWT 认证
+## API Standards
+- RESTful API design
+- Use Zod for request validation
+- Unified error handling
+- JWT authentication
 
-## 代码结构
-- 路由：src/routes/
-- 控制器：src/controllers/
-- 服务：src/services/
-- 模型：src/models/
-- 中间件：src/middleware/
+## Code Structure
+- Routes: src/routes/
+- Controllers: src/controllers/
+- Services: src/services/
+- Models: src/models/
+- Middleware: src/middleware/
 
-## 安全规范
-- 所有输入验证
-- SQL 注入防护
-- XSS 防护
+## Security Standards
+- Validate all inputs
+- SQL injection protection
+- XSS protection
 - Rate limiting
 
-## 日志规范
-- 使用 winston 或 pino
-- 结构化日志
-- 错误日志包含堆栈信息
+## Logging Standards
+- Use winston or pino
+- Structured logging
+- Error logs include stack traces
 ```
 
-### 测试项目模板
+### Testing Project Template
 
 ```markdown
 ---
-description: 测试规则
+description: Testing rules
 globs: ["**/*.test.ts", "**/*.spec.ts", "__tests__/**/*"]
 ---
 
-# 测试规则
+# Testing Rules
 
-## 测试框架
+## Test Framework
 - Vitest
 - React Testing Library
 - Playwright (E2E)
 
-## 测试规范
-- 描述性测试名称
-- AAA 模式：Arrange, Act, Assert
-- 每个测试独立
-- Mock 外部依赖
+## Test Standards
+- Descriptive test names
+- AAA pattern: Arrange, Act, Assert
+- Each test independent
+- Mock external dependencies
 
-## 覆盖率要求
-- 语句覆盖率：> 80%
-- 分支覆盖率：> 75%
-- 函数覆盖率：> 80%
+## Coverage Requirements
+- Statement coverage: > 80%
+- Branch coverage: > 75%
+- Function coverage: > 80%
 
-## 测试分类
-- 单元测试：*.test.ts
-- 集成测试：*.integration.test.ts
-- E2E 测试：*.e2e.test.ts
+## Test Categories
+- Unit tests: *.test.ts
+- Integration tests: *.integration.test.ts
+- E2E tests: *.e2e.test.ts
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **分层管理** - 使用不同规则文件管理不同方面
-2. **明确描述** - 每个规则文件有清晰的 description
-3. **精确匹配** - 使用 glob 模式精确匹配目标文件
-4. **版本控制** - 将项目规则纳入 Git 管理
-5. **定期更新** - 随项目演进更新规则
+1. **Layered Management** - Use different rule files for different aspects
+2. **Clear Description** - Each rule file has a clear description
+3. **Precise Matching** - Use glob patterns to precisely match target files
+4. **Version Control** - Include project rules in Git
+5. **Regular Updates** - Update rules as project evolves
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **过度复杂** - 规则应该简洁明了
-2. **冗余规则** - 避免重复和冲突
-3. **忽略团队** - 规则应该与团队协商
-4. **硬编码路径** - 使用相对路径和 glob 模式
+1. **Over-complicate** - Rules should be concise and clear
+2. **Redundant Rules** - Avoid duplication and conflicts
+3. **Ignore Team** - Rules should be agreed upon with team
+4. **Hardcode Paths** - Use relative paths and glob patterns
 
-### 规则组织建议
+### Rules Organization Suggestion
 
 ```
 .cursor/rules/
-├── 00-general.mdc        # 通用规则（优先加载）
-├── 01-frontend.mdc       # 前端规则
-├── 02-backend.mdc        # 后端规则
-├── 03-database.mdc       # 数据库规则
-├── 04-testing.mdc        # 测试规则
-├── 05-security.mdc       # 安全规则
-└── 06-documentation.mdc  # 文档规则
+├── 00-general.mdc        # General rules (loaded first)
+├── 01-frontend.mdc       # Frontend rules
+├── 02-backend.mdc        # Backend rules
+├── 03-database.mdc       # Database rules
+├── 04-testing.mdc        # Testing rules
+├── 05-security.mdc       # Security rules
+└── 06-documentation.mdc  # Documentation rules
 ```
 
 ---
 
-## 故障排查
+## Troubleshooting
 
-### 规则未生效
+### Rules Not Taking Effect
 
-1. **检查文件位置** - 确保在正确目录
-2. **检查文件格式** - 确保 YAML frontmatter 正确
-3. **检查 glob 模式** - 确保匹配目标文件
-4. **重启 Cursor** - 有时需要重启生效
+1. **Check file location** - Ensure in correct directory
+2. **Check file format** - Ensure YAML frontmatter is correct
+3. **Check glob pattern** - Ensure matching target files
+4. **Restart Cursor** - Sometimes requires restart
 
-### 规则冲突
+### Rules Conflicts
 
-1. **检查优先级** - 高优先级规则会覆盖低优先级
-2. **合并规则** - 避免多个规则定义相同内容
-3. **使用描述性名称** - 帮助识别冲突来源
+1. **Check priority** - Higher priority rules override lower ones
+2. **Merge rules** - Avoid multiple rules defining same content
+3. **Use descriptive names** - Help identify conflict sources
 
-### 性能问题
+### Performance Issues
 
-1. **减少规则数量** - 合并相似规则
-2. **优化 glob 模式** - 避免过于宽泛的匹配
-3. **精简规则内容** - 只保留必要信息
+1. **Reduce rule count** - Merge similar rules
+2. **Optimize glob patterns** - Avoid overly broad matching
+3. **Simplify rule content** - Keep only necessary information
 
 ---
 
-## 下一步
+## Next Steps
 
-- [03. 代码库索引](../03-codebase-indexing/) - 理解代码库索引机制
-- [04. 聊天功能](../04-chat/) - 深入学习聊天功能
-- [05. Composer](../05-composer/) - 学习多文件编辑
+- [03. Codebase Indexing](../03-codebase-indexing/) - Understand codebase indexing
+- [04. Chat](../04-chat/) - Deep dive into chat functionality
+- [05. Composer](../05-composer/) - Learn multi-file editing
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a> | <a href="project-.cursorrules">项目规则模板</a> | <a href="frontend-rules.mdc">前端规则模板</a>
+  <a href="../README.md">Back to Home</a> | <a href="project-.cursorrules">Project Rules Template</a> | <a href="frontend-rules.mdc">Frontend Rules Template</a>
 </p>

@@ -1,32 +1,32 @@
 # 12. Plugins
 
-> **级别：** 高级 | **时间：** 45 分钟 | **前置条件：** 熟悉 Cursor 所有功能
+> **Level:** Advanced | **Time:** 45 minutes | **Prerequisites:** Familiarity with all Cursor features
 
 ---
 
-## 目录
+## Table of Contents
 
-- [概述](#概述)
-- [什么是 Plugins](#什么是-plugins)
-- [Plugin 结构](#plugin-结构)
-- [安装 Plugins](#安装-plugins)
-- [创建自定义 Plugin](#创建自定义-plugin)
-- [内置 Plugins 示例](#内置-plugins-示例)
-- [最佳实践](#最佳实践)
+- [Overview](#overview)
+- [What are Plugins](#what-are-plugins)
+- [Plugin Structure](#plugin-structure)
+- [Installing Plugins](#installing-plugins)
+- [Creating Custom Plugins](#creating-custom-plugins)
+- [Built-in Plugins Examples](#built-in-plugins-examples)
+- [Best Practices](#best-practices)
 
 ---
 
-## 概述
+## Overview
 
-Plugins 是 Cursor 的**功能打包系统**。它们将：
+Plugins are Cursor's **feature packaging system**. They bundle:
 
 - Rules
 - Skills
 - Subagents
 - Hooks
-- MCP 配置
+- MCP Configuration
 
-打包成一个可一键安装的完整解决方案。
+Into a complete solution that can be installed with one click.
 
 ```mermaid
 flowchart TB
@@ -34,9 +34,9 @@ flowchart TB
     A --> C[Skills]
     A --> D[Subagents]
     A --> E[Hooks]
-    A --> F[MCP 配置]
+    A --> F[MCP Config]
     
-    B --> G[完整功能包]
+    B --> G[Complete Feature Package]
     C --> G
     D --> G
     E --> G
@@ -45,58 +45,58 @@ flowchart TB
 
 ---
 
-## 什么是 Plugins
+## What are Plugins
 
-### 与单独功能的区别
+### Difference from Individual Features
 
-| 特性 | 单独功能 | Plugin |
-|------|----------|--------|
-| **安装** | 逐个配置 | 一键安装 |
-| **依赖** | 手动管理 | 自动处理 |
-| **更新** | 分别更新 | 统一更新 |
-| **分享** | 多个文件 | 单个包 |
+| Feature | Individual Features | Plugin |
+|---------|---------------------|--------|
+| **Installation** | Configure one by one | One-click install |
+| **Dependencies** | Manual management | Auto handling |
+| **Updates** | Update separately | Unified update |
+| **Sharing** | Multiple files | Single package |
 
-### Plugin 能做什么
+### What Plugins Can Do
 
 ```
-✅ 完整开发环境
-✅ 代码审查流水线
-✅ 文档生成系统
-✅ DevOps 自动化
-✅ 安全审计套件
+✅ Complete development environment
+✅ Code review pipeline
+✅ Documentation generation system
+✅ DevOps automation
+✅ Security audit suite
 ```
 
 ---
 
-## Plugin 结构
+## Plugin Structure
 
-### 目录结构
+### Directory Structure
 
 ```
 my-plugin/
-├── plugin.json          # Plugin 配置（必需）
-├── README.md            # 说明文档
-├── rules/               # Rules 文件
+├── plugin.json          # Plugin configuration (required)
+├── README.md            # Documentation
+├── rules/               # Rules files
 │   ├── general.mdc
 │   └── frontend.mdc
-├── skills/              # Skills 文件
+├── skills/              # Skills files
 │   └── code-review/
 │       └── SKILL.md
-├── agents/              # Subagents 文件
+├── agents/              # Subagents files
 │   └── reviewer.md
-├── hooks/               # Hooks 脚本
+├── hooks/               # Hooks scripts
 │   └── pre-commit.sh
-└── mcp/                 # MCP 配置
+└── mcp/                 # MCP configuration
     └── github.json
 ```
 
-### plugin.json 格式
+### plugin.json Format
 
 ```json
 {
   "name": "code-review-plugin",
   "version": "1.0.0",
-  "description": "完整的代码审查解决方案",
+  "description": "Complete code review solution",
   "author": "Your Name",
   "repository": "https://github.com/user/code-review-plugin",
   "cursorVersion": ">=0.48.0",
@@ -116,37 +116,37 @@ my-plugin/
 
 ---
 
-## 安装 Plugins
+## Installing Plugins
 
-### 从市场安装
+### From Marketplace
 
 ```
-命令面板 → "Cursor: Install Plugin"
-搜索并选择 Plugin
+Command Palette → "Cursor: Install Plugin"
+Search and select Plugin
 ```
 
-### 从本地安装
+### From Local
 
 ```bash
-# 复制 Plugin 到项目
+# Copy Plugin to project
 cp -r /path/to/plugin ~/.cursor/plugins/
 
-# 或在项目中
+# Or in project
 cp -r /path/to/plugin .cursor/plugins/
 ```
 
-### 从 Git 安装
+### From Git
 
 ```bash
-# 克隆到 plugins 目录
+# Clone to plugins directory
 git clone https://github.com/user/plugin.git ~/.cursor/plugins/plugin-name
 ```
 
 ---
 
-## 创建自定义 Plugin
+## Creating Custom Plugins
 
-### 示例：代码审查 Plugin
+### Example: Code Review Plugin
 
 #### plugin.json
 
@@ -154,7 +154,7 @@ git clone https://github.com/user/plugin.git ~/.cursor/plugins/plugin-name
 {
   "name": "pr-review",
   "version": "1.0.0",
-  "description": "PR 代码审查完整解决方案",
+  "description": "Complete PR code review solution",
   "author": "Your Name",
   "cursorVersion": ">=0.48.0",
   "features": {
@@ -171,17 +171,17 @@ git clone https://github.com/user/plugin.git ~/.cursor/plugins/plugin-name
 
 ```markdown
 ---
-description: PR 审查规则
+description: PR review rules
 globs: ["**/*"]
 ---
 
-# PR 审查规则
+# PR Review Rules
 
-## 审查项目
-- 代码质量
-- 测试覆盖
-- 文档完整
-- 安全检查
+## Review Items
+- Code quality
+- Test coverage
+- Documentation completeness
+- Security check
 ```
 
 #### skills/review/SKILL.md
@@ -189,7 +189,7 @@ globs: ["**/*"]
 ```markdown
 ---
 name: PR Review
-description: 自动 PR 审查
+description: Automatic PR review
 triggers:
   - type: command
     command: "/pr-review"
@@ -197,8 +197,8 @@ triggers:
 
 # PR Review Skill
 
-## 功能
-自动审查 PR 并生成报告。
+## Function
+Automatically review PR and generate report.
 ```
 
 #### agents/reviewer.md
@@ -206,14 +206,14 @@ triggers:
 ```markdown
 ---
 name: Code Reviewer
-description: 代码审查 Agent
+description: Code review Agent
 ---
 
 # Code Reviewer Agent
 
-## 专长
-- 代码质量分析
-- 最佳实践建议
+## Expertise
+- Code quality analysis
+- Best practice recommendations
 ```
 
 #### hooks/pre-commit.sh
@@ -241,72 +241,72 @@ npm test && npm run lint
 
 ---
 
-## 内置 Plugins 示例
+## Built-in Plugins Examples
 
 ### pr-review
 
 ```
-功能: PR 代码审查
-包含: Rules + Skills + Agents + MCP
-用途: 自动化 PR 审查流程
+Function: PR code review
+Contains: Rules + Skills + Agents + MCP
+Usage: Automate PR review process
 ```
 
 ### devops-automation
 
 ```
-功能: DevOps 自动化
-包含: Skills + Hooks + MCP
-用途: 部署、监控自动化
+Function: DevOps automation
+Contains: Skills + Hooks + MCP
+Usage: Deployment, monitoring automation
 ```
 
 ### documentation
 
 ```
-功能: 文档生成
-包含: Skills + Agents
-用途: 自动生成 API 文档
+Function: Documentation generation
+Contains: Skills + Agents
+Usage: Auto-generate API documentation
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **明确功能范围** - 每个 Plugin 有清晰定位
-2. **版本管理** - 使用语义化版本
-3. **文档完善** - 提供详细使用说明
-4. **依赖声明** - 明确列出依赖
-5. **测试覆盖** - 确保 Plugin 可靠
+1. **Clear Feature Scope** - Each Plugin has a clear purpose
+2. **Version Management** - Use semantic versioning
+3. **Complete Documentation** - Provide detailed usage instructions
+4. **Declare Dependencies** - Clearly list dependencies
+5. **Test Coverage** - Ensure Plugin reliability
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **功能重叠** - 避免多个 Plugin 做同样的事
-2. **过度依赖** - 减少外部依赖
-3. **忽略兼容性** - 标明支持的 Cursor 版本
-4. **缺少文档** - 提供完整的使用说明
+1. **Feature Overlap** - Avoid multiple Plugins doing the same thing
+2. **Excessive Dependencies** - Minimize external dependencies
+3. **Ignore Compatibility** - Specify supported Cursor versions
+4. **Missing Documentation** - Provide complete usage instructions
 
-### Plugin 发布流程
+### Plugin Publishing Process
 
 ```mermaid
 flowchart LR
-    A[开发 Plugin] --> B[测试]
-    B --> C[编写文档]
-    C --> D[发布到市场]
-    D --> E[收集反馈]
-    E --> F[迭代更新]
+    A[Develop Plugin] --> B[Test]
+    B --> C[Write Documentation]
+    C --> D[Publish to Marketplace]
+    D --> E[Collect Feedback]
+    E --> F[Iterate Updates]
 ```
 
 ---
 
-## 下一步
+## Next Steps
 
-- [CATALOG.md](../CATALOG.md) - 浏览功能目录
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - 贡献指南
-- [README.md](../README.md) - 返回首页
+- [CATALOG.md](../CATALOG.md) - Browse feature catalog
+- [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guide
+- [README.md](../README.md) - Back to home
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a>
+  <a href="../README.md">Back to Home</a>
 </p>

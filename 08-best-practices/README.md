@@ -1,121 +1,121 @@
-# 08. 最佳实践
+# 08. Best Practices
 
-> **级别：** 高级 | **时间：** 1 小时 | **前置条件：** 熟悉 Cursor 所有功能
-
----
-
-## 目录
-
-- [概述](#概述)
-- [工作流设计](#工作流设计)
-- [团队协作](#团队协作)
-- [性能优化](#性能优化)
-- [安全最佳实践](#安全最佳实践)
-- [常见工作流示例](#常见工作流示例)
-- [故障排查指南](#故障排查指南)
+> **Level:** Advanced | **Time:** 1 hour | **Prerequisites:** Familiarity with all Cursor features
 
 ---
 
-## 概述
+## Table of Contents
 
-最佳实践是确保你从 Cursor 获得最大价值的关键。本章将介绍：
+- [Overview](#overview)
+- [Workflow Design](#workflow-design)
+- [Team Collaboration](#team-collaboration)
+- [Performance Optimization](#performance-optimization)
+- [Security Best Practices](#security-best-practices)
+- [Common Workflow Examples](#common-workflow-examples)
+- [Troubleshooting Guide](#troubleshooting-guide)
 
-- 如何设计高效工作流
-- 团队如何协作使用 Cursor
-- 如何优化性能
-- 如何确保安全
+---
+
+## Overview
+
+Best practices are key to getting maximum value from Cursor. This chapter covers:
+
+- How to design efficient workflows
+- How teams can collaborate using Cursor
+- How to optimize performance
+- How to ensure security
 
 ```mermaid
 flowchart TB
-    A[最佳实践] --> B[工作流设计]
-    A --> C[团队协作]
-    A --> D[性能优化]
-    A --> E[安全实践]
+    A[Best Practices] --> B[Workflow Design]
+    A --> C[Team Collaboration]
+    A --> D[Performance Optimization]
+    A --> E[Security Practices]
     
-    B --> B1[高效开发流程]
-    C --> C1[统一标准]
-    D --> D1[快速响应]
-    E --> E1[安全可靠]
+    B --> B1[Efficient Development Process]
+    C --> C1[Unified Standards]
+    D --> D1[Fast Response]
+    E --> E1[Secure & Reliable]
 ```
 
 ---
 
-## 工作流设计
+## Workflow Design
 
-### 基础工作流
+### Basic Workflow
 
 ```mermaid
 flowchart LR
-    A[需求] --> B[Plan Mode]
+    A[Requirements] --> B[Plan Mode]
     B --> C[Composer]
-    C --> D[测试]
-    D --> E[审查]
-    E --> F[提交]
+    C --> D[Testing]
+    D --> E[Review]
+    E --> F[Commit]
 ```
 
-### 功能开发工作流
+### Feature Development Workflow
 
 ```
-1. 需求分析
-   └── 使用 Cmd+L 讨论
+1. Requirements Analysis
+   └── Use Cmd+L for discussion
 
-2. 规划实现
-   └── 使用 Plan Mode
+2. Plan Implementation
+   └── Use Plan Mode
 
-3. 编写代码
-   └── 使用 Composer + Cmd+K
+3. Write Code
+   └── Use Composer + Cmd+K
 
-4. 编写测试
-   └── 使用 Skills 自动生成
+4. Write Tests
+   └── Use Skills for auto-generation
 
-5. 代码审查
-   └── 使用 MCP + Subagents
+5. Code Review
+   └── Use MCP + Subagents
 
-6. 提交代码
-   └── 使用 Hooks 自动检查
+6. Commit Code
+   └── Use Hooks for auto-checks
 ```
 
-### Bug 修复工作流
+### Bug Fix Workflow
 
 ```mermaid
 flowchart TB
-    A[发现 Bug] --> B[Cmd+L 分析]
-    B --> C[定位问题]
-    C --> D[Cmd+K 修复]
-    D --> E[编写测试]
-    E --> F[验证修复]
-    F --> G[提交]
+    A[Discover Bug] --> B[Cmd+L Analysis]
+    B --> C[Locate Issue]
+    C --> D[Cmd+K Fix]
+    D --> E[Write Tests]
+    E --> F[Verify Fix]
+    F --> G[Commit]
 ```
 
 ---
 
-## 团队协作
+## Team Collaboration
 
-### 统一 Rules
+### Unified Rules
 
 ```
-项目根目录/
+Project Root/
 ├── .cursor/
 │   └── rules/
-│       ├── general.mdc      # 通用规则
-│       ├── frontend.mdc     # 前端规则
-│       ├── backend.mdc      # 后端规则
-│       └── testing.mdc      # 测试规则
-└── .cursorrules             # 项目规则
+│       ├── general.mdc      # General rules
+│       ├── frontend.mdc     # Frontend rules
+│       ├── backend.mdc      # Backend rules
+│       └── testing.mdc      # Testing rules
+└── .cursorrules             # Project rules
 ```
 
-### 共享 Skills
+### Shared Skills
 
 ```
-项目根目录/
+Project Root/
 └── .cursor/
     └── skills/
-        ├── code-review/     # 代码审查
-        ├── test-gen/        # 测试生成
-        └── doc-gen/         # 文档生成
+        ├── code-review/     # Code review
+        ├── test-gen/        # Test generation
+        └── doc-gen/         # Documentation generation
 ```
 
-### 团队配置模板
+### Team Configuration Template
 
 ```json
 // .cursor/settings.json
@@ -130,7 +130,7 @@ flowchart TB
 }
 ```
 
-### Git 工作流集成
+### Git Workflow Integration
 
 ```yaml
 # .github/workflows/cursor-review.yml
@@ -153,7 +153,7 @@ jobs:
         env:
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
         run: |
-          cursor -p "审查这个 PR" \
+          cursor -p "Review this PR" \
             --output-format json > review.json
             
       - name: Post Review
@@ -172,9 +172,9 @@ jobs:
 
 ---
 
-## 性能优化
+## Performance Optimization
 
-### 索引优化
+### Indexing Optimization
 
 ```gitignore
 # .cursorignore
@@ -189,21 +189,21 @@ package-lock.json
 yarn.lock
 ```
 
-### Rules 优化
+### Rules Optimization
 
 ```markdown
 ---
-description: 简洁的规则描述
+description: Concise rule description
 globs: ["src/**/*.tsx"]
 ---
 
-# 规则内容
+# Rule Content
 
-保持简洁，只包含必要信息。
-避免重复和冗余。
+Keep it concise, only include necessary information.
+Avoid repetition and redundancy.
 ```
 
-### MCP 优化
+### MCP Optimization
 
 ```json
 {
@@ -219,24 +219,24 @@ globs: ["src/**/*.tsx"]
 }
 ```
 
-### 性能检查清单
+### Performance Checklist
 
 ```
-□ 索引排除不必要的文件
-□ Rules 简洁明了
-□ MCP 服务器数量合理
-□ 后台任务及时清理
-□ 会话数量合理
+□ Exclude unnecessary files from indexing
+□ Keep Rules concise and clear
+□ Reasonable number of MCP servers
+□ Clean up background tasks promptly
+□ Reasonable number of sessions
 ```
 
 ---
 
-## 安全最佳实践
+## Security Best Practices
 
-### 敏感信息处理
+### Sensitive Information Handling
 
 ```json
-// ❌ 错误：硬编码 Token
+// ❌ Wrong: Hardcoded Token
 {
   "mcpServers": {
     "github": {
@@ -247,7 +247,7 @@ globs: ["src/**/*.tsx"]
   }
 }
 
-// ✅ 正确：使用环境变量
+// ✅ Correct: Use environment variables
 {
   "mcpServers": {
     "github": {
@@ -259,10 +259,10 @@ globs: ["src/**/*.tsx"]
 }
 ```
 
-### .gitignore 配置
+### .gitignore Configuration
 
 ```gitignore
-# Cursor 相关
+# Cursor related
 .cursor/mcp.json
 .cursor/settings.json
 .env
@@ -271,26 +271,26 @@ globs: ["src/**/*.tsx"]
 *.key
 ```
 
-### Rules 安全
+### Rules Security
 
 ```markdown
-# 安全规则
+# Security Rules
 
-## 禁止事项
-- 不要在代码中硬编码密钥
-- 不要在日志中记录敏感信息
-- 不要跳过输入验证
+## Prohibited
+- Do not hardcode keys in code
+- Do not log sensitive information
+- Do not skip input validation
 
-## 必须事项
-- 使用环境变量存储敏感信息
-- 所有 API 输入必须验证
-- 使用参数化查询防止 SQL 注入
+## Required
+- Use environment variables for sensitive information
+- All API inputs must be validated
+- Use parameterized queries to prevent SQL injection
 ```
 
-### 权限控制
+### Permission Control
 
 ```json
-// 生产环境权限设置
+// Production environment permission settings
 {
   "cursor.permissionMode": "default",
   "cursor.security.restrictFileAccess": true,
@@ -300,183 +300,183 @@ globs: ["src/**/*.tsx"]
 
 ---
 
-## 常见工作流示例
+## Common Workflow Examples
 
-### 完整功能开发
+### Complete Feature Development
 
 ```mermaid
 sequenceDiagram
-    participant U as 开发者
+    participant U as Developer
     participant C as Cursor
     participant G as Git
     participant CI as CI/CD
     
-    U->>C: Cmd+L 讨论需求
-    C->>U: 提供设计建议
+    U->>C: Cmd+L discuss requirements
+    C->>U: Provide design suggestions
     
-    U->>C: Plan Mode 规划
-    C->>U: 显示实现计划
-    U->>C: 确认计划
+    U->>C: Plan Mode planning
+    C->>U: Show implementation plan
+    U->>C: Confirm plan
     
-    U->>C: Composer 实现
-    C->>U: 生成代码
+    U->>C: Composer implementation
+    C->>U: Generate code
     
-    U->>C: 生成测试
-    C->>U: 测试文件
+    U->>C: Generate tests
+    C->>U: Test files
     
-    U->>C: 运行测试
-    C->>U: 测试通过
+    U->>C: Run tests
+    C->>U: Tests pass
     
-    U->>G: 提交代码
-    G->>CI: 触发 CI
-    CI->>U: 审查结果
+    U->>G: Commit code
+    G->>CI: Trigger CI
+    CI->>U: Review results
 ```
 
-### 代码审查流程
+### Code Review Process
 
 ```
-1. PR 创建
-   └── 触发 Hooks
+1. PR Created
+   └── Triggers Hooks
 
-2. 自动检查
-   ├── 代码风格检查
-   ├── 类型检查
-   ├── 测试运行
-   └── 安全扫描
+2. Automatic Checks
+   ├── Code style check
+   ├── Type check
+   ├── Test run
+   └── Security scan
 
-3. AI 审查
-   └── 使用 MCP + Subagents
+3. AI Review
+   └── Use MCP + Subagents
 
-4. 生成报告
-   └── 发布到 PR 评论
+4. Generate Report
+   └── Post to PR comments
 
-5. 人工审查
-   └── 开发者确认
+5. Manual Review
+   └── Developer confirmation
 ```
 
-### 文档生成流程
+### Documentation Generation Process
 
 ```
-1. 代码完成
-   └── 功能实现
+1. Code Complete
+   └── Feature implementation
 
-2. 触发 Skill
+2. Trigger Skill
    └── doc-gen Skill
 
-3. 分析代码
-   └── 提取 API 信息
+3. Analyze Code
+   └── Extract API information
 
-4. 生成文档
-   ├── API 文档
-   ├── 使用示例
-   └── 类型定义
+4. Generate Documentation
+   ├── API documentation
+   ├── Usage examples
+   └── Type definitions
 
-5. 更新 README
-   └── 自动更新
+5. Update README
+   └── Auto update
 ```
 
 ---
 
-## 故障排查指南
+## Troubleshooting Guide
 
-### 常见问题
+### Common Issues
 
-#### AI 响应慢
-
-```
-检查项：
-□ 网络连接
-□ 索引状态
-□ MCP 服务器状态
-□ 后台任务数量
-```
-
-#### 代码质量差
+#### Slow AI Response
 
 ```
-检查项：
-□ Rules 是否配置
-□ 上下文是否充分
-□ 任务描述是否清晰
-□ 项目结构是否清晰
+Check items:
+□ Network connection
+□ Indexing status
+□ MCP server status
+□ Number of background tasks
 ```
 
-#### 功能不工作
+#### Poor Code Quality
 
 ```
-检查项：
-□ Cursor 版本
-□ 配置是否正确
-□ 权限是否设置
-□ 日志错误信息
+Check items:
+□ Are Rules configured
+□ Is context sufficient
+□ Is task description clear
+□ Is project structure clear
 ```
 
-### 日志查看
+#### Features Not Working
 
 ```
-# 查看 Cursor 日志
-命令面板 → "Cursor: Open Logs"
-
-# 查看特定日志
-命令面板 → "Cursor: Show MCP Logs"
+Check items:
+□ Cursor version
+□ Is configuration correct
+□ Are permissions set
+□ Log error messages
 ```
 
-### 重置配置
+### Viewing Logs
 
 ```
-# 重置用户设置
-命令面板 → "Cursor: Reset User Settings"
+# View Cursor logs
+Command Palette → "Cursor: Open Logs"
 
-# 重新索引
-命令面板 → "Cursor: Reindex Codebase"
+# View specific logs
+Command Palette → "Cursor: Show MCP Logs"
 ```
 
----
-
-## 检查清单
-
-### 新项目设置
+### Reset Configuration
 
 ```
-□ 创建 .cursorrules 或 .cursor/rules/
-□ 配置 .cursorignore
-□ 设置项目 Rules
-□ 配置 MCP 服务器
-□ 安装必要的 Skills
-□ 配置 Hooks
-□ 设置 CI/CD 集成
-```
+# Reset user settings
+Command Palette → "Cursor: Reset User Settings"
 
-### 日常开发
-
-```
-□ 使用正确的工具（Cmd+K/L/I）
-□ 提供充分的上下文
-□ 验证 AI 生成的代码
-□ 运行测试
-□ 遵循团队规范
-```
-
-### 代码提交前
-
-```
-□ 运行所有测试
-□ 检查代码风格
-□ 更新文档
-□ 审查 AI 生成的代码
-□ 确保无敏感信息
+# Reindex codebase
+Command Palette → "Cursor: Reindex Codebase"
 ```
 
 ---
 
-## 下一步
+## Checklist
 
-- [09. Skills](../09-skills/) - 创建自定义技能
-- [10. Subagents](../10-subagents/) - 配置专用 Agent
-- [11. Hooks](../11-hooks/) - 设置自动化钩子
+### New Project Setup
+
+```
+□ Create .cursorrules or .cursor/rules/
+□ Configure .cursorignore
+□ Set project Rules
+□ Configure MCP servers
+□ Install necessary Skills
+□ Configure Hooks
+□ Setup CI/CD integration
+```
+
+### Daily Development
+
+```
+□ Use correct tools (Cmd+K/L/I)
+□ Provide sufficient context
+□ Verify AI-generated code
+□ Run tests
+□ Follow team standards
+```
+
+### Before Code Commit
+
+```
+□ Run all tests
+□ Check code style
+□ Update documentation
+□ Review AI-generated code
+□ Ensure no sensitive information
+```
+
+---
+
+## Next Steps
+
+- [09. Skills](../09-skills/) - Create custom skills
+- [10. Subagents](../10-subagents/) - Configure specialized agents
+- [11. Hooks](../11-hooks/) - Setup automation hooks
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a> | <a href="workflow-examples.md">更多工作流示例</a>
+  <a href="../README.md">Back to Home</a> | <a href="workflow-examples.md">More Workflow Examples</a>
 </p>

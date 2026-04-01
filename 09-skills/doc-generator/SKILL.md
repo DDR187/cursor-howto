@@ -1,6 +1,6 @@
 ---
 name: Documentation Generator
-description: 自动生成 API 文档和代码文档
+description: Automatically generate API documentation and code documentation
 triggers:
   - type: command
     command: "/docs"
@@ -10,66 +10,66 @@ triggers:
 
 # Documentation Generator Skill
 
-## 功能概述
+## Overview
 
-自动分析代码并生成文档：
+Automatically analyze code and generate documentation:
 
-- API 接口文档
-- 函数/方法文档
-- 类型定义文档
-- 使用示例
-
----
-
-## 文档类型
-
-### 1. API 文档
-
-从 API 路由自动生成：
-
-- 端点描述
-- 请求参数
-- 响应格式
-- 错误码
-
-### 2. 函数文档
-
-从代码注释生成：
-
-- 函数描述
-- 参数说明
-- 返回值说明
-- 使用示例
-
-### 3. 类型文档
-
-从 TypeScript 类型生成：
-
-- 接口定义
-- 类型说明
-- 属性描述
+- API interface documentation
+- Function/method documentation
+- Type definition documentation
+- Usage examples
 
 ---
 
-## 输出格式
+## Documentation Types
+
+### 1. API Documentation
+
+Auto-generated from API routes:
+
+- Endpoint description
+- Request parameters
+- Response format
+- Error codes
+
+### 2. Function Documentation
+
+Generated from code comments:
+
+- Function description
+- Parameter description
+- Return value description
+- Usage examples
+
+### 3. Type Documentation
+
+Generated from TypeScript types:
+
+- Interface definitions
+- Type descriptions
+- Property descriptions
+
+---
+
+## Output Format
 
 ```markdown
-# API 文档
+# API Documentation
 
 ## {endpoint_name}
 
-**端点**: `{method} {path}`
+**Endpoint**: `{method} {path}`
 
-### 描述
+### Description
 {description}
 
-### 请求参数
+### Request Parameters
 
-| 参数 | 类型 | 必需 | 描述 |
-|------|------|------|------|
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
 | {param} | {type} | {required} | {description} |
 
-### 请求示例
+### Request Example
 
 ```json
 {
@@ -77,13 +77,13 @@ triggers:
 }
 ```
 
-### 响应格式
+### Response Format
 
-| 字段 | 类型 | 描述 |
-|------|------|------|
+| Field | Type | Description |
+|-------|------|-------------|
 | {field} | {type} | {description} |
 
-### 响应示例
+### Response Example
 
 ```json
 {
@@ -91,46 +91,46 @@ triggers:
 }
 ```
 
-### 错误码
+### Error Codes
 
-| 状态码 | 描述 |
-|--------|------|
+| Status Code | Description |
+|-------------|-------------|
 | {code} | {description} |
 ```
 
 ---
 
-## 使用示例
+## Usage Example
 
 ```
-用户: /docs src/api/users.ts
+User: /docs src/api/users.ts
 
-AI: 正在生成 API 文档...
+AI: Generating API documentation...
 
-# Users API 文档
+# Users API Documentation
 
-## 获取用户列表
+## Get User List
 
-**端点**: `GET /api/users`
+**Endpoint**: `GET /api/users`
 
-### 描述
-获取所有用户的列表，支持分页和过滤。
+### Description
+Get a list of all users, supports pagination and filtering.
 
-### 请求参数
+### Request Parameters
 
-| 参数 | 类型 | 必需 | 描述 |
-|------|------|------|------|
-| page | number | 否 | 页码，默认 1 |
-| limit | number | 否 | 每页数量，默认 10 |
-| search | string | 否 | 搜索关键词 |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| page | number | No | Page number, default 1 |
+| limit | number | No | Items per page, default 10 |
+| search | string | No | Search keyword |
 
-### 响应格式
+### Response Format
 
-| 字段 | 类型 | 描述 |
-|------|------|------|
-| data | User[] | 用户列表 |
-| total | number | 总数量 |
-| page | number | 当前页码 |
+| Field | Type | Description |
+|-------|------|-------------|
+| data | User[] | User list |
+| total | number | Total count |
+| page | number | Current page number |
 
 ...
 ```

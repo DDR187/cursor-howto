@@ -1,6 +1,6 @@
 ---
 name: Code Review
-description: 自动代码审查，检查代码质量、安全性和最佳实践
+description: Automatic code review, checking code quality, security, and best practices
 triggers:
   - type: command
     command: "/review"
@@ -10,168 +10,168 @@ triggers:
 
 # Code Review Skill
 
-## 功能概述
+## Overview
 
-自动审查代码并提供改进建议，涵盖：
+Automatically review code and provide improvement suggestions, covering:
 
-- 代码质量分析
-- 安全漏洞检测
-- 性能问题识别
-- 最佳实践建议
-
----
-
-## 审查项目
-
-### 1. 代码质量
-
-| 检查项 | 描述 |
-|--------|------|
-| 命名规范 | 变量、函数、类命名是否清晰 |
-| 代码结构 | 是否遵循单一职责原则 |
-| 注释完整性 | 关键逻辑是否有注释 |
-| 代码重复 | 是否存在重复代码 |
-| 复杂度 | 函数是否过于复杂 |
-
-### 2. 安全检查
-
-| 检查项 | 描述 |
-|--------|------|
-| SQL 注入 | 是否使用参数化查询 |
-| XSS 漏洞 | 是否正确转义输出 |
-| 敏感信息 | 是否暴露密钥或凭证 |
-| 输入验证 | 是否验证用户输入 |
-| 权限检查 | 是否进行权限验证 |
-
-### 3. 性能检查
-
-| 检查项 | 描述 |
-|--------|------|
-| 循环优化 | 循环中是否有不必要的操作 |
-| 内存泄漏 | 是否正确释放资源 |
-| 异步处理 | 是否正确使用异步 |
-| 缓存使用 | 是否合理使用缓存 |
-
-### 4. 最佳实践
-
-| 检查项 | 描述 |
-|--------|------|
-| 错误处理 | 是否正确处理错误 |
-| 类型安全 | 是否使用类型定义 |
-| 测试覆盖 | 是否有对应测试 |
-| 文档完整 | 是否有必要的文档 |
+- Code quality analysis
+- Security vulnerability detection
+- Performance issue identification
+- Best practice recommendations
 
 ---
 
-## 执行步骤
+## Review Items
 
-1. **分析代码结构**
-   - 识别文件类型
-   - 解析代码结构
-   - 提取关键信息
+### 1. Code Quality
 
-2. **运行检查规则**
-   - 应用质量规则
-   - 应用安全规则
-   - 应用性能规则
+| Check Item | Description |
+|------------|-------------|
+| Naming Conventions | Are variable, function, and class names clear |
+| Code Structure | Does it follow single responsibility principle |
+| Comment Completeness | Are key logic sections commented |
+| Code Duplication | Is there duplicate code |
+| Complexity | Are functions too complex |
 
-3. **生成报告**
-   - 汇总问题
-   - 按严重程度分类
-   - 提供修复建议
+### 2. Security Check
+
+| Check Item | Description |
+|------------|-------------|
+| SQL Injection | Is parameterized query used |
+| XSS Vulnerability | Is output properly escaped |
+| Sensitive Information | Are keys or credentials exposed |
+| Input Validation | Is user input validated |
+| Permission Check | Is permission verification performed |
+
+### 3. Performance Check
+
+| Check Item | Description |
+|------------|-------------|
+| Loop Optimization | Are there unnecessary operations in loops |
+| Memory Leaks | Are resources properly released |
+| Async Handling | Is async used correctly |
+| Cache Usage | Is caching used reasonably |
+
+### 4. Best Practices
+
+| Check Item | Description |
+|------------|-------------|
+| Error Handling | Are errors handled properly |
+| Type Safety | Are type definitions used |
+| Test Coverage | Are there corresponding tests |
+| Documentation Complete | Is necessary documentation present |
 
 ---
 
-## 输出格式
+## Execution Steps
+
+1. **Analyze Code Structure**
+   - Identify file type
+   - Parse code structure
+   - Extract key information
+
+2. **Run Check Rules**
+   - Apply quality rules
+   - Apply security rules
+   - Apply performance rules
+
+3. **Generate Report**
+   - Summarize issues
+   - Categorize by severity
+   - Provide fix suggestions
+
+---
+
+## Output Format
 
 ```markdown
-# 代码审查报告
+# Code Review Report
 
-## 概述
-- 文件: {filename}
-- 审查时间: {timestamp}
-- 总问题数: {total_issues}
+## Overview
+- File: {filename}
+- Review Time: {timestamp}
+- Total Issues: {total_issues}
 
-## 问题列表
+## Issue List
 
-### 🔴 高危 ({high_count})
+### 🔴 High ({high_count})
 
-| 位置 | 问题 | 建议 |
-|------|------|------|
+| Location | Issue | Suggestion |
+|----------|-------|------------|
 | {location} | {issue} | {suggestion} |
 
-### 🟡 中危 ({medium_count})
+### 🟡 Medium ({medium_count})
 
-| 位置 | 问题 | 建议 |
-|------|------|------|
+| Location | Issue | Suggestion |
+|----------|-------|------------|
 | {location} | {issue} | {suggestion} |
 
-### 🟢 低危 ({low_count})
+### 🟢 Low ({low_count})
 
-| 位置 | 问题 | 建议 |
-|------|------|------|
+| Location | Issue | Suggestion |
+|----------|-------|------------|
 | {location} | {issue} | {suggestion} |
 
-## 统计
+## Statistics
 
-| 类别 | 数量 |
-|------|------|
-| 安全问题 | {security_count} |
-| 性能问题 | {performance_count} |
-| 代码质量 | {quality_count} |
-| 最佳实践 | {practice_count} |
+| Category | Count |
+|----------|-------|
+| Security Issues | {security_count} |
+| Performance Issues | {performance_count} |
+| Code Quality | {quality_count} |
+| Best Practices | {practice_count} |
 
-## 建议
+## Recommendations
 
 {recommendations}
 ```
 
 ---
 
-## 使用示例
+## Usage Example
 
 ```
-用户: /review src/utils/auth.ts
+User: /review src/utils/auth.ts
 
-AI: 正在审查 src/utils/auth.ts...
+AI: Reviewing src/utils/auth.ts...
 
-# 代码审查报告
+# Code Review Report
 
-## 概述
-- 文件: src/utils/auth.ts
-- 审查时间: 2024-01-15 10:30:00
-- 总问题数: 3
+## Overview
+- File: src/utils/auth.ts
+- Review Time: 2024-01-15 10:30:00
+- Total Issues: 3
 
-## 问题列表
+## Issue List
 
-### 🔴 高危 (1)
+### 🔴 High (1)
 
-| 位置 | 问题 | 建议 |
-|------|------|------|
-| Line 45 | 硬编码的密钥 | 使用环境变量存储密钥 |
+| Location | Issue | Suggestion |
+|----------|-------|------------|
+| Line 45 | Hardcoded secret | Use environment variable to store secret |
 
-### 🟡 中危 (1)
+### 🟡 Medium (1)
 
-| 位置 | 问题 | 建议 |
-|------|------|------|
-| Line 23 | 缺少输入验证 | 添加 email 格式验证 |
+| Location | Issue | Suggestion |
+|----------|-------|------------|
+| Line 23 | Missing input validation | Add email format validation |
 
-### 🟢 低危 (1)
+### 🟢 Low (1)
 
-| 位置 | 问题 | 建议 |
-|------|------|------|
-| Line 12 | 缺少函数注释 | 添加 JSDoc 注释 |
+| Location | Issue | Suggestion |
+|----------|-------|------------|
+| Line 12 | Missing function comment | Add JSDoc comment |
 
-## 建议
+## Recommendations
 
-1. 将硬编码的密钥移至环境变量
-2. 添加输入验证中间件
-3. 为公共函数添加文档注释
+1. Move hardcoded secret to environment variable
+2. Add input validation middleware
+3. Add documentation comments for public functions
 ```
 
 ---
 
-## 配置选项
+## Configuration Options
 
 ```json
 {

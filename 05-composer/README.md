@@ -1,188 +1,188 @@
 # 05. Composer
 
-> **级别：** 中级 | **时间：** 1 小时 | **前置条件：** 已安装 Cursor
+> **Level:** Intermediate | **Time:** 1 hour | **Prerequisites:** Cursor installed
 
 ---
 
-## 目录
+## Table of Contents
 
-- [概述](#概述)
-- [什么是 Composer](#什么是-composer)
-- [与其他功能的区别](#与其他功能的区别)
-- [打开 Composer](#打开-composer)
-- [基本用法](#基本用法)
-- [工作流程](#工作流程)
-- [快照与回滚](#快照与回滚)
-- [实战示例](#实战示例)
-- [最佳实践](#最佳实践)
-- [故障排查](#故障排查)
+- [Overview](#overview)
+- [What is Composer](#what-is-composer)
+- [Difference from Other Features](#difference-from-other-features)
+- [Opening Composer](#opening-composer)
+- [Basic Usage](#basic-usage)
+- [Workflow](#workflow)
+- [Snapshots and Rollback](#snapshots-and-rollback)
+- [Practical Examples](#practical-examples)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
-## 概述
+## Overview
 
-Composer 是 Cursor 的**项目级任务执行器**。它不是简单的代码补全，而是一个能够：
+Composer is Cursor's **project-level task executor**. It's not simple code completion, but a tool that can:
 
-- 理解整个项目结构
-- 自动识别需要修改的文件
-- 执行跨文件编辑
-- 提供可回滚的修改
+- Understand entire project structure
+- Automatically identify files to modify
+- Execute cross-file edits
+- Provide rollback-capable modifications
 
 ```mermaid
 flowchart TB
-    A[用户描述任务] --> B[Composer 分析项目]
-    B --> C[识别相关文件]
-    C --> D[规划修改方案]
-    D --> E[生成代码变更]
-    E --> F[用户预览]
-    F --> G{接受？}
-    G -->|是| H[应用修改]
-    G -->|否| I[回滚]
+    A[User describes task] --> B[Composer analyzes project]
+    B --> C[Identify relevant files]
+    C --> D[Plan modifications]
+    D --> E[Generate code changes]
+    E --> F[User preview]
+    F --> G{Accept?}
+    G -->|Yes| H[Apply changes]
+    G -->|No| I[Rollback]
 ```
 
 ---
 
-## 什么是 Composer
+## What is Composer
 
-### 核心定位
+### Core Positioning
 
-> "帮助你在项目中完成新功能开发的 AI 助理。"
+> "An AI assistant that helps you complete new feature development in your project."
 
-### 适用场景
+### Use Cases
 
 ```mermaid
 flowchart LR
-    A[Composer 适用场景] --> B[新功能开发]
-    A --> C[模块重构]
-    A --> D[批量修改]
-    A --> E[代码迁移]
+    A[Composer Use Cases] --> B[New Feature Development]
+    A --> C[Module Refactoring]
+    A --> D[Batch Modifications]
+    A --> E[Code Migration]
     
-    B --> B1["添加用户认证"]
-    B --> B2["实现搜索功能"]
+    B --> B1["Add user authentication"]
+    B --> B2["Implement search functionality"]
     
-    C --> C1["Class 组件转 Hooks"]
-    C --> C2["重构 API 层"]
+    C --> C1["Convert Class components to Hooks"]
+    C --> C2["Refactor API layer"]
     
-    D --> D1["更新 API 调用"]
-    D --> D2["修改命名规范"]
+    D --> D1["Update API calls"]
+    D --> D2["Modify naming conventions"]
     
-    E --> E1["JS 迁移到 TS"]
-    E --> E2["迁移到新框架"]
+    E --> E1["Migrate JS to TS"]
+    E --> E2["Migrate to new framework"]
 ```
 
 ---
 
-## 与其他功能的区别
+## Difference from Other Features
 
-| 功能 | 适用场景 | 文件范围 | 修改能力 | 可回滚 |
-|------|----------|----------|----------|--------|
-| **Cmd+K** | 单文件编辑 | 当前文件 | 直接修改 | Git |
-| **Cmd+L** | 问答/设计 | 可引用多文件 | 不修改 | N/A |
-| **Composer** | 功能开发/重构 | 自动识别多文件 | 直接修改 | 内置快照 |
+| Feature | Use Case | File Scope | Modification Ability | Rollback |
+|---------|----------|------------|---------------------|----------|
+| **Cmd+K** | Single file editing | Current file | Direct modification | Git |
+| **Cmd+L** | Q&A/Design | Can reference multiple files | Doesn't modify | N/A |
+| **Composer** | Feature development/Refactoring | Auto-identifies multiple files | Direct modification | Built-in snapshots |
 
 ```mermaid
 flowchart TB
-    subgraph CmdK["Cmd+K 内联编辑"]
-        K1[选中代码] --> K2[输入指令]
-        K2 --> K3[单文件修改]
+    subgraph CmdK["Cmd+K Inline Edit"]
+        K1[Select code] --> K2[Enter instruction]
+        K2 --> K3[Single file modification]
     end
     
-    subgraph CmdL["Cmd+L 聊天"]
-        L1[输入问题] --> L2[AI 回答]
-        L2 --> L3[不修改代码]
+    subgraph CmdL["Cmd+L Chat"]
+        L1[Enter question] --> L2[AI responds]
+        L2 --> L3[Doesn't modify code]
     end
     
     subgraph Composer["Composer"]
-        C1[描述任务] --> C2[AI 分析项目]
-        C2 --> C3[多文件修改]
-        C3 --> C4[快照保护]
+        C1[Describe task] --> C2[AI analyzes project]
+        C2 --> C3[Multi-file modification]
+        C3 --> C4[Snapshot protection]
     end
 ```
 
 ---
 
-## 打开 Composer
+## Opening Composer
 
-### 快捷键
+### Shortcuts
 
-| 平台 | 快捷键 |
-|------|--------|
+| Platform | Shortcut |
+|----------|----------|
 | Mac | `Cmd+I` |
 | Windows | `Ctrl+I` |
 
-### 其他方式
+### Other Methods
 
-1. 命令面板 → "Cursor: Open Composer"
-2. 点击左侧边栏的 Composer 图标
-
----
-
-## 基本用法
-
-### 步骤
-
-1. **打开 Composer** - 按 `Cmd+I` / `Ctrl+I`
-2. **描述任务** - 清晰描述你想要实现的功能
-3. **等待分析** - AI 分析项目并规划修改
-4. **预览变更** - 查看所有文件的修改
-5. **接受或回滚** - 决定是否应用修改
-
-### 任务描述技巧
-
-```
-❌ 差的描述：
-"加个多语言"
-
-✅ 好的描述：
-"使用 next-intl 为项目添加中英文支持，需要：
-1. 安装 next-intl 依赖
-2. 创建 i18n 配置文件
-3. 添加语言切换组件
-4. 在 layout.tsx 中集成"
-```
+1. Command Palette → "Cursor: Open Composer"
+2. Click the Composer icon in the left sidebar
 
 ---
 
-## 工作流程
+## Basic Usage
 
-### 完整工作流程
+### Steps
+
+1. **Open Composer** - Press `Cmd+I` / `Ctrl+I`
+2. **Describe Task** - Clearly describe the feature you want to implement
+3. **Wait for Analysis** - AI analyzes project and plans modifications
+4. **Preview Changes** - View all file modifications
+5. **Accept or Rollback** - Decide whether to apply changes
+
+### Task Description Tips
+
+```
+❌ Bad description:
+"Add multi-language"
+
+✅ Good description:
+"Add Chinese and English support using next-intl, need to:
+1. Install next-intl dependency
+2. Create i18n config file
+3. Add language switcher component
+4. Integrate in layout.tsx"
+```
+
+---
+
+## Workflow
+
+### Complete Workflow
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
+    participant U as User
     participant C as Composer
-    participant AI as AI 引擎
-    participant FS as 文件系统
+    participant AI as AI Engine
+    participant FS as File System
     
-    U->>C: 打开 Composer (Cmd+I)
-    U->>C: 描述任务
+    U->>C: Open Composer (Cmd+I)
+    U->>C: Describe task
     
-    C->>AI: 发送任务 + 项目上下文
-    AI->>AI: 分析项目结构
-    AI->>AI: 识别相关文件
-    AI->>AI: 规划修改方案
+    C->>AI: Send task + project context
+    AI->>AI: Analyze project structure
+    AI->>AI: Identify relevant files
+    AI->>AI: Plan modifications
     
-    AI->>C: 返回修改计划
-    C->>FS: 创建快照
+    AI->>C: Return modification plan
+    C->>FS: Create snapshot
     
-    C->>U: 显示预览
+    C->>U: Show preview
     
-    alt 用户接受
-        U->>C: 点击接受
-        C->>FS: 应用修改
-        FS->>C: 完成确认
-        C->>U: 显示成功
-    else 用户回滚
-        U->>C: 点击回滚
-        C->>FS: 恢复快照
-        FS->>C: 恢复确认
-        C->>U: 显示已回滚
+    alt User accepts
+        U->>C: Click accept
+        C->>FS: Apply changes
+        FS->>C: Confirm completion
+        C->>U: Show success
+    else User rolls back
+        U->>C: Click rollback
+        C->>FS: Restore snapshot
+        FS->>C: Confirm restore
+        C->>U: Show rolled back
     end
 ```
 
-### 文件变更视图
+### File Changes View
 
-Composer 会显示所有变更：
+Composer shows all changes:
 
 ```
 Changes:
@@ -199,167 +199,167 @@ Changes:
 
 ---
 
-## 快照与回滚
+## Snapshots and Rollback
 
-### 快照机制
+### Snapshot Mechanism
 
 ```mermaid
 flowchart LR
-    A[Composer 开始] --> B[创建快照]
-    B --> C[执行修改]
-    C --> D{用户选择}
-    D -->|接受| E[删除快照]
-    D -->|回滚| F[恢复快照]
-    F --> G[删除快照]
+    A[Composer starts] --> B[Create snapshot]
+    B --> C[Execute modifications]
+    C --> D{User choice}
+    D -->|Accept| E[Delete snapshot]
+    D -->|Rollback| F[Restore snapshot]
+    F --> G[Delete snapshot]
 ```
 
-### 回滚操作
+### Rollback Operation
 
-1. 在 Composer 面板中点击 "Restore" 按钮
-2. 代码会立即回滚到修改前的状态
-3. 可以重新调整任务描述后再次尝试
+1. Click "Restore" button in Composer panel
+2. Code immediately rolls back to pre-modification state
+3. Can adjust task description and try again
 
-### 最佳实践
+### Best Practices
 
 ```
-✅ 每个子任务完成后验证
-✅ 出错立即回滚，不要手动修复
-✅ 使用 Git 作为双重保障
+✅ Verify after each subtask completes
+✅ Rollback immediately on error, don't manually fix
+✅ Use Git as double protection
 ```
 
 ---
 
-## 实战示例
+## Practical Examples
 
-### 示例 1：添加新功能
-
-```
-任务：为用户管理模块添加搜索和过滤功能
-
-Composer 执行：
-1. 分析 src/pages/users/ 目录
-2. 创建 SearchBar.tsx 组件
-3. 创建 FilterPanel.tsx 组件
-4. 修改 UsersPage.tsx 集成组件
-5. 添加 types/user.ts 类型定义
-6. 更新 API 调用逻辑
-```
-
-### 示例 2：重构模块
+### Example 1: Add New Feature
 
 ```
-任务：将 src/components 下的 Class 组件重构为 Hooks
+Task: Add search and filter functionality to user management module
 
-Composer 执行：
-1. 扫描所有 Class 组件
-2. 转换为函数组件
-3. 替换生命周期方法：
+Composer executes:
+1. Analyze src/pages/users/ directory
+2. Create SearchBar.tsx component
+3. Create FilterPanel.tsx component
+4. Modify UsersPage.tsx to integrate components
+5. Add types/user.ts type definitions
+6. Update API call logic
+```
+
+### Example 2: Refactor Module
+
+```
+Task: Refactor Class components in src/components to Hooks
+
+Composer executes:
+1. Scan all Class components
+2. Convert to functional components
+3. Replace lifecycle methods:
    - componentDidMount → useEffect
    - componentDidUpdate → useEffect
    - componentWillUnmount → useEffect cleanup
-4. 更新导入语句
-5. 移除 this 引用
+4. Update import statements
+5. Remove this references
 ```
 
-### 示例 3：添加国际化
+### Example 3: Add Internationalization
 
 ```
-任务：使用 next-intl 添加中英文支持
+Task: Add Chinese and English support using next-intl
 
-步骤 1：安装依赖
-"安装 next-intl 并创建基础配置"
+Step 1: Install dependencies
+"Install next-intl and create basic config"
 
-步骤 2：创建语言文件
-"创建 messages/en.json 和 messages/zh.json"
+Step 2: Create language files
+"Create messages/en.json and messages/zh.json"
 
-步骤 3：集成到应用
-"在 layout.tsx 中集成 next-intl"
+Step 3: Integrate into app
+"Integrate next-intl in layout.tsx"
 
-步骤 4：添加切换组件
-"创建语言切换组件 LanguageSwitch.tsx"
+Step 4: Add switcher component
+"Create language switcher component LanguageSwitch.tsx"
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### ✅ 应该做的
+### ✅ Do's
 
-1. **拆分大任务** - 每次修改 2-4 个文件
-2. **明确描述** - 指定文件路径和具体需求
-3. **验证后接受** - 运行测试后再接受修改
-4. **使用快照** - 出错时立即回滚
-5. **配合 Git** - 开始前先 commit 干净状态
+1. **Split large tasks** - Modify 2-4 files per session
+2. **Be specific** - Specify file paths and exact requirements
+3. **Verify before accepting** - Run tests before accepting changes
+4. **Use snapshots** - Rollback immediately on errors
+5. **Use with Git** - Commit clean state before starting
 
-### ❌ 不应该做的
+### ❌ Don'ts
 
-1. **一次性大任务** - 修改 10+ 文件容易出错
-2. **模糊描述** - "加个功能" 没有帮助
-3. **跳过验证** - 始终运行测试
-4. **忽略预览** - 检查所有变更
-5. **手动修复错误** - 应该回滚后重新尝试
+1. **One giant task** - Modifying 10+ files is error-prone
+2. **Vague descriptions** - "Add a feature" doesn't help
+3. **Skip verification** - Always run tests
+4. **Skip preview** - Check all changes
+5. **Manually fix errors** - Should rollback and retry
 
-### 任务拆分策略
+### Task Splitting Strategy
 
 ```mermaid
 flowchart TB
-    A[大任务] --> B[拆分为子任务]
-    B --> C[子任务 1]
-    B --> D[子任务 2]
-    B --> E[子任务 3]
+    A[Large Task] --> B[Split into subtasks]
+    B --> C[Subtask 1]
+    B --> D[Subtask 2]
+    B --> E[Subtask 3]
     
-    C --> C1[执行]
-    C1 --> C2[验证]
-    C2 --> C3[接受]
+    C --> C1[Execute]
+    C1 --> C2[Verify]
+    C2 --> C3[Accept]
     
-    D --> D1[执行]
-    D1 --> D2[验证]
-    D2 --> D3[接受]
+    D --> D1[Execute]
+    D1 --> D2[Verify]
+    D2 --> D3[Accept]
     
-    E --> E1[执行]
-    E1 --> E2[验证]
-    E2 --> E3[接受]
+    E --> E1[Execute]
+    E1 --> E2[Verify]
+    E2 --> E3[Accept]
     
-    C3 --> F[完成]
+    C3 --> F[Complete]
     D3 --> F
     E3 --> F
 ```
 
 ---
 
-## 故障排查
+## Troubleshooting
 
-### Composer 修改错误文件
+### Composer Modifying Wrong Files
 
-**解决方案：**
-1. 在描述中明确指定文件路径
-2. 使用更精确的任务描述
-3. 回滚后重新尝试
+**Solutions:**
+1. Specify file paths explicitly in description
+2. Use more precise task description
+3. Rollback and retry
 
-### 修改不符合预期
+### Modifications Not Meeting Expectations
 
-**解决方案：**
-1. 提供更详细的描述
-2. 引用相关文件作为示例
-3. 拆分为更小的任务
+**Solutions:**
+1. Provide more detailed description
+2. Reference relevant files as examples
+3. Split into smaller tasks
 
-### 性能问题
+### Performance Issues
 
-**解决方案：**
-1. 减少任务复杂度
-2. 拆分为多个小任务
-3. 检查项目索引状态
+**Solutions:**
+1. Reduce task complexity
+2. Split into multiple smaller tasks
+3. Check project index status
 
 ---
 
-## 下一步
+## Next Steps
 
-- [06. MCP 集成](../06-mcp/) - 连接外部工具
-- [07. 高级功能](../07-advanced-features/) - 探索高级功能
-- [08. 最佳实践](../08-best-practices/) - 学习工作流
+- [06. MCP Integration](../06-mcp/) - Connect external tools
+- [07. Advanced Features](../07-advanced-features/) - Explore advanced features
+- [08. Best Practices](../08-best-practices/) - Learn workflows
 
 ---
 
 <p align="center">
-  <a href="../README.md">返回首页</a> | <a href="composer-workflows.md">Composer 工作流</a>
+  <a href="../README.md">Back to Home</a> | <a href="composer-workflows.md">Composer Workflows</a>
 </p>
