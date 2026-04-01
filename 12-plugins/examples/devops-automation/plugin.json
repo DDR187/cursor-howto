@@ -1,0 +1,16 @@
+{
+  "name": "devops-automation",
+  "version": "1.0.0",
+  "description": "DevOps 自动化工具集",
+  "author": "Cursor Community",
+  "repository": "https://github.com/cursor-community/devops-automation-plugin",
+  "cursorVersion": ">=0.48.0",
+  "dependencies": {},
+  "features": {
+    "rules": true,
+    "skills": true,
+    "agents": true,
+    "hooks": true,
+    "mcp": true
+  }
+}

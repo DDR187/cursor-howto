@@ -1,0 +1,320 @@
+---
+description: 前端开发规则
+globs: ["src/**/*.tsx", "src/**/*.ts", "src/**/*.css", "src/**/*.scss"]
+---
+
+# 前端开发规则
+
+## 技术栈
+
+- React 18+
+- TypeScript 5+
+- Tailwind CSS
+- React Router v6
+- React Query / SWR
+
+---
+
+## 组件规范
+
+### 组件结构
+
+```
+ComponentName/
+├── index.tsx          # 组件入口
+├── ComponentName.tsx  # 组件实现
+├── styles.css         # 样式文件
+├── types.ts           # 类型定义
+├── hooks.ts           # 组件 Hooks
+└── __tests__/         # 测试文件
+    └── ComponentName.test.tsx
+```
+
+### 组件模板
+
+```tsx
+import { FC } from 'react';
+
+interface ComponentNameProps {
+  title: string;
+  onClick?: () => void;
+}
+
+export const ComponentName: FC<ComponentNameProps> = ({
+  title,
+  onClick
+}) => {
+  return (
+    <div className="component-container" onClick={onClick}>
+      <h1>{title}</h1>
+    </div>
+  );
+};
+```
+
+### 组件原则
+
+- 单一职责原则
+- 组件粒度适中
+- Props 类型明确
+- 默认值合理
+
+---
+
+## 状态管理
+
+### 本地状态
+
+```tsx
+// 简单状态
+const [count, setCount] = useState(0);
+
+// 复杂状态
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
+### 全局状态
+
+- 使用 Zustand 管理全局状态
+- 使用 React Query 管理服务端状态
+- 避免过度使用全局状态
+
+### 状态选择器
+
+```tsx
+// 使用选择器优化性能
+const user = useUserStore(state => state.user);
+const isLoading = useUserStore(state => state.isLoading);
+```
+
+---
+
+## 样式规范
+
+### Tailwind CSS
+
+```tsx
+// 推荐方式
+<div className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
+  {/* content */}
+</div>
+
+// 复杂样式提取为组件
+const Card = ({ children }) => (
+  <div className="p-4 bg-white rounded-lg shadow-md">
+    {children}
+  </div>
+);
+```
+
+### CSS 变量
+
+```css
+:root {
+  --color-primary: #3b82f6;
+  --color-secondary: #64748b;
+  --spacing-md: 1rem;
+}
+```
+
+### 响应式设计
+
+```tsx
+// Mobile-first 原则
+<div className="w-full md:w-1/2 lg:w-1/3">
+  {/* content */}
+</div>
+```
+
+---
+
+## Hooks 规范
+
+### 自定义 Hook 结构
+
+```tsx
+import { useState, useEffect } from 'react';
+
+interface UseDataOptions {
+  enabled?: boolean;
+}
+
+export function useData(options: UseDataOptions = {}) {
+  const { enabled = true } = options;
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const result = await fetch('/api/data');
+        setData(result);
+      } catch (e) {
+        setError(e as Error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [enabled]);
+
+  return { data, isLoading, error };
+}
+```
+
+### Hook 命名
+
+- 以 `use` 开头
+- 描述性名称
+- 返回值类型明确
+
+---
+
+## 性能优化
+
+### React.memo
+
+```tsx
+const MemoizedComponent = React.memo(Component);
+```
+
+### useMemo / useCallback
+
+```tsx
+// 缓存计算结果
+const sortedItems = useMemo(() => {
+  return items.sort((a, b) => a.name.localeCompare(b.name));
+}, [items]);
+
+// 缓存回调函数
+const handleClick = useCallback(() => {
+  doSomething(id);
+}, [id]);
+```
+
+### 懒加载
+
+```tsx
+// 组件懒加载
+const HeavyComponent = React.lazy(() => import('./HeavyComponent'));
+
+// 使用
+<Suspense fallback={<Loading />}>
+  <HeavyComponent />
+</Suspense>
+```
+
+---
+
+## 错误处理
+
+### Error Boundary
+
+```tsx
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <ErrorFallback />;
+    }
+    return this.props.children;
+  }
+}
+```
+
+### 异步错误处理
+
+```tsx
+const { data, error, isLoading } = useQuery({
+  queryKey: ['data'],
+  queryFn: fetchData,
+  onError: (error) => {
+    console.error('Failed to fetch:', error);
+    toast.error('加载数据失败');
+  }
+});
+```
+
+---
+
+## 测试规范
+
+### 测试模板
+
+```tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { ComponentName } from './ComponentName';
+
+describe('ComponentName', () => {
+  it('renders title correctly', () => {
+    render(<ComponentName title="Test" />);
+    expect(screen.getByText('Test')).toBeInTheDocument();
+  });
+
+  it('handles click event', () => {
+    const onClick = jest.fn();
+    render(<ComponentName title="Test" onClick={onClick} />);
+    fireEvent.click(screen.getByText('Test'));
+    expect(onClick).toHaveBeenCalled();
+  });
+});
+```
+
+### 测试原则
+
+- 测试用户行为，而非实现细节
+- 使用 accessible queries
+- Mock 外部依赖
+
+---
+
+## 可访问性
+
+### ARIA 属性
+
+```tsx
+<button
+  aria-label="关闭对话框"
+  aria-expanded={isOpen}
+  onClick={handleClose}
+>
+  <XIcon />
+</button>
+```
+
+### 键盘导航
+
+```tsx
+<div
+  role="button"
+  tabIndex={0}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      handleClick();
+    }
+  }}
+>
+  Click me
+</div>
+```
+
+---
+
+## 禁止事项
+
+- ❌ 不要使用 `any` 类型
+- ❌ 不要在渲染中定义组件
+- ❌ 不要直接修改 props
+- ❌ 不要在 useEffect 中直接使用 async
+- ❌ 不要忽略 ESLint 警告
+- ❌ 不要使用内联样式（除非必要）

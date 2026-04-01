@@ -1,0 +1,16 @@
+{
+  "name": "pr-review",
+  "version": "1.0.0",
+  "description": "完整的 PR 代码审查解决方案",
+  "author": "Cursor Community",
+  "repository": "https://github.com/cursor-community/pr-review-plugin",
+  "cursorVersion": ">=0.48.0",
+  "dependencies": {},
+  "features": {
+    "rules": true,
+    "skills": true,
+    "agents": true,
+    "hooks": true,
+    "mcp": true
+  }
+}
